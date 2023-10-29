@@ -16,44 +16,31 @@ namespace GameOfOthelloAssignment
         {
             InitializeComponent();
             
-            for (int rowIndex = 0; rowIndex < tableLayoutPanel1.RowCount; rowIndex++)
+            for (int rowIndex = 0; rowIndex < othelloBoard1.RowCount; rowIndex++)
             {
-                for (int columnIndex = 0; columnIndex < tableLayoutPanel1.ColumnCount; columnIndex++)
+                for (int columnIndex = 0; columnIndex < othelloBoard1.ColumnCount; columnIndex++)
                 {
-                    tableLayoutPanel1.Controls.Add(new DiscSpace(), columnIndex, rowIndex);
+                    othelloBoard1.Controls.Add(new DiscSpace(), columnIndex, rowIndex);
                 }
             }
+            GameSetup();
         }
 
         public void GameSetup()
         {
             ClearGameBoard();
-
+            othelloBoard1.GetDiscSpace(3, 3).SetDisc(new Disc(DiscType.White));
+            othelloBoard1.GetDiscSpace(3, 4).SetDisc(new Disc(DiscType.Black));
+            othelloBoard1.GetDiscSpace(4, 3).SetDisc(new Disc(DiscType.Black));
+            othelloBoard1.GetDiscSpace(4, 4).SetDisc(new Disc(DiscType.White));
         }
 
         public void ClearGameBoard()
         {
-            foreach (DiscSpace discSpace in tableLayoutPanel1.Controls)
+            foreach (DiscSpace discSpace in othelloBoard1.Controls)
             {
                 discSpace.SetDisc(null);
             }
-        }
-
-        public void clickPanel(object sender, MouseEventArgs e)
-        {
-            Panel panel = (Panel)sender;
-
-            var position = tableLayoutPanel1.GetCellPosition((Panel)sender);
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_MouseDown(object sender, MouseEventArgs e)
-        {
-
         }
     }
 }

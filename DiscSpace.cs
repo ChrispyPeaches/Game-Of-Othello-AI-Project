@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
-    internal class DiscSpace : Button
+    public class DiscSpace : Button
     {
         /// <summary>
         /// Note: Zero based
@@ -19,7 +20,7 @@ namespace GameOfOthelloAssignment
         /// </summary>
         public int Row { get; set; }
 
-        public Disc currentDisc { get; private set; }
+        public Disc CurrentDisc { get; private set; }
 
         public DiscSpace() : base()
         {
@@ -34,6 +35,11 @@ namespace GameOfOthelloAssignment
             Size = new System.Drawing.Size(51, 49);
             TabIndex = 0;
             UseVisualStyleBackColor = false;
+            FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            FlatAppearance.MouseOverBackColor = FlatAppearance.MouseDownBackColor;
+
+            Enter += new System.EventHandler(Focus);
+            Leave += new System.EventHandler(Unfocus);
         }
 
         public void SetDisc(Disc disc)
@@ -57,18 +63,42 @@ namespace GameOfOthelloAssignment
             {
                 BackgroundImage = null;
             }
+
+            CurrentDisc = disc;
+        }
+
+        public void Focus(object sender, EventArgs e)
+        {
+            if (CurrentDisc == null)
+            {
+                BackColor = Color.LightGoldenrodYellow;
+                FlatAppearance.MouseDownBackColor = BackColor;
+                FlatAppearance.MouseOverBackColor = BackColor;
+            }
+        }
+
+        public void Unfocus(object sender, EventArgs e)
+        {
+            BackColor = Color.Transparent;
+            FlatAppearance.MouseDownBackColor = BackColor;
+            FlatAppearance.MouseOverBackColor = BackColor;
         }
     }
 
-    internal class Disc
+    public class Disc
     {
+        public Disc(DiscType color)
+        {
+            Color = color;
+        }
+
         public DiscType Color { get; set; }
 
         public int Column { get; set; }
         public int Row { get; set; }
     }
 
-    internal enum DiscType
+    public enum DiscType
     {
         Black,
         White

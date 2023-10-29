@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OthelloBoard.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DiscSpace.cs">
       <SubType>Component</SubType>
     </Compile>
