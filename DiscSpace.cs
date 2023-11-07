@@ -12,16 +12,18 @@ namespace GameOfOthelloAssignment
     [DebuggerDisplay("Position: ({Column},{Row}), Disc: {((CurrentDisc != null) ? CurrentDisc.Color.ToString() : \"None\")}")]
     public class DiscSpace : Button
     {
+        #region Properties
+
         /// <summary> Note: Zero based </summary>
         public int Column { get; set; }
 
         /// <summary> Note: Zero based </summary>
         public int Row { get; set; }
 
-        /// <summary>
-        /// The <see cref="Disc"/> occupying the space
-        /// </summary>
+        /// <summary> The <see cref="Disc"/> occupying the space </summary>
         public Disc CurrentDisc { get; private set; }
+
+        #endregion
 
         public DiscSpace(int columnIndex, int rowIndex) : base()
         {
@@ -39,9 +41,6 @@ namespace GameOfOthelloAssignment
             FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             FlatAppearance.MouseOverBackColor = FlatAppearance.MouseDownBackColor;
             Enabled = false;
-
-            Enter += new System.EventHandler(Focus);
-            Leave += new System.EventHandler(Unfocus);
 
             Column = columnIndex;
             Row = rowIndex;
@@ -76,21 +75,35 @@ namespace GameOfOthelloAssignment
             CurrentDisc = disc;
         }
 
-        public void Focus(object sender, EventArgs e)
+        /// <summary> Allow the space to be interacted with </summary>
+        /// <param name="color"> The color to set the legal move to </param>
+        public void SetAsLegalMove(DiscType color)
         {
-            if (CurrentDisc == null)
+            Enabled = true;
+            switch (color)
             {
-                BackColor = Color.LightGoldenrodYellow;
-                FlatAppearance.MouseDownBackColor = BackColor;
-                FlatAppearance.MouseOverBackColor = BackColor;
+                case DiscType.Black:
+                    BackgroundImage = Properties.Resources.black_legalMove;
+                    break;
+                case DiscType.White:
+                    BackgroundImage = Properties.Resources.white_legalMove;
+                    break;
             }
         }
 
-        public void Unfocus(object sender, EventArgs e)
+        /// <summary> Remove the ability to interact with a space </summary>
+        public void SetAsIllegalMove()
         {
-            BackColor = Color.Transparent;
-            FlatAppearance.MouseDownBackColor = BackColor;
-            FlatAppearance.MouseOverBackColor = BackColor;
+            Enabled = false;
+            BackgroundImage = null;
+        }
+
+        /// <summary>
+        /// Implicit cast to Vector2D to represent a position on the board
+        /// </summary>
+        public static implicit operator Vector2D(DiscSpace discSpace)
+        {
+            return new Vector2D(discSpace.Column, discSpace.Row);
         }
     }
 

@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
     public class OthelloBoard : TableLayoutPanel
     {
-        public new TableLayoutDiscSpaceCollection Controls { get; set; }
+        public int blackScore { get; set; } = 0;
+        public int whiteScore { get; set; } = 0;
 
-        /// <summary>
-        /// Note: 0-based
-        /// </summary>
-        public ref DiscSpace GetDiscSpace(int row, int column)
+        /// <summary> Note: 0-based </summary>
+        public DiscSpace GetDiscSpace(int column, int row)
         {
-            return ref GetControlFromPosition(column, row);
+            return (DiscSpace)GetControlFromPosition(column, row);
+        }
+
+        public DiscSpace GetDiscSpace(Vector2D position)
+        {
+            return (DiscSpace)GetControlFromPosition(position.Column, position.Row);
         }
 
         /// <summary>
@@ -24,9 +25,9 @@ namespace GameOfOthelloAssignment
         /// </summary>
         /// <param name="discType">The <see cref="DiscType"/> to find legal moves for</param>
         /// <returns>A list of spaces representing legal moves</returns>
-        public IList<DiscSpace> GetLegalMoves(DiscType discType)
+        public IList<Vector2D> GetLegalMoves(DiscType discType)
         {
-            var legalSpaces = new List<DiscSpace>();
+            var legalSpaces = new List<Vector2D>();
 
             IEnumerable<DiscSpace> spacesToTraceFrom = Controls.Cast<DiscSpace>();
 
@@ -56,21 +57,22 @@ namespace GameOfOthelloAssignment
         }
 
         /// <summary>
-        /// If there is a legal move in the given direction
+        /// Find if there is a legal move in the given direction
         /// </summary>
         /// <param name="initialSpace"></param>
         /// <param name="directionVector"></param>
-        /// <returns></returns>
+        /// <returns>The <see cref="DiscSpace"/> of a legal move if there is one, else return null</returns>
         public DiscSpace GetLegalMoveForDirection(DiscSpace initialSpace, Vector2D directionVector)
         {
-            int currentRow = initialSpace.Row + directionVector.Row;
             int currentColumn = initialSpace.Column + directionVector.Column;
+            int currentRow = initialSpace.Row + directionVector.Row;
 
             DiscSpace currentSpace = null;
-            while (0 <= currentRow && currentRow < RowCount &&
-                   0 <= currentColumn && currentColumn < ColumnCount)
+            while (0 <= currentColumn && currentColumn < ColumnCount &&
+                   0 <= currentRow && currentRow < RowCount
+                   )
             {
-                currentSpace = this.GetDiscSpace(currentRow, currentColumn);
+                currentSpace = GetDiscSpace(currentColumn, currentRow);
                 if (currentSpace.CurrentDisc != null)
                 {
                     if (currentSpace.CurrentDisc.Color == initialSpace.CurrentDisc.Color)
@@ -83,16 +85,16 @@ namespace GameOfOthelloAssignment
                     break;
                 }
 
-                currentRow += directionVector.Row;
                 currentColumn += directionVector.Column;
+                currentRow += directionVector.Row;
             }
 
             if (currentSpace != null)
             {
                 DiscSpace previousSpace = 
                     GetDiscSpace(
-                        currentRow - directionVector.Row,
-                        currentColumn - directionVector.Column);
+                        currentColumn - directionVector.Column,
+                        currentRow - directionVector.Row);
 
                 if (previousSpace.CurrentDisc != null)
                 {

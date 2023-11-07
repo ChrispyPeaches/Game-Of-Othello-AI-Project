@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
     public partial class GameBoardForm : Form
     {
+        IList<Vector2D> currentLegalMoves;
+        DiscType currentTurnColor;
+
         public GameBoardForm()
         {
             InitializeComponent();
@@ -21,25 +18,35 @@ namespace GameOfOthelloAssignment
             {
                 for (int columnIndex = 0; columnIndex < othelloBoard1.ColumnCount; columnIndex++)
                 {
-                    othelloBoard1.Controls.Add(new DiscSpace(columnIndex, rowIndex), columnIndex, rowIndex);
+                    DiscSpace discSpace = new DiscSpace(columnIndex, rowIndex);
+                    discSpace.Enter += PerformTurn;
+
+                    othelloBoard1.Controls.Add(discSpace, columnIndex, rowIndex);
                 }
             }
 
             GameSetup();
-
-            IList<DiscSpace> legalMoves = othelloBoard1.GetLegalMoves(DiscType.Black);
         }
 
-        /// <summary> Clear the game board and add the starting discs to the game. </summary>
+        /// <summary> Clear the game board, add the starting discs to the game, and show legal moves. </summary>
         public void GameSetup()
         {
             ClearGameBoard();
+
             othelloBoard1.GetDiscSpace(3, 3).SetDisc(new Disc(DiscType.White));
-            othelloBoard1.GetDiscSpace(3, 4).SetDisc(new Disc(DiscType.Black));
             othelloBoard1.GetDiscSpace(4, 3).SetDisc(new Disc(DiscType.Black));
+            othelloBoard1.GetDiscSpace(3, 4).SetDisc(new Disc(DiscType.Black));
             othelloBoard1.GetDiscSpace(4, 4).SetDisc(new Disc(DiscType.White));
+            othelloBoard1.blackScore = 2;
+            othelloBoard1.whiteScore = 2;
+
+            currentTurnColor = DiscType.Black;
+            EnableLegalMoves();
         }
 
+        /// <summary>
+        /// Clear all spaces on the board
+        /// </summary>
         public void ClearGameBoard()
         {
             foreach (DiscSpace discSpace in othelloBoard1.Controls)
@@ -47,5 +54,56 @@ namespace GameOfOthelloAssignment
                 discSpace.SetDisc(null);
             }
         }
+
+        /// <summary>
+        /// When a player clicks a space to place a disc into,
+        /// </summary>
+        private void PerformTurn(object sender, EventArgs eventArgs)
+        {
+            DiscSpace clickedSpace = (DiscSpace) sender;
+            othelloBoard1.GetDiscSpace(clickedSpace).SetDisc(new Disc(currentTurnColor));
+
+
+            SwitchTurns();
+
+                return;
+        }
+
+        /// <summary>
+        /// Removes ability to interact with previously legal moves
+        /// </summary>
+        public void DisableLegalMoves()
+        {
+            foreach (var move in currentLegalMoves)
+            {
+                othelloBoard1.GetDiscSpace(move.Column, move.Row).SetAsIllegalMove();
+            }
+        }
+
+        /// <summary>
+        /// Allows board spaces representing legal moves for the current turn's color to be interacted with
+        /// </summary>
+        public void EnableLegalMoves()
+        {
+            currentLegalMoves = othelloBoard1.GetLegalMoves(currentTurnColor);
+            foreach (var move in currentLegalMoves)
+            {
+                othelloBoard1.GetDiscSpace(move.Column, move.Row).SetAsLegalMove(currentTurnColor);
+            }
+        }
+
+        public void SwitchTurns()
+        {
+            DisableLegalMoves();
+            switch (currentTurnColor)
+            {
+                case DiscType.Black:
+                    currentTurnColor = DiscType.White; break;
+                case DiscType.White:
+                    currentTurnColor = DiscType.Black; break;
+            }
+            EnableLegalMoves();
+        }
+
     }
 }

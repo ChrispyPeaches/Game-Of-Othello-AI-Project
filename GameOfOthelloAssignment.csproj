@@ -89,7 +89,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\black_legalMove.png" />
     <Content Include="Resources\black_piece.png" />
+    <None Include="Resources\white_legalMove.png" />
     <Content Include="Resources\white_piece.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
