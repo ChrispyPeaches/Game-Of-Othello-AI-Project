@@ -10,22 +10,27 @@ using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
-    public partial class Form1 : Form
+    public partial class GameBoardForm : Form
     {
-        public Form1()
+        public GameBoardForm()
         {
             InitializeComponent();
-            
+
+            // Add containers for each space on the board
             for (int rowIndex = 0; rowIndex < othelloBoard1.RowCount; rowIndex++)
             {
                 for (int columnIndex = 0; columnIndex < othelloBoard1.ColumnCount; columnIndex++)
                 {
-                    othelloBoard1.Controls.Add(new DiscSpace(), columnIndex, rowIndex);
+                    othelloBoard1.Controls.Add(new DiscSpace(columnIndex, rowIndex), columnIndex, rowIndex);
                 }
             }
+
             GameSetup();
+
+            IList<DiscSpace> legalMoves = othelloBoard1.GetLegalMoves(DiscType.Black);
         }
 
+        /// <summary> Clear the game board and add the starting discs to the game. </summary>
         public void GameSetup()
         {
             ClearGameBoard();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -8,21 +9,21 @@ using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
+    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {((CurrentDisc != null) ? CurrentDisc.Color.ToString() : \"None\")}")]
     public class DiscSpace : Button
     {
-        /// <summary>
-        /// Note: Zero based
-        /// </summary>
+        /// <summary> Note: Zero based </summary>
         public int Column { get; set; }
 
-        /// <summary>
-        /// Note: Zero based
-        /// </summary>
+        /// <summary> Note: Zero based </summary>
         public int Row { get; set; }
 
+        /// <summary>
+        /// The <see cref="Disc"/> occupying the space
+        /// </summary>
         public Disc CurrentDisc { get; private set; }
 
-        public DiscSpace() : base()
+        public DiscSpace(int columnIndex, int rowIndex) : base()
         {
             AutoSize = true;
             BackColor = System.Drawing.Color.Transparent;
@@ -37,11 +38,19 @@ namespace GameOfOthelloAssignment
             UseVisualStyleBackColor = false;
             FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             FlatAppearance.MouseOverBackColor = FlatAppearance.MouseDownBackColor;
+            Enabled = false;
 
             Enter += new System.EventHandler(Focus);
             Leave += new System.EventHandler(Unfocus);
+
+            Column = columnIndex;
+            Row = rowIndex;
         }
 
+        /// <summary>
+        /// Setter for assigning a <see cref="Disc"/> to a disc space
+        /// </summary>
+        /// <param name="disc">The <see cref="Disc"/> to place in </param>
         public void SetDisc(Disc disc)
         {
             if (disc != null)

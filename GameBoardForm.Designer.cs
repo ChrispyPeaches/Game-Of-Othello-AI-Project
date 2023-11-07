@@ -1,6 +1,6 @@
 ﻿namespace GameOfOthelloAssignment
 {
-    partial class Form1
+    partial class GameBoardForm
     {
         /// <summary>
         /// Required designer variable.
