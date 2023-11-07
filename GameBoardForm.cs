@@ -19,7 +19,7 @@ namespace GameOfOthelloAssignment
                 for (int columnIndex = 0; columnIndex < othelloBoard1.ColumnCount; columnIndex++)
                 {
                     DiscSpace discSpace = new DiscSpace(columnIndex, rowIndex);
-                    discSpace.Enter += PerformTurn;
+                    discSpace.Click += PerformTurn;
 
                     othelloBoard1.Controls.Add(discSpace, columnIndex, rowIndex);
                 }
