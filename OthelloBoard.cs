@@ -6,8 +6,8 @@ namespace GameOfOthelloAssignment
 {
     public class OthelloBoard : TableLayoutPanel
     {
-        public int blackScore { get; set; } = 0;
-        public int whiteScore { get; set; } = 0;
+        public int BlackScore { get; set; } = 0;
+        public int WhiteScore { get; set; } = 0;
 
         /// <summary> Note: 0-based </summary>
         public DiscSpace GetDiscSpace(int column, int row)

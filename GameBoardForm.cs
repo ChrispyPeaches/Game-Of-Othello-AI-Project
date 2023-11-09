@@ -37,8 +37,8 @@ namespace GameOfOthelloAssignment
             othelloBoard1.GetDiscSpace(4, 3).SetDisc(new Disc(DiscType.Black));
             othelloBoard1.GetDiscSpace(3, 4).SetDisc(new Disc(DiscType.Black));
             othelloBoard1.GetDiscSpace(4, 4).SetDisc(new Disc(DiscType.White));
-            othelloBoard1.blackScore = 2;
-            othelloBoard1.whiteScore = 2;
+            othelloBoard1.BlackScore = 2;
+            othelloBoard1.WhiteScore = 2;
 
             currentTurnColor = DiscType.Black;
             EnableLegalMoves();

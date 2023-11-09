@@ -95,7 +95,10 @@ namespace GameOfOthelloAssignment
         public void SetAsIllegalMove()
         {
             Enabled = false;
-            BackgroundImage = null;
+            if (CurrentDisc == null)
+            {
+                BackgroundImage = null;
+            }
         }
 
         /// <summary>
