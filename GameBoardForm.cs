@@ -33,10 +33,10 @@ namespace GameOfOthelloAssignment
         {
             ClearGameBoard();
 
-            othelloBoard1.GetDiscSpace(3, 3).SetDisc(new Disc(DiscType.White));
-            othelloBoard1.GetDiscSpace(4, 3).SetDisc(new Disc(DiscType.Black));
-            othelloBoard1.GetDiscSpace(3, 4).SetDisc(new Disc(DiscType.Black));
-            othelloBoard1.GetDiscSpace(4, 4).SetDisc(new Disc(DiscType.White));
+            othelloBoard1.GetDiscSpace(3, 3).SetDisc(DiscType.White);
+            othelloBoard1.GetDiscSpace(4, 3).SetDisc(DiscType.Black);
+            othelloBoard1.GetDiscSpace(3, 4).SetDisc(DiscType.Black);
+            othelloBoard1.GetDiscSpace(4, 4).SetDisc(DiscType.White);
             othelloBoard1.BlackScore = 2;
             othelloBoard1.WhiteScore = 2;
 
@@ -51,7 +51,7 @@ namespace GameOfOthelloAssignment
         {
             foreach (DiscSpace discSpace in othelloBoard1.Controls)
             {
-                discSpace.SetDisc(null);
+                discSpace.SetDisc(DiscType.Empty);
             }
         }
 
@@ -62,7 +62,7 @@ namespace GameOfOthelloAssignment
         {
             DiscSpace clickedSpace = (DiscSpace) sender;
             DisableLegalMoves();
-            othelloBoard1.GetDiscSpace(clickedSpace).SetDisc(new Disc(currentTurnColor));
+            othelloBoard1.GetDiscSpace(clickedSpace).SetDisc(currentTurnColor);
 
             SwitchTurns();
 

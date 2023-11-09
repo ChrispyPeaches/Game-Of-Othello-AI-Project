@@ -33,8 +33,7 @@ namespace GameOfOthelloAssignment
 
             foreach (DiscSpace initialSpace in
                 spacesToTraceFrom
-                .Where(s => s.CurrentDisc != null)
-                .Where(s => s.CurrentDisc.Color == discType))
+                .Where(s => s.SpaceColor == discType))
             {
                 for (int x = -1; x <= 1; x++)
                 {
@@ -84,38 +83,47 @@ namespace GameOfOthelloAssignment
             {
                 currentSpace = GetDiscSpace(currentPosition);
 
-                if (currentSpace.CurrentDisc != null)
+                if (currentSpace.SpaceColor != DiscType.Empty)
                 {
-                    if (currentSpace.CurrentDisc.Color == initialSpace.CurrentDisc.Color)
+                    if (currentSpace.HasOppositeDiscColor(initialSpace.SpaceColor))
                     {
-                        break;
+                        currentPosition += directionVector;
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
                 else
                 {
-                    break;
-                }
-
-                currentPosition += directionVector;
-            }
-
-            if (currentSpace != null)
-            {
-                DiscSpace previousSpace = 
-                    GetDiscSpace(
-                        currentColumn - directionVector.Column,
-                        currentRow - directionVector.Row);
-
-                if (previousSpace.CurrentDisc != null)
-                {
-                    if (previousSpace.CurrentDisc.Color != initialSpace.CurrentDisc.Color)
+                    if (GetPreviousDiscSpace(currentPosition, directionVector)
+                        .HasOppositeDiscColor(initialSpace.SpaceColor))
                     {
                         return currentSpace;
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
             }
 
+            if (currentSpace != null)
+            {
+                DiscSpace previousSpace = GetPreviousDiscSpace(currentPosition, directionVector);
+
+                if (previousSpace.SpaceColor != initialSpace.SpaceColor)
+                {
+                    return currentSpace;
+                }
+            }
+
             return null;
+        }
+
+        public DiscSpace GetPreviousDiscSpace(Vector2D currentPosition, Vector2D directionVector)
+        {
+            return GetDiscSpace(currentPosition - directionVector);
         }
     }
 }
