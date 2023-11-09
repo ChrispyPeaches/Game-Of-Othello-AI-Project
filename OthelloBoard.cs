@@ -56,6 +56,16 @@ namespace GameOfOthelloAssignment
             return legalSpaces;
         }
 
+        private bool PositionIsOnBoard(Vector2D position)
+        {
+            if (0 <= position.Column && position.Column < ColumnCount &&
+                   0 <= position.Row && position.Row < RowCount)
+            {
+                return true;
+            }
+            else return false;
+        }
+
         /// <summary>
         /// Find if there is a legal move in the given direction
         /// </summary>
@@ -64,15 +74,16 @@ namespace GameOfOthelloAssignment
         /// <returns>The <see cref="DiscSpace"/> of a legal move if there is one, else return null</returns>
         public DiscSpace GetLegalMoveForDirection(DiscSpace initialSpace, Vector2D directionVector)
         {
-            int currentColumn = initialSpace.Column + directionVector.Column;
-            int currentRow = initialSpace.Row + directionVector.Row;
+            // Move two spaces in the given direction
+            int currentColumn = initialSpace.Column + directionVector.Column * 2;
+            int currentRow = initialSpace.Row + directionVector.Row * 2;
+            var currentPosition = new Vector2D(currentColumn, currentRow);
 
             DiscSpace currentSpace = null;
-            while (0 <= currentColumn && currentColumn < ColumnCount &&
-                   0 <= currentRow && currentRow < RowCount
-                   )
+            while (PositionIsOnBoard(currentPosition))
             {
-                currentSpace = GetDiscSpace(currentColumn, currentRow);
+                currentSpace = GetDiscSpace(currentPosition);
+
                 if (currentSpace.CurrentDisc != null)
                 {
                     if (currentSpace.CurrentDisc.Color == initialSpace.CurrentDisc.Color)
@@ -85,8 +96,7 @@ namespace GameOfOthelloAssignment
                     break;
                 }
 
-                currentColumn += directionVector.Column;
-                currentRow += directionVector.Row;
+                currentPosition += directionVector;
             }
 
             if (currentSpace != null)

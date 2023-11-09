@@ -61,8 +61,8 @@ namespace GameOfOthelloAssignment
         private void PerformTurn(object sender, EventArgs eventArgs)
         {
             DiscSpace clickedSpace = (DiscSpace) sender;
+            DisableLegalMoves();
             othelloBoard1.GetDiscSpace(clickedSpace).SetDisc(new Disc(currentTurnColor));
-
 
             SwitchTurns();
 
@@ -76,7 +76,7 @@ namespace GameOfOthelloAssignment
         {
             foreach (var move in currentLegalMoves)
             {
-                othelloBoard1.GetDiscSpace(move.Column, move.Row).SetAsIllegalMove();
+                othelloBoard1.GetDiscSpace(move.Column, move.Row).DiableLegalMove();
             }
         }
 
@@ -94,7 +94,6 @@ namespace GameOfOthelloAssignment
 
         public void SwitchTurns()
         {
-            DisableLegalMoves();
             switch (currentTurnColor)
             {
                 case DiscType.Black:

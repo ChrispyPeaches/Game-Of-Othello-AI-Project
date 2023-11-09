@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfOthelloAssignment.Properties;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -22,6 +23,8 @@ namespace GameOfOthelloAssignment
 
         /// <summary> The <see cref="Disc"/> occupying the space </summary>
         public Disc CurrentDisc { get; private set; }
+
+        public DiscType SpaceState { get; set; }
 
         #endregion
 
@@ -92,13 +95,10 @@ namespace GameOfOthelloAssignment
         }
 
         /// <summary> Remove the ability to interact with a space </summary>
-        public void SetAsIllegalMove()
+        public void DiableLegalMove()
         {
             Enabled = false;
-            if (CurrentDisc == null)
-            {
-                BackgroundImage = null;
-            }
+            BackgroundImage = null;
         }
 
         /// <summary>
@@ -126,6 +126,7 @@ namespace GameOfOthelloAssignment
     public enum DiscType
     {
         Black,
-        White
+        White,
+        LegalMove
     }
 }
