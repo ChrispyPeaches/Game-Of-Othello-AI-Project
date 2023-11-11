@@ -31,7 +31,6 @@ namespace GameOfOthelloAssignment
         /// </summary>
         private void InitializeComponent()
         {
-            this.othelloBoard = new GameOfOthelloAssignment.Controls.ControlOthelloBoard();
             this.panel_CurrentTurnMenu_Container = new System.Windows.Forms.Panel();
             this.btn_CurrentTurnMenu_Detail = new System.Windows.Forms.Button();
             this.pic_currentTurnMenu_piece = new System.Windows.Forms.PictureBox();
@@ -53,6 +52,7 @@ namespace GameOfOthelloAssignment
             this.panel_GameOverMenu_Container = new System.Windows.Forms.Panel();
             this.btn_GameOverMenu_Title = new System.Windows.Forms.Button();
             this.btn_GameOverMenu_Subtitle = new System.Windows.Forms.Button();
+            this.othelloBoard = new GameOfOthelloAssignment.Controls.ControlOthelloBoard();
             this.panel_CurrentTurnMenu_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_currentTurnMenu_piece)).BeginInit();
             this.panel_ScoreMenu_Container.SuspendLayout();
@@ -61,41 +61,6 @@ namespace GameOfOthelloAssignment
             this.panel_DebugMenu_Container.SuspendLayout();
             this.panel_GameOverMenu_Container.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // othelloBoard
-            // 
-            this.othelloBoard.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.othelloBoard.BackColor = System.Drawing.Color.DarkOliveGreen;
-            this.othelloBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.othelloBoard.BlackScore = 0;
-            this.othelloBoard.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.othelloBoard.ColumnCount = 8;
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.gameMode = GameOfOthelloAssignment.Enums.GameMode.TwoPlayer;
-            this.othelloBoard.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.othelloBoard.Location = new System.Drawing.Point(170, 2);
-            this.othelloBoard.Margin = new System.Windows.Forms.Padding(0);
-            this.othelloBoard.Name = "othelloBoard";
-            this.othelloBoard.Player1DiscColor = GameOfOthelloAssignment.Enums.DiscType.Black;
-            this.othelloBoard.RowCount = 8;
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.Size = new System.Drawing.Size(350, 366);
-            this.othelloBoard.TabIndex = 0;
-            this.othelloBoard.WhiteScore = 0;
             // 
             // panel_CurrentTurnMenu_Container
             // 
@@ -168,6 +133,7 @@ namespace GameOfOthelloAssignment
             // 
             // btn_ScoreMenu_PlayerWhite_Label
             // 
+            this.btn_ScoreMenu_PlayerWhite_Label.Enabled = false;
             this.btn_ScoreMenu_PlayerWhite_Label.FlatAppearance.BorderSize = 0;
             this.btn_ScoreMenu_PlayerWhite_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_ScoreMenu_PlayerWhite_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -180,6 +146,7 @@ namespace GameOfOthelloAssignment
             // 
             // btn_ScoreMenu_PlayerBlack_Label
             // 
+            this.btn_ScoreMenu_PlayerBlack_Label.Enabled = false;
             this.btn_ScoreMenu_PlayerBlack_Label.FlatAppearance.BorderSize = 0;
             this.btn_ScoreMenu_PlayerBlack_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_ScoreMenu_PlayerBlack_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -288,6 +255,7 @@ namespace GameOfOthelloAssignment
             // 
             // btn_DebugMenu_EnableDebug_Label
             // 
+            this.btn_DebugMenu_EnableDebug_Label.Enabled = false;
             this.btn_DebugMenu_EnableDebug_Label.FlatAppearance.BorderSize = 0;
             this.btn_DebugMenu_EnableDebug_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_DebugMenu_EnableDebug_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -300,6 +268,7 @@ namespace GameOfOthelloAssignment
             // 
             // btn_DebugMenu_SearchDepth_Label
             // 
+            this.btn_DebugMenu_SearchDepth_Label.Enabled = false;
             this.btn_DebugMenu_SearchDepth_Label.FlatAppearance.BorderSize = 0;
             this.btn_DebugMenu_SearchDepth_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_DebugMenu_SearchDepth_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -328,6 +297,7 @@ namespace GameOfOthelloAssignment
             // btn_AIThinking_Detail
             // 
             this.btn_AIThinking_Detail.BackColor = System.Drawing.Color.Transparent;
+            this.btn_AIThinking_Detail.Enabled = false;
             this.btn_AIThinking_Detail.FlatAppearance.BorderSize = 0;
             this.btn_AIThinking_Detail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_AIThinking_Detail.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -352,6 +322,7 @@ namespace GameOfOthelloAssignment
             // 
             // btn_GameOverMenu_Title
             // 
+            this.btn_GameOverMenu_Title.Enabled = false;
             this.btn_GameOverMenu_Title.FlatAppearance.BorderSize = 0;
             this.btn_GameOverMenu_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_GameOverMenu_Title.Font = new System.Drawing.Font("Microsoft YaHei", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -365,6 +336,7 @@ namespace GameOfOthelloAssignment
             // 
             // btn_GameOverMenu_Subtitle
             // 
+            this.btn_GameOverMenu_Subtitle.Enabled = false;
             this.btn_GameOverMenu_Subtitle.FlatAppearance.BorderSize = 0;
             this.btn_GameOverMenu_Subtitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_GameOverMenu_Subtitle.Font = new System.Drawing.Font("Microsoft YaHei", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -375,6 +347,41 @@ namespace GameOfOthelloAssignment
             this.btn_GameOverMenu_Subtitle.TabIndex = 1;
             this.btn_GameOverMenu_Subtitle.Text = "Winning/Loosing Text";
             this.btn_GameOverMenu_Subtitle.UseVisualStyleBackColor = true;
+            // 
+            // othelloBoard
+            // 
+            this.othelloBoard.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.othelloBoard.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.othelloBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.othelloBoard.BlackScore = 0;
+            this.othelloBoard.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.othelloBoard.ColumnCount = 8;
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.gameMode = GameOfOthelloAssignment.Enums.GameMode.TwoPlayer;
+            this.othelloBoard.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.othelloBoard.Location = new System.Drawing.Point(170, 2);
+            this.othelloBoard.Margin = new System.Windows.Forms.Padding(0);
+            this.othelloBoard.Name = "othelloBoard";
+            this.othelloBoard.Player1DiscColor = GameOfOthelloAssignment.Enums.DiscType.Black;
+            this.othelloBoard.RowCount = 8;
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.Size = new System.Drawing.Size(350, 366);
+            this.othelloBoard.TabIndex = 0;
+            this.othelloBoard.WhiteScore = 0;
             // 
             // GameBoardForm
             // 

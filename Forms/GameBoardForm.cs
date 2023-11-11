@@ -1,8 +1,6 @@
 ﻿using GameOfOthelloAssignment.Controls;
 using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
-using System;
-using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
@@ -16,13 +14,14 @@ namespace GameOfOthelloAssignment
 
         public GameBoardForm(DiscType player1Color, GameMode gameMode)
         {
+            InitializeComponent();
             this.gameMode = gameMode;
             this.player1Color = player1Color;
-            InitializeComponent();
-            FormSetup();
+            OthelloBoardSetup();
+            textBox_DebugMenu_SearchDepth.Text = searchDepth.ToString();
         }
 
-        private void FormSetup()
+        private void OthelloBoardSetup()
         {
             OnTurnFinished();
             SetupScoreMenu();
@@ -48,25 +47,50 @@ namespace GameOfOthelloAssignment
             }
         }
 
+        #region Npc
+
         public void PerformNpcTurn()
         {
-            // Show that the Npc is "Thinking..."
-            btn_AIThinking_Detail.Visible = true;
-            Refresh();
+            DisplayNpcThinking(true);
             
+            // Perform Minimax
             var clonedGameState = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
             Vector2D bestMove = NPC.NPC.MiniMaxHelper(
                 clonedGameState,
                 searchDepth,
                 othelloBoard.CurrentTurnColor);
+
+            // If there are any legal moves, play the found best one
             if (bestMove != null)
             {
                 othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(bestMove));
             }
 
-            btn_AIThinking_Detail.Visible = false;
+            DisplayNpcThinking(false);
+        }
+
+        /// <summary>
+        /// Displays or hides the "Thinking..." label for the Npc
+        /// </summary>
+        public void DisplayNpcThinking(bool shouldDisplay)
+        {
+            btn_AIThinking_Detail.Visible = shouldDisplay;
             Refresh();
         }
+
+        #endregion
+
+        /// <summary>
+        /// Display the current turn's disc color
+        /// </summary>
+        private void UpdateCurrentTurnMenu()
+        {
+            pic_currentTurnMenu_piece.BackgroundImage =
+                DiscSpace.GetBackgroundImageByDiscType(othelloBoard.CurrentTurnColor);
+            btn_CurrentTurnMenu_Detail.Text = othelloBoard.CurrentTurnColor.ToString();
+        }
+
+        #region Game Over Menu
 
         private void SetupGameOverMenu()
         {
@@ -101,16 +125,9 @@ namespace GameOfOthelloAssignment
             panel_GameOverMenu_Container.Visible = true;
         }
 
+        #endregion
 
-        /// <summary>
-        /// Display the current turn's disc color
-        /// </summary>
-        private void UpdateCurrentTurnMenu()
-        {
-            pic_currentTurnMenu_piece.BackgroundImage = 
-                DiscSpace.GetBackgroundImageByDiscType(othelloBoard.CurrentTurnColor);
-            btn_CurrentTurnMenu_Detail.Text = othelloBoard.CurrentTurnColor.ToString();
-        }
+        #region Score Menu
 
         /// <summary>
         /// Displaye player names in the score menu
@@ -147,6 +164,10 @@ namespace GameOfOthelloAssignment
             btn_ScoreMenu_White.Text = othelloBoard.WhiteScore.ToString();
         }
 
+        #endregion
+
+        #region Debug Menu
+
         /// <summary>
         /// If the value enterend into the search depth box is NOT a valid integer,
         /// prompt the user to change it
@@ -166,5 +187,7 @@ namespace GameOfOthelloAssignment
         {
             DEBUG = checkBox_DebugMenu_EnableDebug.Checked;
         }
+
+        #endregion
     }
 }
