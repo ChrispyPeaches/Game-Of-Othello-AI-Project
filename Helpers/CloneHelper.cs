@@ -4,7 +4,7 @@ namespace GameOfOthelloAssignment
 {
     public class CloneHelper
     {
-        public static NpcOthelloBoard CloneFromFormBoardToNPCBoard(OthelloBoard board)
+        public static NpcOthelloBoard CloneFromFormBoardToNPCBoard(ControlOthelloBoard board)
         {
             NpcOthelloBoard npcClone = new NpcOthelloBoard()
             {
@@ -26,7 +26,7 @@ namespace GameOfOthelloAssignment
             return npcClone;
         }
 
-        public static void CloneFromNPCBoardToFormBoard(NpcOthelloBoard npcBoard, OthelloBoard formBoard)
+        public static void CloneFromNPCBoardToFormBoard(NpcOthelloBoard npcBoard, ControlOthelloBoard formBoard)
         {
             formBoard.WhiteScore = npcBoard.WhiteScore;
             formBoard.BlackScore = npcBoard.BlackScore;

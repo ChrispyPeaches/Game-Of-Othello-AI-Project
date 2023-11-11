@@ -1,5 +1,4 @@
-﻿using GameOfOthelloAssignment.NPC;
-using GameOfOthelloAssignment.Properties;
+﻿using GameOfOthelloAssignment.Properties;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -24,55 +23,6 @@ namespace GameOfOthelloAssignment
     }
 
     [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
-    public class NPCDiscSpace
-    {
-        #region Properties
-
-        public int Column { get; set; }
-
-        public int Row { get; set; }
-
-        public DiscType DiscColor { get; set; }
-
-        #endregion
-
-
-        public NPCDiscSpace() { }
-
-        public NPCDiscSpace(int column, int row)
-        {
-            Column = column;
-            Row = row;
-            DiscColor = DiscType.Empty;
-        }
-
-
-        public bool HasOppositeDiscColor(DiscType color)
-        {
-            switch (color)
-            {
-                case DiscType.Black:
-                    return DiscColor == DiscType.White;
-                case DiscType.White:
-                    return DiscColor == DiscType.Black;
-                case DiscType.Empty:
-                    return false;
-                default:
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Implicit cast to Vector2D to represent a position on the board
-        /// </summary>
-        public static implicit operator Vector2D(NPCDiscSpace discSpace)
-        {
-            return new Vector2D(discSpace.Column, discSpace.Row);
-        }
-    }
-
-
-    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
     public class FormDiscSpace : Button, IDiscSpace
     {
         #region Properties
@@ -90,17 +40,17 @@ namespace GameOfOthelloAssignment
         public FormDiscSpace(int columnIndex, int rowIndex) : base()
         {
             AutoSize = true;
-            BackColor = System.Drawing.Color.Transparent;
+            BackColor = Color.Transparent;
             BackgroundImage = null;
             BackgroundImageLayout = ImageLayout.Zoom;
             FlatAppearance.BorderSize = 0;
             FlatStyle = FlatStyle.Flat;
-            ForeColor = System.Drawing.Color.Transparent;
-            Location = new System.Drawing.Point(120, 60);
-            Size = new System.Drawing.Size(51, 49);
+            ForeColor = Color.Transparent;
+            Location = new Point(120, 60);
+            Size = new Size(51, 49);
             TabIndex = 0;
             UseVisualStyleBackColor = false;
-            FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            FlatAppearance.MouseDownBackColor = Color.Transparent;
             FlatAppearance.MouseOverBackColor = FlatAppearance.MouseDownBackColor;
             Enabled = false;
             DiscColor = DiscType.Empty;
@@ -179,12 +129,5 @@ namespace GameOfOthelloAssignment
         {
             return new Vector2D(discSpace.Column, discSpace.Row);
         }
-    }
-
-    public enum DiscType
-    {
-        Black,
-        White,
-        Empty
     }
 }

@@ -62,34 +62,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CloneHelper.cs" />
-    <Compile Include="MainMenu.cs">
+    <Compile Include="Enums\DiscType.cs" />
+    <Compile Include="Helpers\CloneHelper.cs" />
+    <Compile Include="Forms\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainMenu.Designer.cs">
+    <Compile Include="Forms\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="NPC\BoardForNPC.cs" />
-    <Compile Include="NPC\GameMode.cs" />
+    <Compile Include="NPC\NpcGameLogic.cs" />
+    <Compile Include="Enums\GameMode.cs" />
     <Compile Include="NPC\NPC.cs" />
-    <Compile Include="OthelloGame\2DVector.cs" />
-    <Compile Include="OthelloGame\LegalMove.cs" />
-    <Compile Include="OthelloGame\OthelloBoard.cs">
+    <Compile Include="Helpers\2DVector.cs" />
+    <Compile Include="Helpers\LegalMove.cs" />
+    <Compile Include="OthelloGame\ControlOthelloBoard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OthelloGame\DiscSpace.cs" />
-    <Compile Include="GameBoardForm.cs">
+    <Compile Include="OthelloGame\DiscSpace.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\GameBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameBoardForm.Designer.cs">
+    <Compile Include="Forms\GameBoardForm.Designer.cs">
       <DependentUpon>GameBoardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GameBoardForm.resx">
+    <EmbeddedResource Include="Forms\GameBoardForm.resx">
       <DependentUpon>GameBoardForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainMenu.resx">
+    <EmbeddedResource Include="Forms\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

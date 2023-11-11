@@ -9,7 +9,7 @@ namespace GameOfOthelloAssignment
     /// <summary>
     /// A gameboard in which Othello can be played
     /// </summary>
-    public class OthelloBoard : TableLayoutPanel
+    public class ControlOthelloBoard : TableLayoutPanel
     {
         /// <summary>
         /// The color of the player or AI whose turn it is
