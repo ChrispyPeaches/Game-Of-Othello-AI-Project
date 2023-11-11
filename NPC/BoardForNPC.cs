@@ -86,7 +86,28 @@ namespace GameOfOthelloAssignment.NPC
 
         public bool IsGameOver()
         {
-            return BlackScore + WhiteScore >= 64;
+            bool isScoreMax = BlackScore + WhiteScore >= 64;
+            bool noLegalCurrentMoves = false;
+            bool noLegalNextMoves = false;
+
+            // If the score isn't at max, check if there are any legal moves left
+            if (!isScoreMax)
+            {
+                noLegalCurrentMoves = CurrentLegalMoves.SingleOrDefault() == null;
+                switch (CurrentTurnColor)
+                {
+                    case DiscType.Black:
+                        noLegalNextMoves = GetLegalMoves(DiscType.White).SingleOrDefault() == null;
+                        break;
+                    case DiscType.White:
+                        noLegalNextMoves = GetLegalMoves(DiscType.White).SingleOrDefault() == null;
+                        break;
+                    default:
+                        noLegalNextMoves = false;
+                        break;
+                }
+            }
+            return isScoreMax || (noLegalCurrentMoves && noLegalNextMoves);
         }
 
         #endregion
@@ -143,12 +164,12 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         /// <param name="CurrentTurnColor">The <see cref="DiscType"/>(color) to find legal moves for</param>
         /// <returns>A list of spaces representing legal moves</returns>
-        public IList<LegalMove> GetLegalMoves()
+        public IList<LegalMove> GetLegalMoves(DiscType discColor)
         {
             var legalMoves = new List<LegalMove>();
 
             foreach (NPCDiscSpace initialSpace in
-                BoardSpaces.Where(b => b.DiscColor == CurrentTurnColor).ToList())
+                BoardSpaces.Where(b => b.DiscColor == discColor).ToList())
             {
                 for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
                 {
@@ -255,7 +276,7 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         public void EnableLegalMoves()
         {
-            CurrentLegalMoves = GetLegalMoves();
+            CurrentLegalMoves = GetLegalMoves(CurrentTurnColor);
         }
 
         /// <summary>
@@ -306,8 +327,8 @@ namespace GameOfOthelloAssignment.NPC
             }
 
             FlipDiscs(CurrentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(performedLegalMove)));
-
             SwitchTurns();
+            EnableLegalMoves();
         }
 
         private void SwitchTurns()
@@ -319,7 +340,6 @@ namespace GameOfOthelloAssignment.NPC
                 case DiscType.White:
                     CurrentTurnColor = DiscType.Black; break;
             }
-            EnableLegalMoves();
         }
 
         #endregion

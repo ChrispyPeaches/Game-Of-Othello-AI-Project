@@ -43,7 +43,7 @@ namespace GameOfOthelloAssignment
 
         public static bool operator <(Vector2D initialVector, Vector2D otherVector)
         {
-            return  initialVector.Column < otherVector.Column &&
+            return initialVector.Column < otherVector.Column &&
                     initialVector.Row < otherVector.Row;
         }
 
@@ -53,17 +53,6 @@ namespace GameOfOthelloAssignment
                     initialVector.Row > otherVector.Row;
         }
 
-        public static bool operator ==(Vector2D initialVector, Vector2D otherVector)
-        {
-            return initialVector.Column == otherVector.Column &&
-                    initialVector.Row == otherVector.Row;
-        }
-
-        public static bool operator !=(Vector2D initialVector, Vector2D otherVector)
-        {
-            return initialVector.Column != otherVector.Column &&
-                    initialVector.Row != otherVector.Row;
-        }
         public static bool operator <=(Vector2D initialVector, Vector2D otherVector)
         {
             return initialVector.Column <= otherVector.Column &&

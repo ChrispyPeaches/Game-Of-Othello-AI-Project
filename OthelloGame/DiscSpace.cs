@@ -73,7 +73,7 @@ namespace GameOfOthelloAssignment
 
 
     [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
-    public class FormDiscSpace : Button
+    public class FormDiscSpace : Button, IDiscSpace
     {
         #region Properties
 

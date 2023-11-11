@@ -27,13 +27,14 @@ namespace GameOfOthelloAssignment
             othelloBoard.Player1DiscColor = player1Color;
             othelloBoard.gameMode = gameMode;
             othelloBoard.TurnFinished += OnTurnFinished;
+            othelloBoard.GameOver += OnGameOver;
         }
 
         private void OnTurnFinished()
         {
             UpdateCurrentTurnMenu();
             UpdateScoreMenu();
-            if (gameMode == GameMode.AI)
+            if (gameMode == GameMode.AI && othelloBoard.CurrentTurnColor != player1Color)
             {
                 // Display trailing dots for "thinking"
                 btn_AIThinking_Detail.Visible = true;
@@ -42,19 +43,28 @@ namespace GameOfOthelloAssignment
                 {
                     var npcBoard = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
                     Vector2D bestMove = NPC.NPC.MiniMaxHelper(npcBoard, searchDepth, othelloBoard.CurrentTurnColor);
-                    othelloBoard.GetDiscSpace(bestMove).PerformClick();
+                    if (bestMove != null)
+                    {
+                        othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(bestMove));
+                    }
                 }
 
                 btn_AIThinking_Detail.Visible = false;
                 Refresh();
             }
-
-            if (othelloBoard.IsGameOver())
-            {
-                // Game over sequence
-            }
         }
 
+        /// <summary>
+        /// When the game is over, show the game over menu
+        /// </summary>
+        private void OnGameOver()
+        {
+            panel_GameOverMenu_Container.Visible = true;
+        }
+
+        /// <summary>
+        /// Display the current turn's disc color
+        /// </summary>
         private void UpdateCurrentTurnMenu()
         {
             pic_currentTurnMenu_piece.BackgroundImage = 

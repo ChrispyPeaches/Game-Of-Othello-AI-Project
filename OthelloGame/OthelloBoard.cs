@@ -96,7 +96,32 @@ namespace GameOfOthelloAssignment
 
         public bool IsGameOver()
         {
-            return BlackScore + WhiteScore >= 64;
+            bool isScoreMax = BlackScore + WhiteScore >= 64;
+            bool noLegalCurrentTurnMoves = false;
+            bool noLegalNextMoves = false;
+
+            // If the score isn't at max, check if there are any legal moves left
+            if (!isScoreMax)
+            {
+                noLegalCurrentTurnMoves = CurrentLegalMoves.SingleOrDefault() == null;
+                // Aren't any current legal moves, check if there are any on the next turn
+                if (noLegalCurrentTurnMoves)
+                {
+                    switch (CurrentTurnColor)
+                    {
+                        case DiscType.Black:
+                            noLegalNextMoves = GetLegalMoves(DiscType.White).SingleOrDefault() == null;
+                            break;
+                        case DiscType.White:
+                            noLegalNextMoves = GetLegalMoves(DiscType.White).SingleOrDefault() == null;
+                            break;
+                        default:
+                            noLegalNextMoves = false;
+                            break;
+                    }
+                }
+            }
+            return isScoreMax || (noLegalCurrentTurnMoves && noLegalNextMoves);
         }
 
         #endregion
@@ -111,7 +136,7 @@ namespace GameOfOthelloAssignment
                 for (int columnIndex = 0; columnIndex < ColumnCount; columnIndex++)
                 {
                     FormDiscSpace discSpace = new FormDiscSpace(columnIndex, rowIndex);
-                    discSpace.Click += PerformTurn;
+                    discSpace.Click += OnSpaceClick;
 
                     Controls.Add(discSpace, columnIndex, rowIndex);
                 }
@@ -194,7 +219,6 @@ namespace GameOfOthelloAssignment
             return legalMoves;
         }
 
-
         /// <summary>
         /// Find if there is a legal move in the given direction
         /// </summary>
@@ -255,18 +279,6 @@ namespace GameOfOthelloAssignment
             return null;
         }
 
-
-        /// <summary>
-        /// Removes ability to interact with previously legal moves
-        /// </summary>
-        private void DisableLegalMoves()
-        {
-            foreach (var legalMove in CurrentLegalMoves)
-            {
-                GetDiscSpace(legalMove).DiableLegalMove();
-            }
-        }
-
         /// <summary>
         /// Allows board spaces representing legal moves for the current turn's color to be interacted with
         /// </summary>
@@ -276,6 +288,17 @@ namespace GameOfOthelloAssignment
             foreach (LegalMove legalMove in CurrentLegalMoves)
             {
                 GetDiscSpace(legalMove).SetAsLegalMove(CurrentTurnColor);
+            }
+        }
+
+        /// <summary>
+        /// Removes ability to interact with previously legal moves
+        /// </summary>
+        private void DisableLegalMoves()
+        {
+            foreach (var legalMove in CurrentLegalMoves)
+            {
+                GetDiscSpace(legalMove).DiableLegalMove();
             }
         }
 
@@ -311,11 +334,21 @@ namespace GameOfOthelloAssignment
         }
 
         /// <summary>
+        /// If in AI mode, verify the player can only move on their turn
+        /// </summary>
+        public void OnSpaceClick(object clickedSpace, EventArgs eventArgs)
+        {
+            if (gameMode == GameMode.TwoPlayer || Player1DiscColor == CurrentTurnColor)
+            {
+                PerformTurn((FormDiscSpace)clickedSpace);
+            }
+        }
+
+        /// <summary>
         /// When a player clicks a space to place a disc into,
         /// </summary>
-        private void PerformTurn(object sender, EventArgs eventArgs)
+        public void PerformTurn(FormDiscSpace clickedSpace)
         {
-            FormDiscSpace clickedSpace = (FormDiscSpace)sender;
             DisableLegalMoves();
             GetDiscSpace(clickedSpace).SetDisc(CurrentTurnColor);
             // Update score
@@ -329,10 +362,24 @@ namespace GameOfOthelloAssignment
             }
 
             FlipDiscs(CurrentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(clickedSpace)));
-
             SwitchTurns();
+            EnableLegalMoves();
+
+            // If the game is over, trigger the Game Over event
+            if (IsGameOver())
+            {
+                GameOver();
+            }
+
+            // Trigger the Turn Finished event
+            TurnFinished();
         }
 
+
+
+        /// <summary>
+        /// Switch the current turn to the opposite color
+        /// </summary>
         private void SwitchTurns()
         {
             switch (CurrentTurnColor)
@@ -342,16 +389,13 @@ namespace GameOfOthelloAssignment
                 case DiscType.White:
                     CurrentTurnColor = DiscType.Black; break;
             }
-            
-            EnableLegalMoves();
-            
-            TurnFinished();
         }
 
         #endregion
 
         #region Events
         public event Action TurnFinished;
+        public event Action GameOver;
         #endregion
 
     }

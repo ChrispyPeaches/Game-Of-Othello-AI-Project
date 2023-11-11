@@ -34,25 +34,28 @@
             this.pic_currentTurnMenu_piece = new System.Windows.Forms.PictureBox();
             this.btn_CurrentTurnMenu_Title = new System.Windows.Forms.Button();
             this.panel_ScoreMenu_Container = new System.Windows.Forms.Panel();
+            this.btn_ScoreMenu_PlayerWhite_Label = new System.Windows.Forms.Button();
+            this.btn_ScoreMenu_PlayerBlack_Label = new System.Windows.Forms.Button();
             this.pic_ScoreMenu_Black = new System.Windows.Forms.PictureBox();
             this.btn_ScoreMenu_Black = new System.Windows.Forms.Button();
             this.pic_ScoreMenu_White = new System.Windows.Forms.PictureBox();
             this.btn_ScoreMenu_White = new System.Windows.Forms.Button();
             this.btn_ScoreMenu_Title = new System.Windows.Forms.Button();
             this.checkBox_DebugMenu_EnableDebug = new System.Windows.Forms.CheckBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.panel_DebugMenu_Container = new System.Windows.Forms.Panel();
+            this.btn_DebugMenu_EnableDebug_Label = new System.Windows.Forms.Button();
+            this.btn_DebugMenu_SearchDepth_Label = new System.Windows.Forms.Button();
             this.textBox_DebugMenu_SearchDepth = new System.Windows.Forms.TextBox();
-            this.btn_ScoreMenu_PlayerBlack_Label = new System.Windows.Forms.Button();
-            this.btn_ScoreMenu_PlayerWhite_Label = new System.Windows.Forms.Button();
             this.btn_AIThinking_Detail = new System.Windows.Forms.Button();
+            this.panel_GameOverMenu_Container = new System.Windows.Forms.Panel();
+            this.btn_GameOverMenu_Title = new System.Windows.Forms.Button();
             this.panel_CurrentTurnMenu_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_currentTurnMenu_piece)).BeginInit();
             this.panel_ScoreMenu_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_ScoreMenu_Black)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_ScoreMenu_White)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.panel_DebugMenu_Container.SuspendLayout();
+            this.panel_GameOverMenu_Container.SuspendLayout();
             this.SuspendLayout();
             // 
             // othelloBoard
@@ -159,6 +162,30 @@
             this.panel_ScoreMenu_Container.Size = new System.Drawing.Size(150, 157);
             this.panel_ScoreMenu_Container.TabIndex = 2;
             // 
+            // btn_ScoreMenu_PlayerWhite_Label
+            // 
+            this.btn_ScoreMenu_PlayerWhite_Label.FlatAppearance.BorderSize = 0;
+            this.btn_ScoreMenu_PlayerWhite_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_ScoreMenu_PlayerWhite_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ScoreMenu_PlayerWhite_Label.Location = new System.Drawing.Point(3, 100);
+            this.btn_ScoreMenu_PlayerWhite_Label.Name = "btn_ScoreMenu_PlayerWhite_Label";
+            this.btn_ScoreMenu_PlayerWhite_Label.Size = new System.Drawing.Size(61, 48);
+            this.btn_ScoreMenu_PlayerWhite_Label.TabIndex = 8;
+            this.btn_ScoreMenu_PlayerWhite_Label.Text = "Player White";
+            this.btn_ScoreMenu_PlayerWhite_Label.UseVisualStyleBackColor = true;
+            // 
+            // btn_ScoreMenu_PlayerBlack_Label
+            // 
+            this.btn_ScoreMenu_PlayerBlack_Label.FlatAppearance.BorderSize = 0;
+            this.btn_ScoreMenu_PlayerBlack_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_ScoreMenu_PlayerBlack_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ScoreMenu_PlayerBlack_Label.Location = new System.Drawing.Point(3, 51);
+            this.btn_ScoreMenu_PlayerBlack_Label.Name = "btn_ScoreMenu_PlayerBlack_Label";
+            this.btn_ScoreMenu_PlayerBlack_Label.Size = new System.Drawing.Size(61, 48);
+            this.btn_ScoreMenu_PlayerBlack_Label.TabIndex = 7;
+            this.btn_ScoreMenu_PlayerBlack_Label.Text = "Player Black";
+            this.btn_ScoreMenu_PlayerBlack_Label.UseVisualStyleBackColor = true;
+            // 
             // pic_ScoreMenu_Black
             // 
             this.pic_ScoreMenu_Black.BackColor = System.Drawing.Color.Transparent;
@@ -243,41 +270,41 @@
             this.checkBox_DebugMenu_EnableDebug.CheckedChanged += new System.EventHandler(this.checkBox_DebugMenu_EnableDebug_CheckedChanged);
             this.checkBox_DebugMenu_EnableDebug.CheckStateChanged += new System.EventHandler(this.checkBox_DebugMenu_EnableDebug_CheckedChanged);
             // 
-            // panel1
+            // panel_DebugMenu_Container
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.textBox_DebugMenu_SearchDepth);
-            this.panel1.Controls.Add(this.checkBox_DebugMenu_EnableDebug);
-            this.panel1.Location = new System.Drawing.Point(532, 277);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(150, 77);
-            this.panel1.TabIndex = 4;
+            this.panel_DebugMenu_Container.BackColor = System.Drawing.Color.Transparent;
+            this.panel_DebugMenu_Container.Controls.Add(this.btn_DebugMenu_EnableDebug_Label);
+            this.panel_DebugMenu_Container.Controls.Add(this.btn_DebugMenu_SearchDepth_Label);
+            this.panel_DebugMenu_Container.Controls.Add(this.textBox_DebugMenu_SearchDepth);
+            this.panel_DebugMenu_Container.Controls.Add(this.checkBox_DebugMenu_EnableDebug);
+            this.panel_DebugMenu_Container.Location = new System.Drawing.Point(532, 277);
+            this.panel_DebugMenu_Container.Name = "panel_DebugMenu_Container";
+            this.panel_DebugMenu_Container.Size = new System.Drawing.Size(150, 77);
+            this.panel_DebugMenu_Container.TabIndex = 4;
             // 
-            // button2
+            // btn_DebugMenu_EnableDebug_Label
             // 
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(39, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 33);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Enable Debug";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btn_DebugMenu_EnableDebug_Label.FlatAppearance.BorderSize = 0;
+            this.btn_DebugMenu_EnableDebug_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_DebugMenu_EnableDebug_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_DebugMenu_EnableDebug_Label.Location = new System.Drawing.Point(39, 3);
+            this.btn_DebugMenu_EnableDebug_Label.Name = "btn_DebugMenu_EnableDebug_Label";
+            this.btn_DebugMenu_EnableDebug_Label.Size = new System.Drawing.Size(108, 33);
+            this.btn_DebugMenu_EnableDebug_Label.TabIndex = 6;
+            this.btn_DebugMenu_EnableDebug_Label.Text = "Enable Debug";
+            this.btn_DebugMenu_EnableDebug_Label.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btn_DebugMenu_SearchDepth_Label
             // 
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(39, 41);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 27);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Search Depth";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn_DebugMenu_SearchDepth_Label.FlatAppearance.BorderSize = 0;
+            this.btn_DebugMenu_SearchDepth_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_DebugMenu_SearchDepth_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_DebugMenu_SearchDepth_Label.Location = new System.Drawing.Point(39, 41);
+            this.btn_DebugMenu_SearchDepth_Label.Name = "btn_DebugMenu_SearchDepth_Label";
+            this.btn_DebugMenu_SearchDepth_Label.Size = new System.Drawing.Size(108, 27);
+            this.btn_DebugMenu_SearchDepth_Label.TabIndex = 5;
+            this.btn_DebugMenu_SearchDepth_Label.Text = "Search Depth";
+            this.btn_DebugMenu_SearchDepth_Label.UseVisualStyleBackColor = true;
             // 
             // textBox_DebugMenu_SearchDepth
             // 
@@ -294,30 +321,6 @@
             this.textBox_DebugMenu_SearchDepth.TextChanged += new System.EventHandler(this.textBox_DebugMenu_SearchDepth_ChangeValue);
             this.textBox_DebugMenu_SearchDepth.Leave += new System.EventHandler(this.textBox_DebugMenu_SearchDepth_ChangeValue);
             // 
-            // btn_ScoreMenu_PlayerBlack_Label
-            // 
-            this.btn_ScoreMenu_PlayerBlack_Label.FlatAppearance.BorderSize = 0;
-            this.btn_ScoreMenu_PlayerBlack_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_ScoreMenu_PlayerBlack_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ScoreMenu_PlayerBlack_Label.Location = new System.Drawing.Point(3, 51);
-            this.btn_ScoreMenu_PlayerBlack_Label.Name = "btn_ScoreMenu_PlayerBlack_Label";
-            this.btn_ScoreMenu_PlayerBlack_Label.Size = new System.Drawing.Size(61, 48);
-            this.btn_ScoreMenu_PlayerBlack_Label.TabIndex = 7;
-            this.btn_ScoreMenu_PlayerBlack_Label.Text = "Player Black";
-            this.btn_ScoreMenu_PlayerBlack_Label.UseVisualStyleBackColor = true;
-            // 
-            // btn_ScoreMenu_PlayerWhite_Label
-            // 
-            this.btn_ScoreMenu_PlayerWhite_Label.FlatAppearance.BorderSize = 0;
-            this.btn_ScoreMenu_PlayerWhite_Label.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_ScoreMenu_PlayerWhite_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ScoreMenu_PlayerWhite_Label.Location = new System.Drawing.Point(3, 100);
-            this.btn_ScoreMenu_PlayerWhite_Label.Name = "btn_ScoreMenu_PlayerWhite_Label";
-            this.btn_ScoreMenu_PlayerWhite_Label.Size = new System.Drawing.Size(61, 48);
-            this.btn_ScoreMenu_PlayerWhite_Label.TabIndex = 8;
-            this.btn_ScoreMenu_PlayerWhite_Label.Text = "Player White";
-            this.btn_ScoreMenu_PlayerWhite_Label.UseVisualStyleBackColor = true;
-            // 
             // btn_AIThinking_Detail
             // 
             this.btn_AIThinking_Detail.BackColor = System.Drawing.Color.Transparent;
@@ -332,14 +335,38 @@
             this.btn_AIThinking_Detail.UseVisualStyleBackColor = false;
             this.btn_AIThinking_Detail.Visible = false;
             // 
+            // panel_GameOverMenu_Container
+            // 
+            this.panel_GameOverMenu_Container.BackColor = System.Drawing.Color.DimGray;
+            this.panel_GameOverMenu_Container.Controls.Add(this.btn_GameOverMenu_Title);
+            this.panel_GameOverMenu_Container.Location = new System.Drawing.Point(162, 97);
+            this.panel_GameOverMenu_Container.Name = "panel_GameOverMenu_Container";
+            this.panel_GameOverMenu_Container.Size = new System.Drawing.Size(365, 145);
+            this.panel_GameOverMenu_Container.TabIndex = 7;
+            this.panel_GameOverMenu_Container.Visible = false;
+            // 
+            // btn_GameOverMenu_Title
+            // 
+            this.btn_GameOverMenu_Title.FlatAppearance.BorderSize = 0;
+            this.btn_GameOverMenu_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_GameOverMenu_Title.Font = new System.Drawing.Font("Microsoft YaHei", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_GameOverMenu_Title.ForeColor = System.Drawing.Color.Red;
+            this.btn_GameOverMenu_Title.Location = new System.Drawing.Point(5, 16);
+            this.btn_GameOverMenu_Title.Name = "btn_GameOverMenu_Title";
+            this.btn_GameOverMenu_Title.Size = new System.Drawing.Size(350, 110);
+            this.btn_GameOverMenu_Title.TabIndex = 0;
+            this.btn_GameOverMenu_Title.Text = "Game Over";
+            this.btn_GameOverMenu_Title.UseVisualStyleBackColor = true;
+            // 
             // GameBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(692, 366);
+            this.Controls.Add(this.panel_GameOverMenu_Container);
             this.Controls.Add(this.btn_AIThinking_Detail);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel_DebugMenu_Container);
             this.Controls.Add(this.panel_ScoreMenu_Container);
             this.Controls.Add(this.panel_CurrentTurnMenu_Container);
             this.Controls.Add(this.othelloBoard);
@@ -351,8 +378,9 @@
             this.panel_ScoreMenu_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_ScoreMenu_Black)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_ScoreMenu_White)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel_DebugMenu_Container.ResumeLayout(false);
+            this.panel_DebugMenu_Container.PerformLayout();
+            this.panel_GameOverMenu_Container.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -371,13 +399,15 @@
         private System.Windows.Forms.PictureBox pic_ScoreMenu_White;
         private System.Windows.Forms.Button btn_ScoreMenu_White;
         private System.Windows.Forms.CheckBox checkBox_DebugMenu_EnableDebug;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel_DebugMenu_Container;
+        private System.Windows.Forms.Button btn_DebugMenu_EnableDebug_Label;
+        private System.Windows.Forms.Button btn_DebugMenu_SearchDepth_Label;
         private System.Windows.Forms.TextBox textBox_DebugMenu_SearchDepth;
         private System.Windows.Forms.Button btn_ScoreMenu_PlayerWhite_Label;
         private System.Windows.Forms.Button btn_ScoreMenu_PlayerBlack_Label;
         private System.Windows.Forms.Button btn_AIThinking_Detail;
+        private System.Windows.Forms.Panel panel_GameOverMenu_Container;
+        private System.Windows.Forms.Button btn_GameOverMenu_Title;
     }
 }
 
