@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
-    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {((CurrentDisc != null) ? CurrentDisc.Color.ToString() : \"None\")}")]
+    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {SpaceColor})}")]
     public class DiscSpace : Button
     {
         #region Properties
@@ -41,6 +41,7 @@ namespace GameOfOthelloAssignment
             FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             FlatAppearance.MouseOverBackColor = FlatAppearance.MouseDownBackColor;
             Enabled = false;
+            SpaceColor = DiscType.Empty;
 
             Column = columnIndex;
             Row = rowIndex;
@@ -52,6 +53,7 @@ namespace GameOfOthelloAssignment
         /// <param name="discColor"></param>
         public void SetDisc(DiscType discColor)
         {
+            SpaceColor = discColor;
             switch (discColor)
             {
                 case DiscType.Black:
@@ -86,6 +88,7 @@ namespace GameOfOthelloAssignment
         public void DiableLegalMove()
         {
             Enabled = false;
+            SpaceColor = DiscType.Empty;
             BackgroundImage = null;
         }
 
@@ -94,9 +97,9 @@ namespace GameOfOthelloAssignment
             switch (color)
             {
                 case DiscType.Black:
-                    return SpaceColor == DiscType.Black;
-                case DiscType.White:
                     return SpaceColor == DiscType.White;
+                case DiscType.White:
+                    return SpaceColor == DiscType.Black;
                 case DiscType.Empty:
                     return false;
                 default:

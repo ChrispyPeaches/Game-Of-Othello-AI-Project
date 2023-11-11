@@ -88,7 +88,7 @@ namespace GameOfOthelloAssignment
             currentLegalMoves = othelloBoard1.GetLegalMoves(currentTurnColor);
             foreach (var move in currentLegalMoves)
             {
-                othelloBoard1.GetDiscSpace(move.Column, move.Row).SetAsLegalMove(currentTurnColor);
+                othelloBoard1.GetDiscSpace(move).SetAsLegalMove(currentTurnColor);
             }
         }
 
