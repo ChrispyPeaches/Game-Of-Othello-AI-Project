@@ -23,7 +23,7 @@ namespace GameOfOthelloAssignment
         public bool HasOppositeDiscColor(DiscType color);
     }
 
-    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {SpaceColor})}")]
+    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
     public class NPCDiscSpace
     {
         #region Properties
@@ -35,6 +35,17 @@ namespace GameOfOthelloAssignment
         public DiscType DiscColor { get; set; }
 
         #endregion
+
+
+        public NPCDiscSpace() { }
+
+        public NPCDiscSpace(int column, int row)
+        {
+            Column = column;
+            Row = row;
+            DiscColor = DiscType.Empty;
+        }
+
 
         public bool HasOppositeDiscColor(DiscType color)
         {
@@ -61,7 +72,7 @@ namespace GameOfOthelloAssignment
     }
 
 
-    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {SpaceColor})}")]
+    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
     public class FormDiscSpace : Button
     {
         #region Properties

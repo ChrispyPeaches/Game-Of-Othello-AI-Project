@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GameOfOthelloAssignment.NPC
 {
-    public class BoardForNPC
+    public class NpcOthelloBoard
     {
         /// <summary>
         /// The color of the player or AI whose turn it is
@@ -14,18 +14,12 @@ namespace GameOfOthelloAssignment.NPC
         public int BlackScore { get; set; } = 0;
         public int WhiteScore { get; set; } = 0;
 
-        public IList<NPCDiscSpace> BoardSpaces { get; set; }
-
-
-
-
-
+        public IList<NPCDiscSpace> BoardSpaces { get; set; } = new List<NPCDiscSpace>();
 
         /// <summary>
         /// The moves that the current player or AI is allowed to perform
         /// </summary>
-        private IList<LegalMove> CurrentLegalMoves;
-
+        public IList<LegalMove> CurrentLegalMoves;
 
         #region Helper Methods
 
@@ -107,9 +101,8 @@ namespace GameOfOthelloAssignment.NPC
                 for (int columnIndex = 0; columnIndex < 8; columnIndex++)
                 {
                     NPCDiscSpace discSpace = new NPCDiscSpace(columnIndex, rowIndex);
-                    discSpace.Click += PerformTurn;
 
-                    Controls.Add(discSpace, columnIndex, rowIndex);
+                    BoardSpaces.Add(discSpace);
                 }
             }
 
@@ -148,19 +141,14 @@ namespace GameOfOthelloAssignment.NPC
         /// <summary>
         /// Get all legal moves for a <see cref="DiscType"/>(color)
         /// </summary>
-        /// <param name="discType">The <see cref="DiscType"/>(color) to find legal moves for</param>
+        /// <param name="CurrentTurnColor">The <see cref="DiscType"/>(color) to find legal moves for</param>
         /// <returns>A list of spaces representing legal moves</returns>
-        private IList<LegalMove> GetLegalMoves(DiscType discType)
+        public IList<LegalMove> GetLegalMoves()
         {
-            if (discType == DiscType.Empty)
-            {
-                throw new NotSupportedException();
-            }
-
             var legalMoves = new List<LegalMove>();
 
             foreach (NPCDiscSpace initialSpace in
-                BoardSpaces.Where(b => b.DiscColor == discType).ToList())
+                BoardSpaces.Where(b => b.DiscColor == CurrentTurnColor).ToList())
             {
                 for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
                 {
@@ -265,9 +253,9 @@ namespace GameOfOthelloAssignment.NPC
         /// <summary>
         /// Allows board spaces representing legal moves for the current turn's color to be interacted with
         /// </summary>
-        private void EnableLegalMoves()
+        public void EnableLegalMoves()
         {
-            CurrentLegalMoves = GetLegalMoves(CurrentTurnColor);
+            CurrentLegalMoves = GetLegalMoves();
         }
 
         /// <summary>
@@ -303,10 +291,10 @@ namespace GameOfOthelloAssignment.NPC
         /// <summary>
         /// When a player clicks a space to place a disc into,
         /// </summary>
-        private void PerformTurn(NPCDiscSpace clickedSpace)
+        public void PerformTurn(LegalMove performedLegalMove)
         {
             DisableLegalMoves();
-            GetDiscSpace(clickedSpace).DiscColor = CurrentTurnColor;
+            GetDiscSpace(performedLegalMove).DiscColor = CurrentTurnColor;
             // Update score
             if (CurrentTurnColor == DiscType.Black)
             {
@@ -317,7 +305,7 @@ namespace GameOfOthelloAssignment.NPC
                 WhiteScore++;
             }
 
-            FlipDiscs(CurrentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(clickedSpace)));
+            FlipDiscs(CurrentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(performedLegalMove)));
 
             SwitchTurns();
         }

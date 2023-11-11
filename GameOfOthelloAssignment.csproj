@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-	  <LangVersion>11.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A5DC195C-4BC5-473E-A182-75DD4E97B19C}</ProjectGuid>
@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloneHelper.cs" />
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,9 +77,7 @@
     <Compile Include="OthelloGame\OthelloBoard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OthelloGame\DiscSpace.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="OthelloGame\DiscSpace.cs" />
     <Compile Include="GameBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -15,6 +15,8 @@ namespace GameOfOthelloAssignment
             this.player1Color = player1Color;
             InitializeComponent();
             othelloBoard.BoardSetup();
+            othelloBoard.Player1DiscColor = player1Color;
+            othelloBoard.gameMode = gameMode;
             othelloBoard.TurnFinished += OnTurnFinished;
             FormSetup();
         }
@@ -31,6 +33,14 @@ namespace GameOfOthelloAssignment
             if (gameMode == GameMode.AI)
             {
                 // Display trailing dots for "thinking"
+                if (gameMode == GameMode.AI &&
+                othelloBoard.CurrentTurnColor != player1Color)
+                {
+                    this.Refresh();
+                    var npcBoard = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
+                    Vector2D bestMove = NPC.NPC.MiniMaxHelper(npcBoard, 2, othelloBoard.CurrentTurnColor);
+                    othelloBoard.GetDiscSpace(bestMove).PerformClick();
+                }
             }
 
             if (othelloBoard.IsGameOver())

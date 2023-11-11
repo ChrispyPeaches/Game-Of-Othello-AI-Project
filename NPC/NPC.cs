@@ -8,29 +8,64 @@ namespace GameOfOthelloAssignment.NPC
 {
     public class NPC
     {
-        public int SearchDepth { get; set; }
+        public static Vector2D MiniMaxHelper(
+            NpcOthelloBoard gameState,
+            int depth,
+            DiscType maximizingPlayerColor)
+        {
+            int maxEval = int.MinValue;
+            Vector2D bestPosition = null;
+            foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
+            {
+                var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
+                childGameState.PerformTurn(legalMove);
+                int eval = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
+                if (eval > maxEval)
+                {
+                    bestPosition = legalMove;
+                    maxEval = eval;
+                }
+            }
+            return bestPosition;
+        }
 
-        public OthelloBoard othelloBoard { get; set; }
-
-        public int MiniMax(Vector2D position, int depth, OthelloBoard othelloBoard, DiscType maximizingPlayerColor)
+        
+        public static int MiniMax(
+            NpcOthelloBoard gameState,
+            int depth,
+            DiscType maximizingPlayerColor)
         {
             // Base case
-            if (depth == 0 || othelloBoard.IsGameOver())
+            if (depth == 0 || gameState.IsGameOver())
             {
-                return othelloBoard.GetScoreForGivenColor(maximizingPlayerColor);
+                return gameState.GetScoreForGivenColor(maximizingPlayerColor);
             }
 
             // Recurring case
-            if (othelloBoard.CurrentTurnColor == maximizingPlayerColor)
+            if (gameState.CurrentTurnColor == maximizingPlayerColor)
             {
                 int maxEval = int.MinValue;
-                // loop through all possible legal moves
-                    // recusive call to MiniMax with child, decremented depth, and 
-
+                foreach(LegalMove legalMove in gameState.CurrentLegalMoves)
+                {
+                    var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
+                    childGameState.PerformTurn(legalMove);
+                    int eval = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
+                    maxEval = Math.Max(eval, maxEval);
+                }
+                return maxEval;
             }
-
-
+            else
+            {
+                int minEval = int.MaxValue;
+                foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
+                {
+                    var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
+                    childGameState.PerformTurn(legalMove);
+                    int eval = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
+                    minEval = Math.Min(minEval, eval);
+                }
+                return minEval;
+            }
         }
-
     }
 }

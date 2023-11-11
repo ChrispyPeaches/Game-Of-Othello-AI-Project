@@ -22,12 +22,18 @@ namespace GameOfOthelloAssignment
 
         private void btn_2Player_Click(object sender, EventArgs e)
         {
-            new GameBoardForm();
+            using (var gameBoard = new GameBoardForm(Player1DiscColor, NPC.GameMode.TwoPlayer))
+            {
+                gameBoard.ShowDialog();
+            }
         }
 
         private void btn_AI_Click(object sender, EventArgs e)
         {
-
+            using (var gameBoard = new GameBoardForm(Player1DiscColor, NPC.GameMode.AI))
+            {
+                gameBoard.ShowDialog();
+            }
         }
 
         private void btn_ChooseBlack(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfOthelloAssignment.NPC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -22,6 +23,9 @@ namespace GameOfOthelloAssignment
         /// The moves that the current player or AI is allowed to perform
         /// </summary>
         private IList<LegalMove> CurrentLegalMoves;
+
+        public DiscType Player1DiscColor { get; set; }
+        public GameMode gameMode { get; set; }
 
         #region Helper Methods
 
