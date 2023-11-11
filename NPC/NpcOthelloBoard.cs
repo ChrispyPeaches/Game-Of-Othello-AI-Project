@@ -106,7 +106,7 @@ namespace GameOfOthelloAssignment.NPC
                 if (noLegalCurrentTurnMoves)
                 {
                     noLegalNextMoves =
-                        GetLegalMoves(DiscSpace.GetOppositeDiscColor(CurrentTurnColor)).Count <= 0;
+                        GetLegalMoves(ControlDiscSpace.GetOppositeDiscColor(CurrentTurnColor)).Count <= 0;
                 }
             }
             return isScoreMax || noLegalCurrentTurnMoves && noLegalNextMoves;
@@ -139,10 +139,10 @@ namespace GameOfOthelloAssignment.NPC
         {
             ClearGameBoard();
 
-            GetDiscSpace(3, 3).DiscColor = DiscType.White;
-            GetDiscSpace(4, 3).DiscColor = DiscType.Black;
-            GetDiscSpace(3, 4).DiscColor = DiscType.Black;
-            GetDiscSpace(4, 4).DiscColor = DiscType.White;
+            GetDiscSpace(3, 3).SetDisc(DiscType.White);
+            GetDiscSpace(4, 3).SetDisc(DiscType.Black);
+            GetDiscSpace(3, 4).SetDisc(DiscType.Black);
+            GetDiscSpace(4, 4).SetDisc(DiscType.White);
             BlackScore = 2;
             WhiteScore = 2;
 
@@ -157,7 +157,7 @@ namespace GameOfOthelloAssignment.NPC
         {
             foreach (NpcDiscSpace discSpace in BoardSpaces)
             {
-                discSpace.DiscColor = DiscType.Empty;
+                discSpace.SetDisc(DiscType.Empty);
             }
         }
 
@@ -269,7 +269,7 @@ namespace GameOfOthelloAssignment.NPC
         {
             foreach (var legalMove in CurrentLegalMoves)
             {
-                GetDiscSpace(legalMove).DiscColor = DiscType.Empty;
+                GetDiscSpace(legalMove).SetDisc(DiscType.Empty);
             }
         }
 
@@ -283,31 +283,121 @@ namespace GameOfOthelloAssignment.NPC
 
         /// <summary>
         /// Flip all discs of the opposite color between the given disc and 
-        /// the next disc of that same color in the given vector
+        /// the next disc of that same color in every direction
         /// </summary>
         /// <param name="performedLegalMove">The legal move that caused pieces to be flanked</param>
         private void FlipDiscs(LegalMove performedLegalMove)
         {
-            NpcDiscSpace currentSpace = GetDiscSpace(performedLegalMove + performedLegalMove.FlankDirection);
-            while (currentSpace.HasOppositeDiscColor(CurrentTurnColor))
+            ControlDiscSpace legalMoveSpace = GetDiscSpace(performedLegalMove);
+            for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
             {
-                // Flip the disc 
-                GetDiscSpace(currentSpace).DiscColor = CurrentTurnColor;
-
-                // Update score
-                if (CurrentTurnColor == DiscType.Black)
+                for (int rowDireciton = -1; rowDireciton <= 1; rowDireciton++)
                 {
-                    WhiteScore--;
-                    BlackScore++;
+                    // Skip directional vector <0,0>
+                    if (columnDirection == 0 && rowDireciton == 0) continue;
+
+                    FlipDiscsInDirection(
+                        legalMoveSpace,
+                        new Vector2D(columnDirection, rowDireciton));
                 }
+            }
+        }
+
+        private void FlipDiscsInDirection(ControlDiscSpace legalMoveSpace, Vector2D directionVector)
+        {
+            Vector2D currentPosition = new Vector2D(
+                column: legalMoveSpace.Column + directionVector.Column,
+                row: legalMoveSpace.Row + directionVector.Row);
+
+            // Move in the given direction until you reach a piece of your same color
+            while (PositionIsOnBoard(currentPosition))
+            {
+                ControlDiscSpace currentSpace = GetDiscSpace(currentPosition);
+
+                // If the space has a piece in it
+                if (currentSpace.DiscColor != DiscType.Empty)
+                {
+                    // If the piece is the opposite color of the current turn
+                    if (currentSpace.HasOppositeDiscColor(legalMoveSpace.DiscColor))
+                    {
+                        // Look forward one more space in the given direction
+                        currentPosition += directionVector;
+                        continue;
+                    }
+                    // If the piece is the same color of the current turn
+                    else
+                    {
+                        break;
+                    }
+                }
+                // If the space is empty
                 else
                 {
-
-                    BlackScore--;
-                    WhiteScore++;
+                    return;
                 }
+            }
+            if (!PositionIsOnBoard(currentPosition))
+            {
+                return;
+            }
 
-                currentSpace = GetNextDiscSpace(currentSpace, performedLegalMove.FlankDirection);
+            // If a piece of the same color was not found in the given direction, don't flip any discs
+            if (GetDiscSpace(currentPosition).HasOppositeDiscColor(legalMoveSpace.DiscColor))
+            {
+                return;
+            }
+            // Otherwise, work backwards and flip every disc until running
+            // into a piece of the same color as the legal move
+            else
+            {
+                directionVector = directionVector * -1;
+                currentPosition += directionVector;
+                while (PositionIsOnBoard(currentPosition))
+                {
+                    NpcDiscSpace currentSpace = GetDiscSpace(currentPosition);
+
+                    // If the space has a piece in it
+                    if (currentSpace.DiscColor != DiscType.Empty)
+                    {
+                        // If the piece is the opposite color of the current turn
+                        if (currentSpace.HasOppositeDiscColor(legalMoveSpace.DiscColor))
+                        {
+                            // Look forward one more space in the given direction// Flip the disc 
+                            FlipDisc(currentPosition, legalMoveSpace.DiscColor);
+                            currentPosition += directionVector;
+                            continue;
+                        }
+                        // If the piece is the same color of the current turn
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    // If the space is empty
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void FlipDisc(Vector2D discToFlipPosition, DiscType colorToFlipTo)
+        {
+            // Flip the disc 
+            GetDiscSpace(discToFlipPosition).SetDisc(colorToFlipTo);
+
+            // Update score
+            if (colorToFlipTo == DiscType.Black)
+            {
+                WhiteScore--;
+                BlackScore++;
+            }
+            else
+            {
+
+                BlackScore--;
+                WhiteScore++;
             }
         }
 
@@ -317,7 +407,7 @@ namespace GameOfOthelloAssignment.NPC
         public void PerformTurn(LegalMove performedLegalMove)
         {
             DisableLegalMoves();
-            GetDiscSpace(performedLegalMove).DiscColor = CurrentTurnColor;
+            GetDiscSpace(performedLegalMove).SetDisc(CurrentTurnColor);
             // Update score
             if (CurrentTurnColor == DiscType.Black)
             {
@@ -338,7 +428,7 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         private void SwitchTurns()
         {
-            CurrentTurnColor = DiscSpace.GetOppositeDiscColor(CurrentTurnColor);
+            CurrentTurnColor = ControlDiscSpace.GetOppositeDiscColor(CurrentTurnColor);
         }
 
         #endregion

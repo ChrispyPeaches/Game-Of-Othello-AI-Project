@@ -13,7 +13,7 @@ namespace GameOfOthelloAssignment.Helpers
                 WhiteScore = board.WhiteScore,
                 CurrentTurnColor = board.CurrentTurnColor,
             };
-            foreach (DiscSpace control in board.Controls)
+            foreach (ControlDiscSpace control in board.Controls)
             {
                 npcClone.BoardSpaces.Add(new NpcDiscSpace()
                 {

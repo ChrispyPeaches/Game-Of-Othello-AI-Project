@@ -86,7 +86,7 @@ namespace GameOfOthelloAssignment
         private void UpdateCurrentTurnMenu()
         {
             pic_currentTurnMenu_piece.BackgroundImage =
-                DiscSpace.GetBackgroundImageByDiscType(othelloBoard.CurrentTurnColor);
+                ControlDiscSpace.GetBackgroundImageByDiscType(othelloBoard.CurrentTurnColor);
             btn_CurrentTurnMenu_Detail.Text = othelloBoard.CurrentTurnColor.ToString();
         }
 

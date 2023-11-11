@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace GameOfOthelloAssignment.Controls
 {
     [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
-    public class DiscSpace : Button, IDiscSpace
+    public class ControlDiscSpace : Button, IDiscSpace
     {
         #region Properties
 
@@ -22,7 +22,7 @@ namespace GameOfOthelloAssignment.Controls
 
         #endregion
 
-        public DiscSpace(int columnIndex, int rowIndex) : base()
+        public ControlDiscSpace(int columnIndex, int rowIndex) : base()
         {
             AutoSize = true;
             BackColor = Color.Transparent;
@@ -38,7 +38,7 @@ namespace GameOfOthelloAssignment.Controls
             FlatAppearance.MouseDownBackColor = Color.Transparent;
             FlatAppearance.MouseOverBackColor = FlatAppearance.MouseDownBackColor;
             Enabled = false;
-            DiscColor = DiscType.Empty;
+            SetDisc(DiscType.Empty);
 
             Column = columnIndex;
             Row = rowIndex;
@@ -88,8 +88,7 @@ namespace GameOfOthelloAssignment.Controls
         public void DiableLegalMove()
         {
             Enabled = false;
-            DiscColor = DiscType.Empty;
-            BackgroundImage = null;
+            SetDisc(DiscType.Empty);
         }
 
         public static DiscType GetOppositeDiscColor(DiscType color)
@@ -113,7 +112,7 @@ namespace GameOfOthelloAssignment.Controls
         /// <summary>
         /// Implicit cast to Vector2D to represent a position on the board
         /// </summary>
-        public static implicit operator Vector2D(DiscSpace discSpace)
+        public static implicit operator Vector2D(ControlDiscSpace discSpace)
         {
             return new Vector2D(discSpace.Column, discSpace.Row);
         }

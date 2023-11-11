@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace GameOfOthelloAssignment.NPC
 {
     [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
-    public class NpcDiscSpace
+    public class NpcDiscSpace : IDiscSpace
     {
         #region Properties
 
@@ -30,6 +30,11 @@ namespace GameOfOthelloAssignment.NPC
             Column = column;
             Row = row;
             DiscColor = DiscType.Empty;
+        }
+
+        public void SetDisc(DiscType discColor)
+        {
+            DiscColor = discColor;
         }
 
         public static DiscType GetOppositeDiscColor(DiscType color)

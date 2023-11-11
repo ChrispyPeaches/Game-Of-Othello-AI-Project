@@ -80,7 +80,7 @@
     <Compile Include="Controls\ControlOthelloBoard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\DiscSpace.cs">
+    <Compile Include="Controls\ControlDiscSpace.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\GameBoardForm.cs">
