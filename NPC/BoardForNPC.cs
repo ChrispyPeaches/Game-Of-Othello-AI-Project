@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
-namespace GameOfOthelloAssignment
+namespace GameOfOthelloAssignment.NPC
 {
-    /// <summary>
-    /// A gameboard in which Othello can be played
-    /// </summary>
-    public class OthelloBoard : TableLayoutPanel
+    public class BoardForNPC
     {
         /// <summary>
         /// The color of the player or AI whose turn it is
@@ -18,23 +14,31 @@ namespace GameOfOthelloAssignment
         public int BlackScore { get; set; } = 0;
         public int WhiteScore { get; set; } = 0;
 
+        public IList<NPCDiscSpace> BoardSpaces { get; set; }
+
+
+
+
+
+
         /// <summary>
         /// The moves that the current player or AI is allowed to perform
         /// </summary>
         private IList<LegalMove> CurrentLegalMoves;
 
+
         #region Helper Methods
 
         /// <summary> Note: 0-based </summary>
-        public FormDiscSpace GetDiscSpace(int column, int row)
+        public NPCDiscSpace GetDiscSpace(int column, int row)
         {
-            return (FormDiscSpace)GetControlFromPosition(column, row);
+            return BoardSpaces.First(space => space.Column == column && space.Row == row);
         }
 
         /// <summary> Note: 0-based </summary>
-        public FormDiscSpace GetDiscSpace(Vector2D position)
+        public NPCDiscSpace GetDiscSpace(Vector2D position)
         {
-            return (FormDiscSpace)GetControlFromPosition(position.Column, position.Row);
+            return GetDiscSpace(position.Column, position.Row);
         }
 
         /// <summary>
@@ -42,10 +46,10 @@ namespace GameOfOthelloAssignment
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        private bool PositionIsOnBoard(Vector2D position)
+        private static bool PositionIsOnBoard(Vector2D position)
         {
-            if (0 <= position.Column && position.Column < ColumnCount &&
-                   0 <= position.Row && position.Row < RowCount)
+            if (0 <= position.Column && position.Column < 8 &&
+                   0 <= position.Row && position.Row < 8)
             {
                 return true;
             }
@@ -55,10 +59,8 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Get the next disc space in the opposite direction of the given vector
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="directionVector"></param>
         /// <returns></returns>
-        public FormDiscSpace GetPreviousDiscSpace(Vector2D currentPosition, Vector2D directionVector)
+        public NPCDiscSpace GetPreviousDiscSpace(Vector2D currentPosition, Vector2D directionVector)
         {
             return GetDiscSpace(currentPosition - directionVector);
         }
@@ -66,10 +68,8 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Get the next disc space in the direction of the given vector
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="directionVector"></param>
         /// <returns></returns>
-        public FormDiscSpace GetNextDiscSpace(Vector2D currentPosition, Vector2D directionVector)
+        public NPCDiscSpace GetNextDiscSpace(Vector2D currentPosition, Vector2D directionVector)
         {
             return GetDiscSpace(currentPosition + directionVector);
         }
@@ -79,7 +79,7 @@ namespace GameOfOthelloAssignment
         /// </summary>
         public int GetScoreForGivenColor(DiscType color)
         {
-            switch(color)
+            switch (color)
             {
                 case DiscType.Black:
                     return BlackScore;
@@ -102,11 +102,11 @@ namespace GameOfOthelloAssignment
         public void BoardSetup()
         {
             // Add containers for each space on the board
-            for (int rowIndex = 0; rowIndex < RowCount; rowIndex++)
+            for (int rowIndex = 0; rowIndex < 8; rowIndex++)
             {
-                for (int columnIndex = 0; columnIndex < ColumnCount; columnIndex++)
+                for (int columnIndex = 0; columnIndex < 8; columnIndex++)
                 {
-                    FormDiscSpace discSpace = new FormDiscSpace(columnIndex, rowIndex);
+                    NPCDiscSpace discSpace = new NPCDiscSpace(columnIndex, rowIndex);
                     discSpace.Click += PerformTurn;
 
                     Controls.Add(discSpace, columnIndex, rowIndex);
@@ -123,10 +123,10 @@ namespace GameOfOthelloAssignment
         {
             ClearGameBoard();
 
-            GetDiscSpace(3, 3).SetDisc(DiscType.White);
-            GetDiscSpace(4, 3).SetDisc(DiscType.Black);
-            GetDiscSpace(3, 4).SetDisc(DiscType.Black);
-            GetDiscSpace(4, 4).SetDisc(DiscType.White);
+            GetDiscSpace(3, 3).DiscColor = DiscType.White;
+            GetDiscSpace(4, 3).DiscColor = DiscType.Black;
+            GetDiscSpace(3, 4).DiscColor = DiscType.Black;
+            GetDiscSpace(4, 4).DiscColor = DiscType.White;
             BlackScore = 2;
             WhiteScore = 2;
 
@@ -139,9 +139,9 @@ namespace GameOfOthelloAssignment
         /// </summary>
         private void ClearGameBoard()
         {
-            foreach (FormDiscSpace discSpace in Controls)
+            foreach (NPCDiscSpace discSpace in BoardSpaces)
             {
-                discSpace.SetDisc(DiscType.Empty);
+                discSpace.DiscColor = DiscType.Empty;
             }
         }
 
@@ -159,9 +159,8 @@ namespace GameOfOthelloAssignment
 
             var legalMoves = new List<LegalMove>();
 
-            foreach (FormDiscSpace initialSpace in
-                Controls.Cast<FormDiscSpace>()
-                .Where(s => s.DiscColor == discType))
+            foreach (NPCDiscSpace initialSpace in
+                BoardSpaces.Where(b => b.DiscColor == discType).ToList())
             {
                 for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
                 {
@@ -196,8 +195,8 @@ namespace GameOfOthelloAssignment
         /// </summary>
         /// <param name="initialSpace"></param>
         /// <param name="directionVector"></param>
-        /// <returns>The <see cref="FormDiscSpace"/> of a legal move if there is one, else return null</returns>
-        private LegalMove GetLegalMoveForDirection(FormDiscSpace initialSpace, Vector2D directionVector)
+        /// <returns>The <see cref="NPCDiscSpace"/> of a legal move if there is one, else return null</returns>
+        private LegalMove GetLegalMoveForDirection(NPCDiscSpace initialSpace, Vector2D directionVector)
         {
             // Move two spaces in the given direction
             var currentPosition = new Vector2D(
@@ -206,7 +205,7 @@ namespace GameOfOthelloAssignment
 
             while (PositionIsOnBoard(currentPosition))
             {
-                FormDiscSpace currentSpace = GetDiscSpace(currentPosition);
+                NPCDiscSpace currentSpace = GetDiscSpace(currentPosition);
 
                 // If the space has a piece in it
                 if (currentSpace.DiscColor != DiscType.Empty)
@@ -259,7 +258,7 @@ namespace GameOfOthelloAssignment
         {
             foreach (var legalMove in CurrentLegalMoves)
             {
-                GetDiscSpace(legalMove).DiableLegalMove();
+                GetDiscSpace(legalMove).DiscColor = DiscType.Empty;
             }
         }
 
@@ -269,10 +268,6 @@ namespace GameOfOthelloAssignment
         private void EnableLegalMoves()
         {
             CurrentLegalMoves = GetLegalMoves(CurrentTurnColor);
-            foreach (LegalMove legalMove in CurrentLegalMoves)
-            {
-                GetDiscSpace(legalMove).SetAsLegalMove(CurrentTurnColor);
-            }
         }
 
         /// <summary>
@@ -282,18 +277,17 @@ namespace GameOfOthelloAssignment
         /// <param name="performedLegalMove">The legal move that caused pieces to be flanked</param>
         private void FlipDiscs(LegalMove performedLegalMove)
         {
-            FormDiscSpace legalMoveSpace = GetDiscSpace(performedLegalMove);
-            FormDiscSpace currentSpace = GetDiscSpace(performedLegalMove + performedLegalMove.FlankDirection);
-            while (currentSpace.HasOppositeDiscColor(legalMoveSpace.DiscColor))
+            NPCDiscSpace currentSpace = GetDiscSpace(performedLegalMove + performedLegalMove.FlankDirection);
+            while (currentSpace.HasOppositeDiscColor(CurrentTurnColor))
             {
                 // Flip the disc 
-                GetDiscSpace(currentSpace).SetDisc(legalMoveSpace.DiscColor);
+                GetDiscSpace(currentSpace).DiscColor = CurrentTurnColor;
 
                 // Update score
-                if (legalMoveSpace.DiscColor == DiscType.Black)
+                if (CurrentTurnColor == DiscType.Black)
                 {
                     WhiteScore--;
-                    BlackScore ++;
+                    BlackScore++;
                 }
                 else
                 {
@@ -309,11 +303,10 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// When a player clicks a space to place a disc into,
         /// </summary>
-        private void PerformTurn(object sender, EventArgs eventArgs)
+        private void PerformTurn(NPCDiscSpace clickedSpace)
         {
-            FormDiscSpace clickedSpace = (FormDiscSpace)sender;
             DisableLegalMoves();
-            GetDiscSpace(clickedSpace).SetDisc(CurrentTurnColor);
+            GetDiscSpace(clickedSpace).DiscColor = CurrentTurnColor;
             // Update score
             if (CurrentTurnColor == DiscType.Black)
             {
@@ -339,14 +332,8 @@ namespace GameOfOthelloAssignment
                     CurrentTurnColor = DiscType.Black; break;
             }
             EnableLegalMoves();
-            TurnFinished();
         }
 
         #endregion
-
-        #region Events
-        public event Action TurnFinished;
-        #endregion
-
     }
 }

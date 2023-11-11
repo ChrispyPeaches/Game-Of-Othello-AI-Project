@@ -39,6 +39,7 @@
             this.pic_ScoreMenu_White = new System.Windows.Forms.PictureBox();
             this.btn_ScoreMenu_White = new System.Windows.Forms.Button();
             this.btn_ScoreMenu_Title = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel_CurrentTurnMenu_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_currentTurnMenu_piece)).BeginInit();
             this.panel_ScoreMenu_Container.SuspendLayout();
@@ -206,12 +207,23 @@
             this.btn_ScoreMenu_Title.Text = "Score";
             this.btn_ScoreMenu_Title.UseVisualStyleBackColor = false;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(816, 418);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(95, 20);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // GameBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(922, 450);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.panel_ScoreMenu_Container);
             this.Controls.Add(this.panel_CurrentTurnMenu_Container);
             this.Controls.Add(this.othelloBoard);
@@ -223,6 +235,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_ScoreMenu_Black)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic_ScoreMenu_White)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -239,6 +252,7 @@
         private System.Windows.Forms.Button btn_ScoreMenu_Black;
         private System.Windows.Forms.PictureBox pic_ScoreMenu_White;
         private System.Windows.Forms.Button btn_ScoreMenu_White;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

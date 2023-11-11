@@ -1,12 +1,12 @@
-﻿using GameOfOthelloAssignment.Properties;
+﻿using GameOfOthelloAssignment.NPC;
+using GameOfOthelloAssignment.Properties;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
-    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {SpaceColor})}")]
-    public class DiscSpace : Button
+    public interface IDiscSpace
     {
         #region Properties
 
@@ -20,7 +20,63 @@ namespace GameOfOthelloAssignment
 
         #endregion
 
-        public DiscSpace(int columnIndex, int rowIndex) : base()
+        public bool HasOppositeDiscColor(DiscType color);
+    }
+
+    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {SpaceColor})}")]
+    public class NPCDiscSpace
+    {
+        #region Properties
+
+        public int Column { get; set; }
+
+        public int Row { get; set; }
+
+        public DiscType DiscColor { get; set; }
+
+        #endregion
+
+        public bool HasOppositeDiscColor(DiscType color)
+        {
+            switch (color)
+            {
+                case DiscType.Black:
+                    return DiscColor == DiscType.White;
+                case DiscType.White:
+                    return DiscColor == DiscType.Black;
+                case DiscType.Empty:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Implicit cast to Vector2D to represent a position on the board
+        /// </summary>
+        public static implicit operator Vector2D(NPCDiscSpace discSpace)
+        {
+            return new Vector2D(discSpace.Column, discSpace.Row);
+        }
+    }
+
+
+    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {SpaceColor})}")]
+    public class FormDiscSpace : Button
+    {
+        #region Properties
+
+        /// <summary> Note: Zero based </summary>
+        public int Column { get; set; }
+
+        /// <summary> Note: Zero based </summary>
+        public int Row { get; set; }
+
+        public DiscType DiscColor { get; set; }
+
+        #endregion
+
+        public FormDiscSpace(int columnIndex, int rowIndex) : base()
         {
             AutoSize = true;
             BackColor = System.Drawing.Color.Transparent;
@@ -45,7 +101,6 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Set the space to hold a disc of a given color or no disc at all
         /// </summary>
-        /// <param name="discColor"></param>
         public void SetDisc(DiscType discColor)
         {
             DiscColor = discColor;
@@ -109,7 +164,7 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Implicit cast to Vector2D to represent a position on the board
         /// </summary>
-        public static implicit operator Vector2D(DiscSpace discSpace)
+        public static implicit operator Vector2D(FormDiscSpace discSpace)
         {
             return new Vector2D(discSpace.Column, discSpace.Row);
         }
