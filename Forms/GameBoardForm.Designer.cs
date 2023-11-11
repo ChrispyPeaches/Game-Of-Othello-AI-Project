@@ -1,5 +1,4 @@
-﻿using Enums;
-using GameOfOthelloAssignment.Controls;
+﻿using GameOfOthelloAssignment.Controls;
 using GameOfOthelloAssignment.Enums;
 
 namespace GameOfOthelloAssignment
@@ -32,7 +31,7 @@ namespace GameOfOthelloAssignment
         /// </summary>
         private void InitializeComponent()
         {
-            this.othelloBoard = new GameOfOthelloAssignment.ControlOthelloBoard();
+            this.othelloBoard = new GameOfOthelloAssignment.Controls.ControlOthelloBoard();
             this.panel_CurrentTurnMenu_Container = new System.Windows.Forms.Panel();
             this.btn_CurrentTurnMenu_Detail = new System.Windows.Forms.Button();
             this.pic_currentTurnMenu_piece = new System.Windows.Forms.PictureBox();

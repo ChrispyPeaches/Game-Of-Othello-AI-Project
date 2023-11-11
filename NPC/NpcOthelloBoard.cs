@@ -1,4 +1,5 @@
-﻿using GameOfOthelloAssignment.Enums;
+﻿using GameOfOthelloAssignment.Controls;
+using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
 using System;
 using System.Collections.Generic;
@@ -90,27 +91,21 @@ namespace GameOfOthelloAssignment.NPC
         public bool IsGameOver()
         {
             bool isScoreMax = BlackScore + WhiteScore >= 64;
-            bool noLegalCurrentMoves = false;
+            bool noLegalCurrentTurnMoves = false;
             bool noLegalNextMoves = false;
 
             // If the score isn't at max, check if there are any legal moves left
             if (!isScoreMax)
             {
-                noLegalCurrentMoves = CurrentLegalMoves.SingleOrDefault() == null;
-                switch (CurrentTurnColor)
+                noLegalCurrentTurnMoves = CurrentLegalMoves.Count <= 0;
+                // Aren't any current legal moves, check if there are any on the next turn
+                if (noLegalCurrentTurnMoves)
                 {
-                    case DiscType.Black:
-                        noLegalNextMoves = GetLegalMoves(DiscType.White).SingleOrDefault() == null;
-                        break;
-                    case DiscType.White:
-                        noLegalNextMoves = GetLegalMoves(DiscType.White).SingleOrDefault() == null;
-                        break;
-                    default:
-                        noLegalNextMoves = false;
-                        break;
+                    noLegalNextMoves =
+                        GetLegalMoves(DiscSpace.GetOppositeDiscColor(CurrentTurnColor)).Count <= 0;
                 }
             }
-            return isScoreMax || (noLegalCurrentMoves && noLegalNextMoves);
+            return isScoreMax || noLegalCurrentTurnMoves && noLegalNextMoves;
         }
 
         #endregion
@@ -334,15 +329,12 @@ namespace GameOfOthelloAssignment.NPC
             EnableLegalMoves();
         }
 
+        /// <summary>
+        /// Switch the current turn to the opposite color
+        /// </summary>
         private void SwitchTurns()
         {
-            switch (CurrentTurnColor)
-            {
-                case DiscType.Black:
-                    CurrentTurnColor = DiscType.White; break;
-                case DiscType.White:
-                    CurrentTurnColor = DiscType.Black; break;
-            }
+            CurrentTurnColor = DiscSpace.GetOppositeDiscColor(CurrentTurnColor);
         }
 
         #endregion

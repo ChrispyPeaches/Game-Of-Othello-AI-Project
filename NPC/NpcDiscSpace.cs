@@ -32,20 +32,22 @@ namespace GameOfOthelloAssignment.NPC
             DiscColor = DiscType.Empty;
         }
 
-
-        public bool HasOppositeDiscColor(DiscType color)
+        public static DiscType GetOppositeDiscColor(DiscType color)
         {
             switch (color)
             {
                 case DiscType.Black:
-                    return DiscColor == DiscType.White;
+                    return DiscType.White;
                 case DiscType.White:
-                    return DiscColor == DiscType.Black;
-                case DiscType.Empty:
-                    return false;
+                    return DiscType.Black;
                 default:
-                    return false;
+                    return DiscType.Empty;
             }
+        }
+
+        public bool HasOppositeDiscColor(DiscType color)
+        {
+            return DiscColor == GetOppositeDiscColor(color);
         }
 
         /// <summary>
