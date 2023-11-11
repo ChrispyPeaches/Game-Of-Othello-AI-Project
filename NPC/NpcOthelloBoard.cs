@@ -88,6 +88,10 @@ namespace GameOfOthelloAssignment.NPC
             }
         }
 
+        /// <summary>
+        /// Determine whether the game is over depending on the current scores 
+        /// & whether there's any legal moves left
+        /// </summary>
         public bool IsGameOver()
         {
             bool isScoreMax = BlackScore + WhiteScore >= 64;

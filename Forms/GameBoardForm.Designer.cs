@@ -52,6 +52,7 @@ namespace GameOfOthelloAssignment
             this.btn_AIThinking_Detail = new System.Windows.Forms.Button();
             this.panel_GameOverMenu_Container = new System.Windows.Forms.Panel();
             this.btn_GameOverMenu_Title = new System.Windows.Forms.Button();
+            this.btn_GameOverMenu_Subtitle = new System.Windows.Forms.Button();
             this.panel_CurrentTurnMenu_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_currentTurnMenu_piece)).BeginInit();
             this.panel_ScoreMenu_Container.SuspendLayout();
@@ -77,12 +78,12 @@ namespace GameOfOthelloAssignment
             this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.gameMode = GameMode.TwoPlayer;
+            this.othelloBoard.gameMode = GameOfOthelloAssignment.Enums.GameMode.TwoPlayer;
             this.othelloBoard.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.othelloBoard.Location = new System.Drawing.Point(170, 2);
             this.othelloBoard.Margin = new System.Windows.Forms.Padding(0);
             this.othelloBoard.Name = "othelloBoard";
-            this.othelloBoard.Player1DiscColor = DiscType.Black;
+            this.othelloBoard.Player1DiscColor = GameOfOthelloAssignment.Enums.DiscType.Black;
             this.othelloBoard.RowCount = 8;
             this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
@@ -341,10 +342,11 @@ namespace GameOfOthelloAssignment
             // panel_GameOverMenu_Container
             // 
             this.panel_GameOverMenu_Container.BackColor = System.Drawing.Color.DimGray;
+            this.panel_GameOverMenu_Container.Controls.Add(this.btn_GameOverMenu_Subtitle);
             this.panel_GameOverMenu_Container.Controls.Add(this.btn_GameOverMenu_Title);
             this.panel_GameOverMenu_Container.Location = new System.Drawing.Point(162, 97);
             this.panel_GameOverMenu_Container.Name = "panel_GameOverMenu_Container";
-            this.panel_GameOverMenu_Container.Size = new System.Drawing.Size(365, 145);
+            this.panel_GameOverMenu_Container.Size = new System.Drawing.Size(365, 165);
             this.panel_GameOverMenu_Container.TabIndex = 7;
             this.panel_GameOverMenu_Container.Visible = false;
             // 
@@ -353,13 +355,26 @@ namespace GameOfOthelloAssignment
             this.btn_GameOverMenu_Title.FlatAppearance.BorderSize = 0;
             this.btn_GameOverMenu_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_GameOverMenu_Title.Font = new System.Drawing.Font("Microsoft YaHei", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_GameOverMenu_Title.ForeColor = System.Drawing.Color.Red;
-            this.btn_GameOverMenu_Title.Location = new System.Drawing.Point(5, 16);
+            this.btn_GameOverMenu_Title.ForeColor = System.Drawing.Color.White;
+            this.btn_GameOverMenu_Title.Location = new System.Drawing.Point(5, 3);
             this.btn_GameOverMenu_Title.Name = "btn_GameOverMenu_Title";
-            this.btn_GameOverMenu_Title.Size = new System.Drawing.Size(350, 110);
+            this.btn_GameOverMenu_Title.Size = new System.Drawing.Size(350, 89);
             this.btn_GameOverMenu_Title.TabIndex = 0;
             this.btn_GameOverMenu_Title.Text = "Game Over";
             this.btn_GameOverMenu_Title.UseVisualStyleBackColor = true;
+            // 
+            // btn_GameOverMenu_Subtitle
+            // 
+            this.btn_GameOverMenu_Subtitle.FlatAppearance.BorderSize = 0;
+            this.btn_GameOverMenu_Subtitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_GameOverMenu_Subtitle.Font = new System.Drawing.Font("Microsoft YaHei", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_GameOverMenu_Subtitle.ForeColor = System.Drawing.Color.White;
+            this.btn_GameOverMenu_Subtitle.Location = new System.Drawing.Point(8, 87);
+            this.btn_GameOverMenu_Subtitle.Name = "btn_GameOverMenu_Subtitle";
+            this.btn_GameOverMenu_Subtitle.Size = new System.Drawing.Size(347, 75);
+            this.btn_GameOverMenu_Subtitle.TabIndex = 1;
+            this.btn_GameOverMenu_Subtitle.Text = "Winning/Loosing Text";
+            this.btn_GameOverMenu_Subtitle.UseVisualStyleBackColor = true;
             // 
             // GameBoardForm
             // 
@@ -411,6 +426,7 @@ namespace GameOfOthelloAssignment
         private System.Windows.Forms.Button btn_AIThinking_Detail;
         private System.Windows.Forms.Panel panel_GameOverMenu_Container;
         private System.Windows.Forms.Button btn_GameOverMenu_Title;
+        private System.Windows.Forms.Button btn_GameOverMenu_Subtitle;
     }
 }
 

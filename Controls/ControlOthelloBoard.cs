@@ -95,6 +95,10 @@ namespace GameOfOthelloAssignment.Controls
             }
         }
 
+        /// <summary>
+        /// Determine whether the game is over depending on the current scores 
+        /// & whether there's any legal moves left
+        /// </summary>
         public bool IsGameOver()
         {
             bool isScoreMax = BlackScore + WhiteScore >= 64;
@@ -113,6 +117,13 @@ namespace GameOfOthelloAssignment.Controls
                 }
             }
             return isScoreMax || noLegalCurrentTurnMoves && noLegalNextMoves;
+        }
+
+        public DiscType GetCurrentlyWinningColor()
+        {
+            return (BlackScore > WhiteScore) ?
+                DiscType.Black
+                : DiscType.White;
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using GameOfOthelloAssignment.Controls;
 using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
+using System;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
 
@@ -25,44 +26,81 @@ namespace GameOfOthelloAssignment
         {
             OnTurnFinished();
             SetupScoreMenu();
-            othelloBoard.BoardSetup();
             othelloBoard.Player1DiscColor = player1Color;
             othelloBoard.gameMode = gameMode;
             othelloBoard.TurnFinished += OnTurnFinished;
             othelloBoard.GameOver += OnGameOver;
+            othelloBoard.BoardSetup();
+            if (gameMode == GameMode.AI && othelloBoard.CurrentTurnColor != player1Color)
+            {
+                PerformNpcTurn();
+            }
         }
 
         private void OnTurnFinished()
         {
             UpdateCurrentTurnMenu();
             UpdateScoreMenu();
+
             if (gameMode == GameMode.AI && othelloBoard.CurrentTurnColor != player1Color)
             {
-                // Display trailing dots for "thinking"
-                btn_AIThinking_Detail.Visible = true;
-                Refresh();
-                if (othelloBoard.CurrentTurnColor != player1Color)
-                {
-                    var npcBoard = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
-                    Vector2D bestMove = NPC.NPC.MiniMaxHelper(npcBoard, searchDepth, othelloBoard.CurrentTurnColor);
-                    if (bestMove != null)
-                    {
-                        othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(bestMove));
-                    }
-                }
+                PerformNpcTurn();
+            }
+        }
 
-                btn_AIThinking_Detail.Visible = false;
-                Refresh();
+        public void PerformNpcTurn()
+        {
+            // Show that the Npc is "Thinking..."
+            btn_AIThinking_Detail.Visible = true;
+            Refresh();
+            
+            var clonedGameState = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
+            Vector2D bestMove = NPC.NPC.MiniMaxHelper(
+                clonedGameState,
+                searchDepth,
+                othelloBoard.CurrentTurnColor);
+            if (bestMove != null)
+            {
+                othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(bestMove));
+            }
+
+            btn_AIThinking_Detail.Visible = false;
+            Refresh();
+        }
+
+        private void SetupGameOverMenu()
+        {
+            bool player1Wins = othelloBoard.GetCurrentlyWinningColor() == player1Color;
+
+            switch (gameMode)
+            {
+                case GameMode.AI:
+                    if (!player1Wins)
+                    {
+                        btn_GameOverMenu_Title.ForeColor = System.Drawing.Color.Red;
+                        btn_GameOverMenu_Subtitle.Text = "You Lost";
+                    }
+                    else
+                    {
+
+                        btn_GameOverMenu_Subtitle.Text = "You Win!";
+                    }
+                    break;
+                case GameMode.TwoPlayer:
+                    btn_GameOverMenu_Subtitle.Text = (player1Wins) ? "Player 1 Wins" : "Player 2 Wins";
+                    break;
             }
         }
 
         /// <summary>
-        /// When the game is over, show the game over menu
+        /// When the game is over, setup, then show the game over menu
         /// </summary>
         private void OnGameOver()
         {
+            SetupGameOverMenu();
             panel_GameOverMenu_Container.Visible = true;
         }
+
 
         /// <summary>
         /// Display the current turn's disc color
