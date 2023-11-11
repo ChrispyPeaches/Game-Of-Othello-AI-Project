@@ -1,6 +1,7 @@
-﻿using GameOfOthelloAssignment.NPC;
+﻿using GameOfOthelloAssignment.Controls;
+using GameOfOthelloAssignment.NPC;
 
-namespace GameOfOthelloAssignment
+namespace GameOfOthelloAssignment.Helpers
 {
     public class CloneHelper
     {
@@ -12,9 +13,9 @@ namespace GameOfOthelloAssignment
                 WhiteScore = board.WhiteScore,
                 CurrentTurnColor = board.CurrentTurnColor,
             };
-            foreach (FormDiscSpace control in board.Controls)
+            foreach (DiscSpace control in board.Controls)
             {
-                 npcClone.BoardSpaces.Add(new NPCDiscSpace()
+                npcClone.BoardSpaces.Add(new NpcDiscSpace()
                 {
                     Column = control.Column,
                     Row = control.Row,
@@ -30,7 +31,7 @@ namespace GameOfOthelloAssignment
         {
             formBoard.WhiteScore = npcBoard.WhiteScore;
             formBoard.BlackScore = npcBoard.BlackScore;
-            foreach (NPCDiscSpace discSpace in npcBoard.BoardSpaces)
+            foreach (NpcDiscSpace discSpace in npcBoard.BoardSpaces)
             {
                 formBoard.GetDiscSpace(discSpace)
                     .SetDisc(discSpace.DiscColor);
@@ -45,9 +46,9 @@ namespace GameOfOthelloAssignment
                 WhiteScore = sourceBoard.WhiteScore,
                 CurrentTurnColor = sourceBoard.CurrentTurnColor,
             };
-            foreach (NPCDiscSpace sourceDiscSpace in sourceBoard.BoardSpaces)
+            foreach (NpcDiscSpace sourceDiscSpace in sourceBoard.BoardSpaces)
             {
-                cloneBoard.BoardSpaces.Add(new NPCDiscSpace()
+                cloneBoard.BoardSpaces.Add(new NpcDiscSpace()
                 {
                     Column = sourceDiscSpace.Column,
                     Row = sourceDiscSpace.Row,

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameOfOthelloAssignment.Enums;
+using GameOfOthelloAssignment.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +17,7 @@ namespace GameOfOthelloAssignment.NPC
         public int BlackScore { get; set; } = 0;
         public int WhiteScore { get; set; } = 0;
 
-        public IList<NPCDiscSpace> BoardSpaces { get; set; } = new List<NPCDiscSpace>();
+        public IList<NpcDiscSpace> BoardSpaces { get; set; } = new List<NpcDiscSpace>();
 
         /// <summary>
         /// The moves that the current player or AI is allowed to perform
@@ -25,13 +27,13 @@ namespace GameOfOthelloAssignment.NPC
         #region Helper Methods
 
         /// <summary> Note: 0-based </summary>
-        public NPCDiscSpace GetDiscSpace(int column, int row)
+        public NpcDiscSpace GetDiscSpace(int column, int row)
         {
             return BoardSpaces.First(space => space.Column == column && space.Row == row);
         }
 
         /// <summary> Note: 0-based </summary>
-        public NPCDiscSpace GetDiscSpace(Vector2D position)
+        public NpcDiscSpace GetDiscSpace(Vector2D position)
         {
             return GetDiscSpace(position.Column, position.Row);
         }
@@ -55,7 +57,7 @@ namespace GameOfOthelloAssignment.NPC
         /// Get the next disc space in the opposite direction of the given vector
         /// </summary>
         /// <returns></returns>
-        public NPCDiscSpace GetPreviousDiscSpace(Vector2D currentPosition, Vector2D directionVector)
+        public NpcDiscSpace GetPreviousDiscSpace(Vector2D currentPosition, Vector2D directionVector)
         {
             return GetDiscSpace(currentPosition - directionVector);
         }
@@ -64,7 +66,7 @@ namespace GameOfOthelloAssignment.NPC
         /// Get the next disc space in the direction of the given vector
         /// </summary>
         /// <returns></returns>
-        public NPCDiscSpace GetNextDiscSpace(Vector2D currentPosition, Vector2D directionVector)
+        public NpcDiscSpace GetNextDiscSpace(Vector2D currentPosition, Vector2D directionVector)
         {
             return GetDiscSpace(currentPosition + directionVector);
         }
@@ -122,7 +124,7 @@ namespace GameOfOthelloAssignment.NPC
             {
                 for (int columnIndex = 0; columnIndex < 8; columnIndex++)
                 {
-                    NPCDiscSpace discSpace = new NPCDiscSpace(columnIndex, rowIndex);
+                    NpcDiscSpace discSpace = new NpcDiscSpace(columnIndex, rowIndex);
 
                     BoardSpaces.Add(discSpace);
                 }
@@ -154,7 +156,7 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         private void ClearGameBoard()
         {
-            foreach (NPCDiscSpace discSpace in BoardSpaces)
+            foreach (NpcDiscSpace discSpace in BoardSpaces)
             {
                 discSpace.DiscColor = DiscType.Empty;
             }
@@ -169,7 +171,7 @@ namespace GameOfOthelloAssignment.NPC
         {
             var legalMoves = new List<LegalMove>();
 
-            foreach (NPCDiscSpace initialSpace in
+            foreach (NpcDiscSpace initialSpace in
                 BoardSpaces.Where(b => b.DiscColor == discColor).ToList())
             {
                 for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
@@ -205,8 +207,8 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         /// <param name="initialSpace"></param>
         /// <param name="directionVector"></param>
-        /// <returns>The <see cref="NPCDiscSpace"/> of a legal move if there is one, else return null</returns>
-        private LegalMove GetLegalMoveForDirection(NPCDiscSpace initialSpace, Vector2D directionVector)
+        /// <returns>The <see cref="NpcDiscSpace"/> of a legal move if there is one, else return null</returns>
+        private LegalMove GetLegalMoveForDirection(NpcDiscSpace initialSpace, Vector2D directionVector)
         {
             // Move two spaces in the given direction
             var currentPosition = new Vector2D(
@@ -215,7 +217,7 @@ namespace GameOfOthelloAssignment.NPC
 
             while (PositionIsOnBoard(currentPosition))
             {
-                NPCDiscSpace currentSpace = GetDiscSpace(currentPosition);
+                NpcDiscSpace currentSpace = GetDiscSpace(currentPosition);
 
                 // If the space has a piece in it
                 if (currentSpace.DiscColor != DiscType.Empty)
@@ -287,7 +289,7 @@ namespace GameOfOthelloAssignment.NPC
         /// <param name="performedLegalMove">The legal move that caused pieces to be flanked</param>
         private void FlipDiscs(LegalMove performedLegalMove)
         {
-            NPCDiscSpace currentSpace = GetDiscSpace(performedLegalMove + performedLegalMove.FlankDirection);
+            NpcDiscSpace currentSpace = GetDiscSpace(performedLegalMove + performedLegalMove.FlankDirection);
             while (currentSpace.HasOppositeDiscColor(CurrentTurnColor))
             {
                 // Flip the disc 
@@ -344,53 +346,5 @@ namespace GameOfOthelloAssignment.NPC
         }
 
         #endregion
-    }
-
-    [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
-    public class NPCDiscSpace
-    {
-        #region Properties
-
-        public int Column { get; set; }
-
-        public int Row { get; set; }
-
-        public DiscType DiscColor { get; set; }
-
-        #endregion
-
-
-        public NPCDiscSpace() { }
-
-        public NPCDiscSpace(int column, int row)
-        {
-            Column = column;
-            Row = row;
-            DiscColor = DiscType.Empty;
-        }
-
-
-        public bool HasOppositeDiscColor(DiscType color)
-        {
-            switch (color)
-            {
-                case DiscType.Black:
-                    return DiscColor == DiscType.White;
-                case DiscType.White:
-                    return DiscColor == DiscType.Black;
-                case DiscType.Empty:
-                    return false;
-                default:
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Implicit cast to Vector2D to represent a position on the board
-        /// </summary>
-        public static implicit operator Vector2D(NPCDiscSpace discSpace)
-        {
-            return new Vector2D(discSpace.Column, discSpace.Row);
-        }
     }
 }

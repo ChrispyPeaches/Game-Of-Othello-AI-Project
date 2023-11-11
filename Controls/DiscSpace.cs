@@ -1,29 +1,14 @@
-﻿using GameOfOthelloAssignment.Properties;
+﻿using GameOfOthelloAssignment.Enums;
+using GameOfOthelloAssignment.Helpers;
+using GameOfOthelloAssignment.Properties;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GameOfOthelloAssignment
+namespace GameOfOthelloAssignment.Controls
 {
-    public interface IDiscSpace
-    {
-        #region Properties
-
-        /// <summary> Note: Zero based </summary>
-        public int Column { get; set; }
-
-        /// <summary> Note: Zero based </summary>
-        public int Row { get; set; }
-
-        public DiscType DiscColor { get; set; }
-
-        #endregion
-
-        public bool HasOppositeDiscColor(DiscType color);
-    }
-
     [DebuggerDisplay("Position: ({Column},{Row}), Disc: {DiscColor})}")]
-    public class FormDiscSpace : Button, IDiscSpace
+    public class DiscSpace : Button, IDiscSpace
     {
         #region Properties
 
@@ -37,7 +22,7 @@ namespace GameOfOthelloAssignment
 
         #endregion
 
-        public FormDiscSpace(int columnIndex, int rowIndex) : base()
+        public DiscSpace(int columnIndex, int rowIndex) : base()
         {
             AutoSize = true;
             BackColor = Color.Transparent;
@@ -125,7 +110,7 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Implicit cast to Vector2D to represent a position on the board
         /// </summary>
-        public static implicit operator Vector2D(FormDiscSpace discSpace)
+        public static implicit operator Vector2D(DiscSpace discSpace)
         {
             return new Vector2D(discSpace.Column, discSpace.Row);
         }

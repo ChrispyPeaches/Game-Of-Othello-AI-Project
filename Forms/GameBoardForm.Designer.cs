@@ -1,4 +1,8 @@
-﻿namespace GameOfOthelloAssignment
+﻿using Enums;
+using GameOfOthelloAssignment.Controls;
+using GameOfOthelloAssignment.Enums;
+
+namespace GameOfOthelloAssignment
 {
     partial class GameBoardForm
     {
@@ -74,12 +78,12 @@
             this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard.gameMode = GameOfOthelloAssignment.NPC.GameMode.TwoPlayer;
+            this.othelloBoard.gameMode = GameMode.TwoPlayer;
             this.othelloBoard.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.othelloBoard.Location = new System.Drawing.Point(170, 2);
             this.othelloBoard.Margin = new System.Windows.Forms.Padding(0);
             this.othelloBoard.Name = "othelloBoard";
-            this.othelloBoard.Player1DiscColor = GameOfOthelloAssignment.DiscType.Black;
+            this.othelloBoard.Player1DiscColor = DiscType.Black;
             this.othelloBoard.RowCount = 8;
             this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));

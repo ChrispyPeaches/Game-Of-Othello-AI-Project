@@ -1,4 +1,4 @@
-﻿namespace GameOfOthelloAssignment
+﻿namespace GameOfOthelloAssignment.Enums
 {
     /// <summary>
     /// The type of disc that can occupy a space

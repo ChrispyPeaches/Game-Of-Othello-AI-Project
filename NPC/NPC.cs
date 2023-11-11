@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameOfOthelloAssignment.Enums;
+using GameOfOthelloAssignment.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

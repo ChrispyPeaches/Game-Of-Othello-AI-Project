@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using GameOfOthelloAssignment.Enums;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
@@ -22,7 +17,7 @@ namespace GameOfOthelloAssignment
 
         private void btn_2Player_Click(object sender, EventArgs e)
         {
-            using (var gameBoard = new GameBoardForm(Player1DiscColor, NPC.GameMode.TwoPlayer))
+            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.TwoPlayer))
             {
                 gameBoard.ShowDialog();
             }
@@ -30,7 +25,7 @@ namespace GameOfOthelloAssignment
 
         private void btn_AI_Click(object sender, EventArgs e)
         {
-            using (var gameBoard = new GameBoardForm(Player1DiscColor, NPC.GameMode.AI))
+            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.AI))
             {
                 gameBoard.ShowDialog();
             }

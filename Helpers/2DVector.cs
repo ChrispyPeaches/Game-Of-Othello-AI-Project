@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace GameOfOthelloAssignment
+namespace GameOfOthelloAssignment.Helpers
 {
     public class Vector2D
     {
@@ -69,7 +69,7 @@ namespace GameOfOthelloAssignment
 
         public bool Equals(Vector2D otherVector)
         {
-            return  Column == otherVector.Column && 
+            return Column == otherVector.Column &&
                     Row == otherVector.Row;
         }
 

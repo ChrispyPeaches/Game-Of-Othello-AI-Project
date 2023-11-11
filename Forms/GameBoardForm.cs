@@ -1,4 +1,6 @@
-﻿using GameOfOthelloAssignment.NPC;
+﻿using GameOfOthelloAssignment.Controls;
+using GameOfOthelloAssignment.Enums;
+using GameOfOthelloAssignment.Helpers;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
 
@@ -68,7 +70,7 @@ namespace GameOfOthelloAssignment
         private void UpdateCurrentTurnMenu()
         {
             pic_currentTurnMenu_piece.BackgroundImage = 
-                FormDiscSpace.GetBackgroundImageByDiscType(othelloBoard.CurrentTurnColor);
+                DiscSpace.GetBackgroundImageByDiscType(othelloBoard.CurrentTurnColor);
             btn_CurrentTurnMenu_Detail.Text = othelloBoard.CurrentTurnColor.ToString();
         }
 

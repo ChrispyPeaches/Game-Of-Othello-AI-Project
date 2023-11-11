@@ -70,15 +70,17 @@
     <Compile Include="Forms\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="NPC\NpcGameLogic.cs" />
+    <Compile Include="IDiscSpace.cs" />
+    <Compile Include="NPC\NpcDiscSpace.cs" />
+    <Compile Include="NPC\NpcOthelloBoard.cs" />
     <Compile Include="Enums\GameMode.cs" />
     <Compile Include="NPC\NPC.cs" />
     <Compile Include="Helpers\2DVector.cs" />
     <Compile Include="Helpers\LegalMove.cs" />
-    <Compile Include="OthelloGame\ControlOthelloBoard.cs">
+    <Compile Include="Controls\ControlOthelloBoard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OthelloGame\DiscSpace.cs">
+    <Compile Include="Controls\DiscSpace.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\GameBoardForm.cs">
@@ -136,5 +138,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

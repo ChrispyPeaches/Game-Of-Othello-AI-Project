@@ -1,4 +1,4 @@
-﻿namespace GameOfOthelloAssignment
+﻿namespace GameOfOthelloAssignment.Helpers
 {
     public class LegalMove
     {
