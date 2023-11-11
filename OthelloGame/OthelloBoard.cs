@@ -14,32 +14,15 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// The moves that the current player or AI is allowed to perform
         /// </summary>
-        IList<LegalMove> CurrentLegalMoves;
+        public IList<LegalMove> CurrentLegalMoves;
 
         /// <summary>
         /// The color of the player or AI whose turn it is
         /// </summary>
-        DiscType CurrentTurnColor;
+        public DiscType CurrentTurnColor;
 
         public int BlackScore { get; set; } = 0;
         public int WhiteScore { get; set; } = 0;
-
-        public OthelloBoard() : base()
-        {
-            // Add containers for each space on the board
-            for (int rowIndex = 0; rowIndex < RowCount; rowIndex++)
-            {
-                for (int columnIndex = 0; columnIndex < ColumnCount; columnIndex++)
-                {
-                    DiscSpace discSpace = new DiscSpace(columnIndex, rowIndex);
-                    discSpace.Click += PerformTurn;
-
-                    Controls.Add(discSpace, columnIndex, rowIndex);
-                }
-            }
-
-            GameSetup();
-        }
 
         #region Helper Methods
 
@@ -96,10 +79,27 @@ namespace GameOfOthelloAssignment
 
         #region Game logic
 
+        public void BoardSetup()
+        {
+            // Add containers for each space on the board
+            for (int rowIndex = 0; rowIndex < RowCount; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < ColumnCount; columnIndex++)
+                {
+                    DiscSpace discSpace = new DiscSpace(columnIndex, rowIndex);
+                    discSpace.Click += PerformTurn;
+
+                    Controls.Add(discSpace, columnIndex, rowIndex);
+                }
+            }
+
+            GameSetup();
+        }
+
         /// <summary> 
         /// Clear the game board, add the starting discs to the game, and show legal moves.
         /// </summary>
-        public void GameSetup()
+        private void GameSetup()
         {
             ClearGameBoard();
 
@@ -117,7 +117,7 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Clear all spaces on the board
         /// </summary>
-        public void ClearGameBoard()
+        private void ClearGameBoard()
         {
             foreach (DiscSpace discSpace in Controls)
             {
@@ -130,7 +130,7 @@ namespace GameOfOthelloAssignment
         /// </summary>
         /// <param name="discType">The <see cref="DiscType"/>(color) to find legal moves for</param>
         /// <returns>A list of spaces representing legal moves</returns>
-        public IList<LegalMove> GetLegalMoves(DiscType discType)
+        private IList<LegalMove> GetLegalMoves(DiscType discType)
         {
             if (discType == DiscType.Empty)
             {
@@ -177,7 +177,7 @@ namespace GameOfOthelloAssignment
         /// <param name="initialSpace"></param>
         /// <param name="directionVector"></param>
         /// <returns>The <see cref="DiscSpace"/> of a legal move if there is one, else return null</returns>
-        public LegalMove GetLegalMoveForDirection(DiscSpace initialSpace, Vector2D directionVector)
+        private LegalMove GetLegalMoveForDirection(DiscSpace initialSpace, Vector2D directionVector)
         {
             // Move two spaces in the given direction
             var currentPosition = new Vector2D(
@@ -235,7 +235,7 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Removes ability to interact with previously legal moves
         /// </summary>
-        public void DisableLegalMoves()
+        private void DisableLegalMoves()
         {
             foreach (var legalMove in CurrentLegalMoves)
             {
@@ -246,7 +246,7 @@ namespace GameOfOthelloAssignment
         /// <summary>
         /// Allows board spaces representing legal moves for the current turn's color to be interacted with
         /// </summary>
-        public void EnableLegalMoves()
+        private void EnableLegalMoves()
         {
             CurrentLegalMoves = GetLegalMoves(CurrentTurnColor);
             foreach (LegalMove legalMove in CurrentLegalMoves)
@@ -260,14 +260,27 @@ namespace GameOfOthelloAssignment
         /// the next disc of that same color in the given vector
         /// </summary>
         /// <param name="performedLegalMove">The legal move that caused pieces to be flanked</param>
-        public void FlipDiscs(LegalMove performedLegalMove)
+        private void FlipDiscs(LegalMove performedLegalMove)
         {
             DiscSpace legalMoveSpace = GetDiscSpace(performedLegalMove);
             DiscSpace currentSpace = GetDiscSpace(performedLegalMove + performedLegalMove.FlankDirection);
             while (currentSpace.HasOppositeDiscColor(legalMoveSpace.DiscColor))
             {
-                // Flip the disc
+                // Flip the disc 
                 GetDiscSpace(currentSpace).SetDisc(legalMoveSpace.DiscColor);
+
+                // Update score
+                if (legalMoveSpace.DiscColor == DiscType.Black)
+                {
+                    WhiteScore--;
+                    BlackScore ++;
+                }
+                else
+                {
+
+                    BlackScore--;
+                    WhiteScore++;
+                }
 
                 currentSpace = GetNextDiscSpace(currentSpace, performedLegalMove.FlankDirection);
             }
@@ -281,12 +294,22 @@ namespace GameOfOthelloAssignment
             DiscSpace clickedSpace = (DiscSpace)sender;
             DisableLegalMoves();
             GetDiscSpace(clickedSpace).SetDisc(CurrentTurnColor);
+            // Update score
+            if (CurrentTurnColor == DiscType.Black)
+            {
+                BlackScore++;
+            }
+            else
+            {
+                WhiteScore++;
+            }
+
             FlipDiscs(CurrentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(clickedSpace)));
 
             SwitchTurns();
         }
 
-        public void SwitchTurns()
+        private void SwitchTurns()
         {
             switch (CurrentTurnColor)
             {
@@ -296,8 +319,13 @@ namespace GameOfOthelloAssignment
                     CurrentTurnColor = DiscType.Black; break;
             }
             EnableLegalMoves();
+            TurnFinished();
         }
 
+        #endregion
+
+        #region Events
+        public event Action TurnFinished;
         #endregion
     }
 }

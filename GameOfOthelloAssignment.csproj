@@ -46,12 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2DVector.cs" />
-    <Compile Include="LegalMove.cs" />
-    <Compile Include="OthelloBoard.cs">
+    <Compile Include="OthelloGame\2DVector.cs" />
+    <Compile Include="OthelloGame\LegalMove.cs" />
+    <Compile Include="OthelloGame\OthelloBoard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DiscSpace.cs">
+    <Compile Include="OthelloGame\DiscSpace.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GameBoardForm.cs">
@@ -93,6 +93,9 @@
     <Content Include="Resources\black_piece.png" />
     <None Include="Resources\white_legalMove.png" />
     <Content Include="Resources\white_piece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NPC\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

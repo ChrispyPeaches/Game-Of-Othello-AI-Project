@@ -54,17 +54,21 @@ namespace GameOfOthelloAssignment
         public void SetDisc(DiscType discColor)
         {
             DiscColor = discColor;
+            BackgroundImage = GetBackgroundImageByDiscType(discColor);
+        }
+
+        public static Image GetBackgroundImageByDiscType(DiscType discColor)
+        {
             switch (discColor)
             {
                 case DiscType.Black:
-                    BackgroundImage= Resources.black_piece;
-                    break;
+                    return Resources.black_piece;
                 case DiscType.White:
-                    BackgroundImage = Resources.white_piece;
-                    break;
+                    return Resources.white_piece;
                 case DiscType.Empty:
-                    BackgroundImage = null;
-                    break;
+                    return null;
+                default:
+                    return null;
             }
         }
 
