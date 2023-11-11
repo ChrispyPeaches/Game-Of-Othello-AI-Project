@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
     public partial class GameBoardForm : Form
     {
-        IList<Vector2D> currentLegalMoves;
+        IList<LegalMove> currentLegalMoves;
         DiscType currentTurnColor;
 
         public GameBoardForm()
@@ -63,10 +64,9 @@ namespace GameOfOthelloAssignment
             DiscSpace clickedSpace = (DiscSpace) sender;
             DisableLegalMoves();
             othelloBoard1.GetDiscSpace(clickedSpace).SetDisc(currentTurnColor);
+            othelloBoard1.FlipDiscs(currentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(clickedSpace)));
 
             SwitchTurns();
-
-                return;
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace GameOfOthelloAssignment
         /// </summary>
         public void DisableLegalMoves()
         {
-            foreach (var move in currentLegalMoves)
+            foreach (var legalMove in currentLegalMoves)
             {
-                othelloBoard1.GetDiscSpace(move.Column, move.Row).DiableLegalMove();
+                othelloBoard1.GetDiscSpace(legalMove).DiableLegalMove();
             }
         }
 
@@ -86,9 +86,9 @@ namespace GameOfOthelloAssignment
         public void EnableLegalMoves()
         {
             currentLegalMoves = othelloBoard1.GetLegalMoves(currentTurnColor);
-            foreach (var move in currentLegalMoves)
+            foreach (LegalMove legalMove in currentLegalMoves)
             {
-                othelloBoard1.GetDiscSpace(move).SetAsLegalMove(currentTurnColor);
+                othelloBoard1.GetDiscSpace(legalMove).SetAsLegalMove(currentTurnColor);
             }
         }
 

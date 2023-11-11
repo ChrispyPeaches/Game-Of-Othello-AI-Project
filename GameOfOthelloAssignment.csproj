@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2DVector.cs" />
+    <Compile Include="LegalMove.cs" />
     <Compile Include="OthelloBoard.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -61,7 +62,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableLayoutDiscSpaceCollection.cs" />
     <EmbeddedResource Include="GameBoardForm.resx">
       <DependentUpon>GameBoardForm.cs</DependentUpon>
     </EmbeddedResource>

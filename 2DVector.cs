@@ -2,7 +2,6 @@
 
 namespace GameOfOthelloAssignment
 {
-    [DebuggerDisplay("({Column},{Row})")]
     public class Vector2D
     {
         public int Column, Row;
@@ -12,6 +11,8 @@ namespace GameOfOthelloAssignment
             Column = column;
             Row = row;
         }
+
+        #region Math Operator Overloading
 
         public static Vector2D operator +(Vector2D initialVector, Vector2D addingVector)
         {
@@ -27,6 +28,65 @@ namespace GameOfOthelloAssignment
                     initialVector.Column - subtractingVector.Column,
                     initialVector.Row - subtractingVector.Row
                     );
+        }
+        public static Vector2D operator *(Vector2D initialVector, int scalarMultiple)
+        {
+            return new Vector2D(
+                    initialVector.Column * scalarMultiple,
+                    initialVector.Row * scalarMultiple
+                    );
+        }
+
+        #endregion
+
+        #region Equality Operator Overloading
+
+        public static bool operator <(Vector2D initialVector, Vector2D otherVector)
+        {
+            return  initialVector.Column < otherVector.Column &&
+                    initialVector.Row < otherVector.Row;
+        }
+
+        public static bool operator >(Vector2D initialVector, Vector2D otherVector)
+        {
+            return initialVector.Column > otherVector.Column &&
+                    initialVector.Row > otherVector.Row;
+        }
+
+        public static bool operator ==(Vector2D initialVector, Vector2D otherVector)
+        {
+            return initialVector.Column == otherVector.Column &&
+                    initialVector.Row == otherVector.Row;
+        }
+
+        public static bool operator !=(Vector2D initialVector, Vector2D otherVector)
+        {
+            return initialVector.Column != otherVector.Column &&
+                    initialVector.Row != otherVector.Row;
+        }
+        public static bool operator <=(Vector2D initialVector, Vector2D otherVector)
+        {
+            return initialVector.Column <= otherVector.Column &&
+                    initialVector.Row <= otherVector.Row;
+        }
+
+        public static bool operator >=(Vector2D initialVector, Vector2D otherVector)
+        {
+            return initialVector.Column >= otherVector.Column &&
+                    initialVector.Row >= otherVector.Row;
+        }
+
+        #endregion
+
+        public bool Equals(Vector2D otherVector)
+        {
+            return  Column == otherVector.Column && 
+                    Row == otherVector.Row;
+        }
+
+        public override string ToString()
+        {
+            return $"({Column},{Row})";
         }
     }
 }

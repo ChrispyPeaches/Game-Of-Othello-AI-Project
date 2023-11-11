@@ -21,7 +21,7 @@ namespace GameOfOthelloAssignment
         /// <summary> Note: Zero based </summary>
         public int Row { get; set; }
 
-        public DiscType SpaceColor { get; set; }
+        public DiscType DiscColor { get; set; }
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace GameOfOthelloAssignment
             FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             FlatAppearance.MouseOverBackColor = FlatAppearance.MouseDownBackColor;
             Enabled = false;
-            SpaceColor = DiscType.Empty;
+            DiscColor = DiscType.Empty;
 
             Column = columnIndex;
             Row = rowIndex;
@@ -53,7 +53,7 @@ namespace GameOfOthelloAssignment
         /// <param name="discColor"></param>
         public void SetDisc(DiscType discColor)
         {
-            SpaceColor = discColor;
+            DiscColor = discColor;
             switch (discColor)
             {
                 case DiscType.Black:
@@ -88,7 +88,7 @@ namespace GameOfOthelloAssignment
         public void DiableLegalMove()
         {
             Enabled = false;
-            SpaceColor = DiscType.Empty;
+            DiscColor = DiscType.Empty;
             BackgroundImage = null;
         }
 
@@ -97,9 +97,9 @@ namespace GameOfOthelloAssignment
             switch (color)
             {
                 case DiscType.Black:
-                    return SpaceColor == DiscType.White;
+                    return DiscColor == DiscType.White;
                 case DiscType.White:
-                    return SpaceColor == DiscType.Black;
+                    return DiscColor == DiscType.Black;
                 case DiscType.Empty:
                     return false;
                 default:
