@@ -28,54 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.othelloBoard1 = new OthelloBoard();
+            this.othelloBoard = new GameOfOthelloAssignment.OthelloBoard();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // othelloBoard
             // 
-            this.othelloBoard1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.othelloBoard1.BackColor = System.Drawing.Color.DarkOliveGreen;
-            this.othelloBoard1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.othelloBoard1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.othelloBoard1.ColumnCount = 8;
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.othelloBoard1.Location = new System.Drawing.Point(166, 3);
-            this.othelloBoard1.Margin = new System.Windows.Forms.Padding(0);
-            this.othelloBoard1.Name = "othelloBoard1";
-            this.othelloBoard1.RowCount = 8;
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.othelloBoard1.Size = new System.Drawing.Size(466, 451);
-            this.othelloBoard1.TabIndex = 0;
+            this.othelloBoard.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.othelloBoard.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.othelloBoard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.othelloBoard.BlackScore = 0;
+            this.othelloBoard.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.othelloBoard.ColumnCount = 8;
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.othelloBoard.Location = new System.Drawing.Point(227, 3);
+            this.othelloBoard.Margin = new System.Windows.Forms.Padding(0);
+            this.othelloBoard.Name = "othelloBoard";
+            this.othelloBoard.RowCount = 8;
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.othelloBoard.Size = new System.Drawing.Size(466, 451);
+            this.othelloBoard.TabIndex = 0;
+            this.othelloBoard.WhiteScore = 0;
             // 
-            // Form1
+            // GameBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.othelloBoard1);
-            this.Name = "Form1";
+            this.ClientSize = new System.Drawing.Size(922, 450);
+            this.Controls.Add(this.othelloBoard);
+            this.Name = "GameBoardForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
+
         }
 
         #endregion
 
-        private OthelloBoard othelloBoard1;
+        private OthelloBoard othelloBoard;
     }
 }
 
