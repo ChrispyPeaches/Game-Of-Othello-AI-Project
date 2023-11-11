@@ -342,7 +342,9 @@ namespace GameOfOthelloAssignment
                 case DiscType.White:
                     CurrentTurnColor = DiscType.Black; break;
             }
+            
             EnableLegalMoves();
+            
             TurnFinished();
         }
 

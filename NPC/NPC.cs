@@ -28,7 +28,6 @@ namespace GameOfOthelloAssignment.NPC
             }
             return bestPosition;
         }
-
         
         public static int MiniMax(
             NpcOthelloBoard gameState,
