@@ -1,6 +1,7 @@
 ﻿using GameOfOthelloAssignment.Controls;
 using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
+using GameOfOthelloAssignment.NPC;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
@@ -55,15 +56,15 @@ namespace GameOfOthelloAssignment
             
             // Perform Minimax
             var clonedGameState = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
-            Vector2D bestMove = NPC.NPC.MiniMaxHelper(
+            MiniMaxResult BestResult = NPC.NPC.MiniMaxHelper(
                 clonedGameState,
                 searchDepth,
                 othelloBoard.CurrentTurnColor);
 
             // If there are any legal moves, play the found best one
-            if (bestMove != null)
+            if (BestResult.Position != null)
             {
-                othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(bestMove));
+                othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(BestResult.Position));
             }
 
             DisplayNpcThinking(false);

@@ -267,8 +267,7 @@ namespace GameOfOthelloAssignment.Controls
                         // This is a LEGAL move
                         return new LegalMove()
                         {
-                            PositionToPlaceDisc = currentSpace,
-                            FlankDirection = directionVector * -1
+                            PositionToPlaceDisc = currentSpace
                         };
                     }
                     else
