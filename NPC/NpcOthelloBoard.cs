@@ -288,7 +288,7 @@ namespace GameOfOthelloAssignment.NPC
         /// <param name="performedLegalMove">The legal move that caused pieces to be flanked</param>
         private void FlipDiscs(LegalMove performedLegalMove)
         {
-            ControlDiscSpace legalMoveSpace = GetDiscSpace(performedLegalMove);
+            NpcDiscSpace legalMoveSpace = GetDiscSpace(performedLegalMove);
             for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
             {
                 for (int rowDireciton = -1; rowDireciton <= 1; rowDireciton++)
@@ -303,7 +303,7 @@ namespace GameOfOthelloAssignment.NPC
             }
         }
 
-        private void FlipDiscsInDirection(ControlDiscSpace legalMoveSpace, Vector2D directionVector)
+        private void FlipDiscsInDirection(NpcDiscSpace legalMoveSpace, Vector2D directionVector)
         {
             Vector2D currentPosition = new Vector2D(
                 column: legalMoveSpace.Column + directionVector.Column,
@@ -312,7 +312,7 @@ namespace GameOfOthelloAssignment.NPC
             // Move in the given direction until you reach a piece of your same color
             while (PositionIsOnBoard(currentPosition))
             {
-                ControlDiscSpace currentSpace = GetDiscSpace(currentPosition);
+                IDiscSpace currentSpace = GetDiscSpace(currentPosition);
 
                 // If the space has a piece in it
                 if (currentSpace.DiscColor != DiscType.Empty)
