@@ -25,7 +25,7 @@ namespace GameOfOthelloAssignment.Controls
         /// <summary>
         /// The moves that the current player or AI is allowed to perform
         /// </summary>
-        private IList<LegalMove> CurrentLegalMoves;
+        private IList<Vector2D> CurrentLegalMoves;
 
         public DiscType Player1DiscColor { get; set; }
         public GameMode gameMode { get; set; }
@@ -183,14 +183,14 @@ namespace GameOfOthelloAssignment.Controls
         /// </summary>
         /// <param name="discType">The <see cref="DiscType"/>(color) to find legal moves for</param>
         /// <returns>A list of spaces representing legal moves</returns>
-        private IList<LegalMove> GetLegalMoves(DiscType discType)
+        private IList<Vector2D> GetLegalMoves(DiscType discType)
         {
             if (discType == DiscType.Empty)
             {
                 throw new NotSupportedException();
             }
 
-            var legalMoves = new List<LegalMove>();
+            var legalMoves = new List<Vector2D>();
 
             foreach (ControlDiscSpace initialSpace in
                 Controls.Cast<ControlDiscSpace>()
@@ -203,12 +203,12 @@ namespace GameOfOthelloAssignment.Controls
                         // Skip directional vector <0,0>
                         if (columnDirection == 0 && rowDireciton == 0) continue;
 
-                        LegalMove legalOrNullMove = GetLegalMoveForDirection(
+                        Vector2D legalOrNullMove = GetLegalMoveForDirection(
                             initialSpace,
                             new Vector2D(columnDirection, rowDireciton));
 
-                        // If it is a legal move
-                        if (legalOrNullMove != null)
+                        // If it is a legal move & it isn't already in the list
+                        if (legalOrNullMove is not null)
                         {
                             // Add it to the legal moves
                             legalMoves.Add(legalOrNullMove);
@@ -218,7 +218,7 @@ namespace GameOfOthelloAssignment.Controls
             }
 
             // Ensures there are no repeated legal moves
-            legalMoves = legalMoves.Distinct().ToList();
+            legalMoves = legalMoves.Distinct(new Vector2DComparer()).ToList();
 
             return legalMoves;
         }
@@ -229,7 +229,7 @@ namespace GameOfOthelloAssignment.Controls
         /// <param name="initialSpace"></param>
         /// <param name="directionVector"></param>
         /// <returns>The <see cref="ControlDiscSpace"/> of a legal move if there is one, else return null</returns>
-        private LegalMove GetLegalMoveForDirection(ControlDiscSpace initialSpace, Vector2D directionVector)
+        private Vector2D GetLegalMoveForDirection(ControlDiscSpace initialSpace, Vector2D directionVector)
         {
             // Move two spaces in the given direction
             var currentPosition = new Vector2D(
@@ -265,10 +265,7 @@ namespace GameOfOthelloAssignment.Controls
                         .HasOppositeDiscColor(initialSpace.DiscColor))
                     {
                         // This is a LEGAL move
-                        return new LegalMove()
-                        {
-                            PositionToPlaceDisc = currentSpace
-                        };
+                        return currentSpace;
                     }
                     else
                     {
@@ -288,7 +285,7 @@ namespace GameOfOthelloAssignment.Controls
         private void EnableLegalMoves()
         {
             CurrentLegalMoves = GetLegalMoves(CurrentTurnColor);
-            foreach (LegalMove legalMove in CurrentLegalMoves)
+            foreach (Vector2D legalMove in CurrentLegalMoves)
             {
                 GetDiscSpace(legalMove).SetAsLegalMove(CurrentTurnColor);
             }
@@ -310,7 +307,7 @@ namespace GameOfOthelloAssignment.Controls
         /// the next disc of that same color in every direction
         /// </summary>
         /// <param name="performedLegalMove">The legal move that caused pieces to be flanked</param>
-        private void FlipDiscs(LegalMove performedLegalMove)
+        private void FlipDiscs(Vector2D performedLegalMove)
         {
             ControlDiscSpace legalMoveSpace = GetDiscSpace(performedLegalMove);
             for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
@@ -453,7 +450,7 @@ namespace GameOfOthelloAssignment.Controls
                 WhiteScore++;
             }
 
-            FlipDiscs(CurrentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(clickedSpace)));
+            FlipDiscs(CurrentLegalMoves.First(move => move.Equals(clickedSpace)));
             SwitchTurns();
             EnableLegalMoves();
 

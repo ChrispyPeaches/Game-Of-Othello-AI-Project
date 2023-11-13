@@ -56,7 +56,7 @@ namespace GameOfOthelloAssignment
             
             // Perform Minimax
             var clonedGameState = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
-            MiniMaxResult ParentBestResult = NPC.NPC.MiniMaxHelper(
+            MiniMaxResult ParentBestResult = NPC.NPC.MiniMax(
                 clonedGameState,
                 searchDepth,
                 othelloBoard.CurrentTurnColor);

@@ -1,9 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameOfOthelloAssignment.Helpers
 {
     [DebuggerDisplay("({Column}, {Row})")]
-    public class Vector2D
+    public class Vector2D : IEquatable<Vector2D>
     {
         public int Column, Row;
 
@@ -40,36 +43,10 @@ namespace GameOfOthelloAssignment.Helpers
 
         #endregion
 
-        #region Equality Operator Overloading
-
-        public static bool operator <(Vector2D initialVector, Vector2D otherVector)
-        {
-            return initialVector.Column < otherVector.Column &&
-                    initialVector.Row < otherVector.Row;
-        }
-
-        public static bool operator >(Vector2D initialVector, Vector2D otherVector)
-        {
-            return initialVector.Column > otherVector.Column &&
-                    initialVector.Row > otherVector.Row;
-        }
-
-        public static bool operator <=(Vector2D initialVector, Vector2D otherVector)
-        {
-            return initialVector.Column <= otherVector.Column &&
-                    initialVector.Row <= otherVector.Row;
-        }
-
-        public static bool operator >=(Vector2D initialVector, Vector2D otherVector)
-        {
-            return initialVector.Column >= otherVector.Column &&
-                    initialVector.Row >= otherVector.Row;
-        }
-
-        #endregion
-
         public bool Equals(Vector2D otherVector)
         {
+            if (otherVector is null) return otherVector is null;
+
             return Column == otherVector.Column &&
                     Row == otherVector.Row;
         }
@@ -78,5 +55,12 @@ namespace GameOfOthelloAssignment.Helpers
         {
             return $"({Column},{Row})";
         }
+    }
+
+    public class Vector2DComparer : IEqualityComparer<Vector2D>
+    {
+        public bool Equals(Vector2D initialVector, Vector2D otherVector) { return initialVector.Equals(otherVector); }
+
+        public int GetHashCode(Vector2D obj) { return obj.ToString().GetHashCode(); }
     }
 }

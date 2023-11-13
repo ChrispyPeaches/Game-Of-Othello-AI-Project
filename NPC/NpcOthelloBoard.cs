@@ -23,7 +23,7 @@ namespace GameOfOthelloAssignment.NPC
         /// <summary>
         /// The moves that the current player or AI is allowed to perform
         /// </summary>
-        public IList<LegalMove> CurrentLegalMoves;
+        public IList<Vector2D> CurrentLegalMoves;
 
         #region Helper Methods
 
@@ -166,9 +166,9 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         /// <param name="CurrentTurnColor">The <see cref="DiscType"/>(color) to find legal moves for</param>
         /// <returns>A list of spaces representing legal moves</returns>
-        public IList<LegalMove> GetLegalMoves(DiscType discColor)
+        public IList<Vector2D> GetLegalMoves(DiscType discColor)
         {
-            var legalMoves = new List<LegalMove>();
+            var legalMoves = new List<Vector2D>();
 
             foreach (NpcDiscSpace initialSpace in
                 BoardSpaces.Where(b => b.DiscColor == discColor).ToList())
@@ -180,12 +180,12 @@ namespace GameOfOthelloAssignment.NPC
                         // Skip directional vector <0,0>
                         if (columnDirection == 0 && rowDireciton == 0) continue;
 
-                        LegalMove legalOrNullMove = GetLegalMoveForDirection(
+                        Vector2D legalOrNullMove = GetLegalMoveForDirection(
                             initialSpace,
                             new Vector2D(columnDirection, rowDireciton));
 
                         // If it is a legal move
-                        if (legalOrNullMove != null)
+                        if (legalOrNullMove is not null)
                         {
                             // Add it to the legal moves
                             legalMoves.Add(legalOrNullMove);
@@ -195,7 +195,7 @@ namespace GameOfOthelloAssignment.NPC
             }
 
             // Ensures there are no repeated legal moves
-            legalMoves = legalMoves.Distinct().ToList();
+            legalMoves = legalMoves.Distinct(new Vector2DComparer()).ToList();
 
             return legalMoves;
         }
@@ -207,7 +207,7 @@ namespace GameOfOthelloAssignment.NPC
         /// <param name="initialSpace"></param>
         /// <param name="directionVector"></param>
         /// <returns>The <see cref="NpcDiscSpace"/> of a legal move if there is one, else return null</returns>
-        private LegalMove GetLegalMoveForDirection(NpcDiscSpace initialSpace, Vector2D directionVector)
+        private Vector2D GetLegalMoveForDirection(NpcDiscSpace initialSpace, Vector2D directionVector)
         {
             // Move two spaces in the given direction
             var currentPosition = new Vector2D(
@@ -243,10 +243,7 @@ namespace GameOfOthelloAssignment.NPC
                         .HasOppositeDiscColor(initialSpace.DiscColor))
                     {
                         // This is a LEGAL move
-                        return new LegalMove()
-                        {
-                            PositionToPlaceDisc = currentSpace
-                        };
+                        return currentSpace;
                     }
                     else
                     {
@@ -285,7 +282,7 @@ namespace GameOfOthelloAssignment.NPC
         /// the next disc of that same color in every direction
         /// </summary>
         /// <param name="performedLegalMove">The legal move that caused pieces to be flanked</param>
-        private void FlipDiscs(LegalMove performedLegalMove)
+        private void FlipDiscs(Vector2D performedLegalMove)
         {
             NpcDiscSpace legalMoveSpace = GetDiscSpace(performedLegalMove);
             for (int columnDirection = -1; columnDirection <= 1; columnDirection++)
@@ -403,7 +400,7 @@ namespace GameOfOthelloAssignment.NPC
         /// <summary>
         /// When a player clicks a space to place a disc into,
         /// </summary>
-        public void PerformTurn(LegalMove performedLegalMove)
+        public void PerformTurn(Vector2D performedLegalMove)
         {
             DisableLegalMoves();
             GetDiscSpace(performedLegalMove).SetDisc(CurrentTurnColor);
@@ -417,7 +414,7 @@ namespace GameOfOthelloAssignment.NPC
                 WhiteScore++;
             }
 
-            FlipDiscs(CurrentLegalMoves.First(move => move.PositionToPlaceDisc.Equals(performedLegalMove)));
+            FlipDiscs(CurrentLegalMoves.First(move => move.Equals(performedLegalMove)));
             SwitchTurns();
             EnableLegalMoves();
         }

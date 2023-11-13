@@ -2,7 +2,6 @@
 using GameOfOthelloAssignment.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace GameOfOthelloAssignment.NPC
 {
@@ -18,7 +17,7 @@ namespace GameOfOthelloAssignment.NPC
                 ExtremeScoreEval = int.MinValue,
                 Position = null
             };
-            foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
+            foreach (Vector2D legalMove in gameState.CurrentLegalMoves)
             {
                 DiscType legalMoveColor = gameState.CurrentTurnColor;
                 var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
@@ -62,7 +61,7 @@ namespace GameOfOthelloAssignment.NPC
                     ExtremeScoreEval = int.MinValue,
                     Position = null
                 };
-                foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
+                foreach (Vector2D legalMove in gameState.CurrentLegalMoves)
                 {
                     DiscType legalMoveColor = gameState.CurrentTurnColor;
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
@@ -88,7 +87,7 @@ namespace GameOfOthelloAssignment.NPC
                     ExtremeScoreEval = int.MaxValue,
                     Position = null
                 };
-                foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
+                foreach (Vector2D legalMove in gameState.CurrentLegalMoves)
                 {
                     DiscType legalMoveColor = gameState.CurrentTurnColor;
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
@@ -110,12 +109,14 @@ namespace GameOfOthelloAssignment.NPC
 
         public static void PrintSequencesHelper(MiniMaxResult parentResult)
         {
+            Console.WriteLine($"=============== NEW MOVE ===============");
             foreach (var childMove in parentResult.ChildMoves)
             {
                 Console.WriteLine($"Heuristic Score: {childMove.ExtremeScoreEval}");
                 Console.WriteLine($"Initial Move: {childMove.Position}");
                 PrintSequences(childMove, "");
             }
+            Console.WriteLine();
         }
 
         public static void PrintSequences(MiniMaxResult parentResult, string parentMoves)
