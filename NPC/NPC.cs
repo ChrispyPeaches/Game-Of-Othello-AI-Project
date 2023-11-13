@@ -6,40 +6,14 @@ using System.Collections.Generic;
 namespace GameOfOthelloAssignment.NPC
 {
     public class NPC
-    {
-        public static MiniMaxResult MiniMaxHelper(
-            NpcOthelloBoard gameState,
-            int depth,
-            DiscType maximizingPlayerColor)
-        {
-            MiniMaxResult ParentResult = new MiniMaxResult()
-            {
-                ExtremeScoreEval = int.MinValue,
-                Position = null
-            };
-            foreach (Vector2D legalMove in gameState.CurrentLegalMoves)
-            {
-                DiscType legalMoveColor = gameState.CurrentTurnColor;
-                var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
-                childGameState.PerformTurn(legalMove);
-                MiniMaxResult result = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
-                result.DiscColor = legalMoveColor;
-                result.Position = legalMove;
-
-                ParentResult.ChildMoves.Add(result);
-                if (result.ExtremeScoreEval > ParentResult.ExtremeScoreEval)
-                {
-                    ParentResult.ExtremeResult = result;
-                    ParentResult.ExtremeScoreEval = result.ExtremeScoreEval;
-                }
-            }
-            return ParentResult;
-        }
-        
+    {   
         public static MiniMaxResult MiniMax(
             NpcOthelloBoard gameState,
             int depth,
-            DiscType maximizingPlayerColor)
+            int alpha,
+            int beta,
+            DiscType maximizingPlayerColor,
+            bool pruningEnabled)
         {
             // Base case
             if (depth == 0 || gameState.IsGameOver())
@@ -66,7 +40,7 @@ namespace GameOfOthelloAssignment.NPC
                     DiscType legalMoveColor = gameState.CurrentTurnColor;
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
                     childGameState.PerformTurn(legalMove);
-                    MiniMaxResult result = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
+                    MiniMaxResult result = MiniMax(childGameState, depth - 1, alpha, beta, maximizingPlayerColor, pruningEnabled);
                     result.DiscColor = legalMoveColor;
                     result.Position = legalMove;
                     ParentResult.ChildMoves.Add(result);
@@ -75,6 +49,14 @@ namespace GameOfOthelloAssignment.NPC
                     {
                         ParentResult.ExtremeResult = result;
                         ParentResult.ExtremeScoreEval = result.ExtremeScoreEval;
+                    }
+                    if (pruningEnabled)
+                    {
+                        alpha = Math.Max(alpha, result.ExtremeScoreEval);
+                        if (beta <= alpha)
+                        {
+                            break;
+                        }
                     }
                 }
                 return ParentResult;
@@ -92,7 +74,7 @@ namespace GameOfOthelloAssignment.NPC
                     DiscType legalMoveColor = gameState.CurrentTurnColor;
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
                     childGameState.PerformTurn(legalMove);
-                    MiniMaxResult result = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
+                    MiniMaxResult result = MiniMax(childGameState, depth - 1, alpha, beta, maximizingPlayerColor, pruningEnabled);
                     result.DiscColor = legalMoveColor;
                     result.Position = legalMove;
                     ParentResult.ChildMoves.Add(result);
@@ -102,11 +84,24 @@ namespace GameOfOthelloAssignment.NPC
                         ParentResult.ExtremeResult = result;
                         ParentResult.ExtremeScoreEval = result.ExtremeScoreEval;
                     }
+                    if (pruningEnabled)
+                    {
+                        beta = Math.Min(beta, result.ExtremeScoreEval);
+                        if (beta <= alpha)
+                        {
+                            break;
+                        }
+                    }
                 }
                 return ParentResult;
             }
         }
 
+
+        /// <summary>
+        /// Print header and 
+        /// </summary>
+        /// <param name="parentResult">The minimax result to print sequences for</param>
         public static void PrintSequencesHelper(MiniMaxResult parentResult)
         {
             Console.WriteLine($"=============== NEW MOVE ===============");

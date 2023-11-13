@@ -53,6 +53,11 @@ namespace GameOfOthelloAssignment.Controls
             BackgroundImage = GetBackgroundImageByDiscType(discColor);
         }
 
+        /// <summary>
+        /// Get the disc image associated with a given color
+        /// </summary>
+        /// <param name="discColor">the target disc's image</param>
+        /// <returns></returns>
         public static Image GetBackgroundImageByDiscType(DiscType discColor)
         {
             switch (discColor)
@@ -68,7 +73,7 @@ namespace GameOfOthelloAssignment.Controls
             }
         }
 
-        /// <summary> Allow the space to be interacted with </summary>
+        /// <summary> Allow the space to be interacted with & update the space to signify a legal move </summary>
         /// <param name="color"> The color to set the legal move to </param>
         public void SetAsLegalMove(DiscType color)
         {

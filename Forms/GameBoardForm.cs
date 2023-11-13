@@ -10,7 +10,8 @@ namespace GameOfOthelloAssignment
     {
         private GameMode gameMode;
         private DiscType player1Color;
-        public bool DEBUG;
+        public bool DEBUG = false;
+        public bool shouldPrune = true;
         public int searchDepth = 2;
 
         public GameBoardForm(DiscType player1Color, GameMode gameMode)
@@ -59,7 +60,10 @@ namespace GameOfOthelloAssignment
             MiniMaxResult ParentBestResult = NPC.NPC.MiniMax(
                 clonedGameState,
                 searchDepth,
-                othelloBoard.CurrentTurnColor);
+                int.MinValue,
+                int.MaxValue,
+                othelloBoard.CurrentTurnColor,
+                shouldPrune);
             if (DEBUG)
             {
                 NPC.NPC.PrintSequencesHelper(ParentBestResult);
@@ -190,6 +194,14 @@ namespace GameOfOthelloAssignment
         private void checkBox_DebugMenu_EnableDebug_CheckedChanged(object sender, System.EventArgs e)
         {
             DEBUG = checkBox_DebugMenu_EnableDebug.Checked;
+        }
+
+        /// <summary>
+        /// Enable or Disable PRUNING mode depending on if the Enable Pruning checkbox is checked
+        /// </summary>
+        private void checkBox_DebugMenu_EnablePruning_CheckedChanged(object sender, System.EventArgs e)
+        {
+            shouldPrune = checkBox_DebugMenu_EnablePruning.Checked;
         }
 
         #endregion
