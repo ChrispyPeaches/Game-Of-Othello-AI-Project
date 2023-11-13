@@ -19,7 +19,14 @@ namespace GameOfOthelloAssignment.Controls
         /// </summary>
         public DiscType CurrentTurnColor;
 
+        /// <summary>
+        /// The amount of black discs on the board
+        /// </summary>
         public int BlackScore { get; set; } = 0;
+
+        /// <summary>
+        ///  The amount of white discs on the board
+        /// </summary>
         public int WhiteScore { get; set; } = 0;
 
         /// <summary>
@@ -47,8 +54,6 @@ namespace GameOfOthelloAssignment.Controls
         /// <summary>
         /// Check if the given position is within the limits of an 8x8 othello board
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
         private static bool PositionIsOnBoard(Vector2D position)
         {
             if (0 <= position.Column && position.Column < 8 &&
@@ -62,9 +67,6 @@ namespace GameOfOthelloAssignment.Controls
         /// <summary>
         /// Get the next disc space in the opposite direction of the given vector
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="directionVector"></param>
-        /// <returns></returns>
         public ControlDiscSpace GetPreviousDiscSpace(Vector2D currentPosition, Vector2D directionVector)
         {
             return GetDiscSpace(currentPosition - directionVector);
@@ -73,9 +75,6 @@ namespace GameOfOthelloAssignment.Controls
         /// <summary>
         /// Get the next disc space in the direction of the given vector
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="directionVector"></param>
-        /// <returns></returns>
         public ControlDiscSpace GetNextDiscSpace(Vector2D currentPosition, Vector2D directionVector)
         {
             return GetDiscSpace(currentPosition + directionVector);
@@ -99,7 +98,8 @@ namespace GameOfOthelloAssignment.Controls
 
         /// <summary>
         /// Determine whether the game is over depending on the current scores 
-        /// & whether there's any legal moves left
+        /// & whether there's any legal moves left.
+        /// If the game is over, trigger the Game over event
         /// </summary>
         public bool IsGameOver()
         {
@@ -118,7 +118,15 @@ namespace GameOfOthelloAssignment.Controls
                         GetLegalMoves(ControlDiscSpace.GetOppositeDiscColor(CurrentTurnColor)).Count <= 0;
                 }
             }
-            return isScoreMax || noLegalCurrentTurnMoves && noLegalNextMoves;
+
+            bool isGameOver = isScoreMax || noLegalCurrentTurnMoves && noLegalNextMoves;
+
+            if (isGameOver)
+            {
+                GameOver();
+            }
+
+            return isGameOver;
         }
 
         public DiscType GetCurrentlyWinningColor()

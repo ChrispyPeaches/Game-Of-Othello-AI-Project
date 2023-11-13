@@ -45,6 +45,9 @@ namespace GameOfOthelloAssignment
             this.btn_ScoreMenu_Title = new System.Windows.Forms.Button();
             this.checkBox_DebugMenu_EnableDebug = new System.Windows.Forms.CheckBox();
             this.panel_DebugMenu_Container = new System.Windows.Forms.Panel();
+            this.btn_DebugMenu_Title = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.checkBox_DebugMenu_EnablePruning = new System.Windows.Forms.CheckBox();
             this.btn_DebugMenu_EnableDebug_Label = new System.Windows.Forms.Button();
             this.btn_DebugMenu_SearchDepth_Label = new System.Windows.Forms.Button();
             this.textBox_DebugMenu_SearchDepth = new System.Windows.Forms.TextBox();
@@ -53,9 +56,6 @@ namespace GameOfOthelloAssignment
             this.btn_GameOverMenu_Subtitle = new System.Windows.Forms.Button();
             this.btn_GameOverMenu_Title = new System.Windows.Forms.Button();
             this.othelloBoard = new GameOfOthelloAssignment.Controls.ControlOthelloBoard();
-            this.button1 = new System.Windows.Forms.Button();
-            this.checkBox_DebugMenu_EnablePruning = new System.Windows.Forms.CheckBox();
-            this.btn_DebugMenu_Title = new System.Windows.Forms.Button();
             this.panel_CurrentTurnMenu_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_currentTurnMenu_piece)).BeginInit();
             this.panel_ScoreMenu_Container.SuspendLayout();
@@ -260,6 +260,51 @@ namespace GameOfOthelloAssignment
             this.panel_DebugMenu_Container.Name = "panel_DebugMenu_Container";
             this.panel_DebugMenu_Container.Size = new System.Drawing.Size(150, 141);
             this.panel_DebugMenu_Container.TabIndex = 4;
+            this.panel_DebugMenu_Container.Visible = false;
+            // 
+            // btn_DebugMenu_Title
+            // 
+            this.btn_DebugMenu_Title.BackColor = System.Drawing.Color.Transparent;
+            this.btn_DebugMenu_Title.Enabled = false;
+            this.btn_DebugMenu_Title.FlatAppearance.BorderSize = 0;
+            this.btn_DebugMenu_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_DebugMenu_Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_DebugMenu_Title.Location = new System.Drawing.Point(6, 2);
+            this.btn_DebugMenu_Title.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_DebugMenu_Title.Name = "btn_DebugMenu_Title";
+            this.btn_DebugMenu_Title.Size = new System.Drawing.Size(138, 38);
+            this.btn_DebugMenu_Title.TabIndex = 3;
+            this.btn_DebugMenu_Title.Text = "Debug";
+            this.btn_DebugMenu_Title.UseVisualStyleBackColor = false;
+            // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(29, 106);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(115, 33);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Enable Pruning";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_DebugMenu_EnablePruning
+            // 
+            this.checkBox_DebugMenu_EnablePruning.AutoSize = true;
+            this.checkBox_DebugMenu_EnablePruning.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox_DebugMenu_EnablePruning.Checked = true;
+            this.checkBox_DebugMenu_EnablePruning.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_DebugMenu_EnablePruning.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_DebugMenu_EnablePruning.Location = new System.Drawing.Point(9, 116);
+            this.checkBox_DebugMenu_EnablePruning.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_DebugMenu_EnablePruning.Name = "checkBox_DebugMenu_EnablePruning";
+            this.checkBox_DebugMenu_EnablePruning.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_DebugMenu_EnablePruning.TabIndex = 7;
+            this.checkBox_DebugMenu_EnablePruning.UseVisualStyleBackColor = false;
+            this.checkBox_DebugMenu_EnablePruning.CheckedChanged += new System.EventHandler(this.checkBox_DebugMenu_EnablePruning_CheckedChanged);
+            this.checkBox_DebugMenu_EnablePruning.CheckStateChanged += new System.EventHandler(this.checkBox_DebugMenu_EnablePruning_CheckedChanged);
             // 
             // btn_DebugMenu_EnableDebug_Label
             // 
@@ -330,7 +375,6 @@ namespace GameOfOthelloAssignment
             // 
             // btn_GameOverMenu_Subtitle
             // 
-            this.btn_GameOverMenu_Subtitle.Enabled = false;
             this.btn_GameOverMenu_Subtitle.FlatAppearance.BorderSize = 0;
             this.btn_GameOverMenu_Subtitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_GameOverMenu_Subtitle.Font = new System.Drawing.Font("Microsoft YaHei", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -344,7 +388,6 @@ namespace GameOfOthelloAssignment
             // 
             // btn_GameOverMenu_Title
             // 
-            this.btn_GameOverMenu_Title.Enabled = false;
             this.btn_GameOverMenu_Title.FlatAppearance.BorderSize = 0;
             this.btn_GameOverMenu_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_GameOverMenu_Title.Font = new System.Drawing.Font("Microsoft YaHei", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -390,50 +433,6 @@ namespace GameOfOthelloAssignment
             this.othelloBoard.Size = new System.Drawing.Size(350, 366);
             this.othelloBoard.TabIndex = 0;
             this.othelloBoard.WhiteScore = 0;
-            // 
-            // button1
-            // 
-            this.button1.Enabled = false;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(29, 106);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 33);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Enable Pruning";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox_DebugMenu_EnablePruning.AutoSize = true;
-            this.checkBox_DebugMenu_EnablePruning.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox_DebugMenu_EnablePruning.Checked = true;
-            this.checkBox_DebugMenu_EnablePruning.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_DebugMenu_EnablePruning.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_DebugMenu_EnablePruning.Location = new System.Drawing.Point(9, 116);
-            this.checkBox_DebugMenu_EnablePruning.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_DebugMenu_EnablePruning.Name = "checkBox1";
-            this.checkBox_DebugMenu_EnablePruning.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_DebugMenu_EnablePruning.TabIndex = 7;
-            this.checkBox_DebugMenu_EnablePruning.UseVisualStyleBackColor = false;
-            this.checkBox_DebugMenu_EnablePruning.CheckedChanged += new System.EventHandler(this.checkBox_DebugMenu_EnablePruning_CheckedChanged);
-            this.checkBox_DebugMenu_EnablePruning.CheckStateChanged += new System.EventHandler(this.checkBox_DebugMenu_EnablePruning_CheckedChanged);
-            // 
-            // btn_DebugMenu_Title
-            // 
-            this.btn_DebugMenu_Title.BackColor = System.Drawing.Color.Transparent;
-            this.btn_DebugMenu_Title.Enabled = false;
-            this.btn_DebugMenu_Title.FlatAppearance.BorderSize = 0;
-            this.btn_DebugMenu_Title.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_DebugMenu_Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_DebugMenu_Title.Location = new System.Drawing.Point(6, 2);
-            this.btn_DebugMenu_Title.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_DebugMenu_Title.Name = "btn_DebugMenu_Title";
-            this.btn_DebugMenu_Title.Size = new System.Drawing.Size(138, 38);
-            this.btn_DebugMenu_Title.TabIndex = 3;
-            this.btn_DebugMenu_Title.Text = "Debug";
-            this.btn_DebugMenu_Title.UseVisualStyleBackColor = false;
             // 
             // GameBoardForm
             // 

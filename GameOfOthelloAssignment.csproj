@@ -121,8 +121,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\black_legalMove.png" />
+    <Content Include="Resources\2P_Icon.png" />
+    <Content Include="Resources\AI_Icon.png" />
     <Content Include="Resources\black_piece.png" />
     <None Include="Resources\white_legalMove.png" />
+    <Content Include="Resources\mainMenu_othellopic.png" />
     <Content Include="Resources\white_piece.png" />
   </ItemGroup>
   <ItemGroup>

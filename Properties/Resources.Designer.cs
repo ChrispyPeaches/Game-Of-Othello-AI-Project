@@ -63,6 +63,26 @@ namespace GameOfOthelloAssignment.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _2P_Icon {
+            get {
+                object obj = ResourceManager.GetObject("2P_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AI_Icon {
+            get {
+                object obj = ResourceManager.GetObject("AI_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap black_legalMove {
             get {
                 object obj = ResourceManager.GetObject("black_legalMove", resourceCulture);

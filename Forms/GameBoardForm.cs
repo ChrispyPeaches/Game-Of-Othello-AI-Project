@@ -27,6 +27,10 @@ namespace GameOfOthelloAssignment
         private void OthelloBoardSetup()
         {
             SetupScoreMenu();
+            if (gameMode == GameMode.Npc)
+            {
+                ShowDebugMenu();
+            }
             othelloBoard.Player1DiscColor = player1Color;
             othelloBoard.gameMode = gameMode;
             othelloBoard.TurnFinished += OnTurnFinished;
@@ -188,6 +192,11 @@ namespace GameOfOthelloAssignment
         #endregion
 
         #region Debug Menu
+
+        private void ShowDebugMenu()
+        {
+            panel_DebugMenu_Container.Visible = true;
+        }
 
         /// <summary>
         /// If the value enterend into the search depth box is NOT a valid integer,
