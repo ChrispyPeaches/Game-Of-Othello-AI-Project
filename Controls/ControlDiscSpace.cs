@@ -12,12 +12,19 @@ namespace GameOfOthelloAssignment.Controls
     {
         #region Properties
 
-        /// <summary> Note: Zero based </summary>
+        /// <summary>
+        /// The column in which this is represented 
+        /// </summary>
         public int Column { get; set; }
 
-        /// <summary> Note: Zero based </summary>
+        /// <summary> 
+        /// The row in which this is represented
+        /// </summary>
         public int Row { get; set; }
 
+        /// <summary>
+        /// The color occupying this
+        /// </summary>
         public DiscType DiscColor { get; set; }
 
         #endregion
@@ -89,13 +96,18 @@ namespace GameOfOthelloAssignment.Controls
             }
         }
 
-        /// <summary> Remove the ability to interact with a space </summary>
+        /// <summary>
+        /// Remove the user's ability to interact with a space
+        /// </summary>
         public void DiableLegalMove()
         {
             Enabled = false;
             SetDisc(DiscType.Empty);
         }
 
+        /// <summary>
+        /// Get the opposite disc color to the one given
+        /// </summary>
         public static DiscType GetOppositeDiscColor(DiscType color)
         {
             switch (color)
@@ -109,6 +121,9 @@ namespace GameOfOthelloAssignment.Controls
             }
         }
 
+        /// <summary>
+        /// Check if this disc space has the opposite color to the one given
+        /// </summary>
         public bool HasOppositeDiscColor(DiscType color)
         {
             return DiscColor == GetOppositeDiscColor(color);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -57,6 +56,9 @@ namespace GameOfOthelloAssignment.Helpers
         }
     }
 
+    /// <summary>
+    /// Created so .Distinct() can be used. Communicates what makes a Vector2D distinct
+    /// </summary>
     public class Vector2DComparer : IEqualityComparer<Vector2D>
     {
         public bool Equals(Vector2D initialVector, Vector2D otherVector) { return initialVector.Equals(otherVector); }

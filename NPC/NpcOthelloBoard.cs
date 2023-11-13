@@ -16,7 +16,14 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         public DiscType CurrentTurnColor;
 
+        /// <summary>
+        /// The amount of black discs on the board
+        /// </summary>
         public int BlackScore { get; set; } = 0;
+
+        /// <summary>
+        ///  The amount of white discs on the board
+        /// </summary>
         public int WhiteScore { get; set; } = 0;
 
         public IList<NpcDiscSpace> BoardSpaces { get; set; } = new List<NpcDiscSpace>();
@@ -186,9 +193,11 @@ namespace GameOfOthelloAssignment.NPC
 
         #region Game logic
 
+        /// <summary>
+        /// Add containers for each space on the board & trigger the game setup
+        /// </summary>
         public void BoardSetup()
         {
-            // Add containers for each space on the board
             for (int rowIndex = 0; rowIndex < 8; rowIndex++)
             {
                 for (int columnIndex = 0; columnIndex < 8; columnIndex++)
@@ -270,7 +279,6 @@ namespace GameOfOthelloAssignment.NPC
             return legalMoves;
         }
 
-
         /// <summary>
         /// Find if there is a legal move in the given direction
         /// </summary>
@@ -327,7 +335,6 @@ namespace GameOfOthelloAssignment.NPC
             return null;
         }
 
-
         /// <summary>
         /// Removes ability to interact with previously legal moves
         /// </summary>
@@ -369,6 +376,9 @@ namespace GameOfOthelloAssignment.NPC
             }
         }
 
+        /// <summary>
+        /// Flip all discs in a given direction until a disc of the same color is reached
+        /// </summary>
         private void FlipDiscsInDirection(NpcDiscSpace legalMoveSpace, Vector2D directionVector)
         {
             Vector2D currentPosition = new Vector2D(
@@ -448,6 +458,9 @@ namespace GameOfOthelloAssignment.NPC
             }
         }
 
+        /// <summary>
+        /// Flip the disc in a given disc space to the given color
+        /// </summary>
         public void FlipDisc(Vector2D discToFlipPosition, DiscType colorToFlipTo)
         {
             // Flip the disc 

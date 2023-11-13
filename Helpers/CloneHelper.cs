@@ -5,6 +5,9 @@ namespace GameOfOthelloAssignment.Helpers
 {
     public class CloneHelper
     {
+        /// <summary>
+        /// Create an Npc board type clone of the game state from the Control board type 
+        /// </summary>
         public static NpcOthelloBoard CloneFromFormBoardToNPCBoard(ControlOthelloBoard board)
         {
             NpcOthelloBoard npcClone = new NpcOthelloBoard()
@@ -27,6 +30,9 @@ namespace GameOfOthelloAssignment.Helpers
             return npcClone;
         }
 
+        /// <summary>
+        /// Create a form board type clone of the game state from the Npc board type 
+        /// </summary>
         public static void CloneFromNPCBoardToFormBoard(NpcOthelloBoard npcBoard, ControlOthelloBoard formBoard)
         {
             formBoard.WhiteScore = npcBoard.WhiteScore;
@@ -38,6 +44,9 @@ namespace GameOfOthelloAssignment.Helpers
             }
         }
 
+        /// <summary>
+        /// Create an Npc board type clone of the game state from the Npc board type 
+        /// </summary>
         public static NpcOthelloBoard CloneFromNPCBoardToNPCBoard(NpcOthelloBoard sourceBoard)
         {
             NpcOthelloBoard cloneBoard = new NpcOthelloBoard()

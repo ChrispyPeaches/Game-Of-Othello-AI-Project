@@ -24,6 +24,9 @@ namespace GameOfOthelloAssignment
             textBox_DebugMenu_SearchDepth.Text = searchDepth.ToString();
         }
 
+        /// <summary>
+        /// Setup the form to display the different menus & prepare the othello board for play
+        /// </summary>
         private void OthelloBoardSetup()
         {
             SetupScoreMenu();
@@ -42,6 +45,9 @@ namespace GameOfOthelloAssignment
             }
         }
 
+        /// <summary>
+        /// When a turn is finished, update the form menus and perform the AI's turn if in Npc game mode
+        /// </summary>
         private void OnTurnFinished()
         {
             UpdateCurrentTurnMenu();
@@ -120,6 +126,9 @@ namespace GameOfOthelloAssignment
 
         #region Game Over Menu
 
+        /// <summary>
+        /// Modify the Game Over menu to say who won or lost the game
+        /// </summary>
         private void SetupGameOverMenu()
         {
             bool player1Wins = othelloBoard.GetCurrentlyWinningColor() == player1Color;

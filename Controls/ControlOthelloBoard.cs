@@ -1,10 +1,8 @@
 ﻿using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
-using GameOfOthelloAssignment.NPC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment.Controls
@@ -140,9 +138,12 @@ namespace GameOfOthelloAssignment.Controls
 
         #region Game logic
 
+
+        /// <summary>
+        /// Add containers for each space on the board & trigger the game setup
+        /// </summary>
         public void BoardSetup()
         {
-            // Add containers for each space on the board
             for (int rowIndex = 0; rowIndex < RowCount; rowIndex++)
             {
                 for (int columnIndex = 0; columnIndex < ColumnCount; columnIndex++)
@@ -336,6 +337,9 @@ namespace GameOfOthelloAssignment.Controls
             }
         }
 
+        /// <summary>
+        /// Flip all discs in a given direction until a disc of the same color is reached
+        /// </summary>
         private void FlipDiscsInDirection(ControlDiscSpace legalMoveSpace, Vector2D directionVector)
         {
             Vector2D currentPosition = new Vector2D(
@@ -415,6 +419,9 @@ namespace GameOfOthelloAssignment.Controls
             }
         }
 
+        /// <summary>
+        /// Flip the disc in a given disc space to the given color
+        /// </summary>
         public void FlipDisc(Vector2D discToFlipPosition, DiscType colorToFlipTo)
         {
             // Flip the disc 
@@ -492,7 +499,15 @@ namespace GameOfOthelloAssignment.Controls
         #endregion
 
         #region Events
+
+        /// <summary>
+        ///  Triggered when a turn is finished
+        /// </summary>
         public event Action TurnFinished;
+
+        /// <summary>
+        /// Triggered when the game is in a Game Over state
+        /// </summary>
         public event Action GameOver;
         #endregion
 

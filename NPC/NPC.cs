@@ -7,6 +7,9 @@ namespace GameOfOthelloAssignment.NPC
 {
     public class NPC
     {   
+        /// <summary>
+        /// Perform the minimax algorithm on the given game state
+        /// </summary>
         public static MiniMaxResult MiniMax(
             NpcOthelloBoard gameState,
             int depth,
@@ -37,6 +40,7 @@ namespace GameOfOthelloAssignment.NPC
                 };
                 foreach (Vector2D legalMove in gameState.CurrentLegalMoves)
                 {
+                    // Clone the game state, play the move on it, and evaluate the further possible moves
                     DiscType legalMoveColor = gameState.CurrentTurnColor;
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
                     childGameState.PerformTurn(legalMove);
@@ -45,6 +49,7 @@ namespace GameOfOthelloAssignment.NPC
                     result.Position = legalMove;
                     ParentResult.ChildMoves.Add(result);
 
+                    // Maximizing & Pruning
                     if (result.ExtremeScoreEval > ParentResult.ExtremeScoreEval)
                     {
                         ParentResult.ExtremeResult = result;
@@ -71,6 +76,7 @@ namespace GameOfOthelloAssignment.NPC
                 };
                 foreach (Vector2D legalMove in gameState.CurrentLegalMoves)
                 {
+                    // Clone the game state, play the move on it, and evaluate the further possible moves
                     DiscType legalMoveColor = gameState.CurrentTurnColor;
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
                     childGameState.PerformTurn(legalMove);
@@ -79,6 +85,7 @@ namespace GameOfOthelloAssignment.NPC
                     result.Position = legalMove;
                     ParentResult.ChildMoves.Add(result);
 
+                    // Minimizing & Pruning
                     if (result.ExtremeScoreEval < ParentResult.ExtremeScoreEval)
                     {
                         ParentResult.ExtremeResult = result;
@@ -97,9 +104,8 @@ namespace GameOfOthelloAssignment.NPC
             }
         }
 
-
         /// <summary>
-        /// Print header and 
+        /// Print header with details about the current simulated sequence
         /// </summary>
         /// <param name="parentResult">The minimax result to print sequences for</param>
         public static void PrintSequencesHelper(MiniMaxResult parentResult)
@@ -114,6 +120,9 @@ namespace GameOfOthelloAssignment.NPC
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Print the sequence of move positions for the given minimax result
+        /// </summary>
         public static void PrintSequences(MiniMaxResult parentResult, string parentMoves)
         {
             parentMoves += $" {parentResult.Position}";
@@ -132,7 +141,10 @@ namespace GameOfOthelloAssignment.NPC
         }
     }
 
-     public class MiniMaxResult
+    /// <summary>
+    /// The result from performing the minimax algorithm on a gamestate
+    /// </summary>
+    public class MiniMaxResult
     {
         /// <summary>
         /// The extreme (minimum or maximum) result
@@ -144,8 +156,19 @@ namespace GameOfOthelloAssignment.NPC
         /// </summary>
         public Vector2D Position { get; set; }
 
+        /// <summary>
+        /// The disc color that is placed in the position
+        /// </summary>
         public DiscType DiscColor { get; set; }
+
+        /// <summary>
+        /// The minimum or maximum result from the list of child moves
+        /// </summary>
         public MiniMaxResult ExtremeResult { get; set; }
+
+        /// <summary>
+        /// The list of child moves in relation to the result's move
+        /// </summary>
         public IList<MiniMaxResult> ChildMoves { get; set; } = new List<MiniMaxResult>();
 
         public override string ToString()
