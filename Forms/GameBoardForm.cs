@@ -88,7 +88,10 @@ namespace GameOfOthelloAssignment
             // Failsafe for if a best move was not found
             else
             {
-                othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(ParentBestResult.ChildMoves.First().Position));
+                if (ParentBestResult.ChildMoves.Count > 0)
+                {
+                    othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(ParentBestResult.ChildMoves.First().Position));
+                }
             }
 
             DisplayNpcThinking(false);
@@ -148,6 +151,7 @@ namespace GameOfOthelloAssignment
         {
             SetupGameOverMenu();
             panel_GameOverMenu_Container.Visible = true;
+            Refresh();
         }
 
         #endregion

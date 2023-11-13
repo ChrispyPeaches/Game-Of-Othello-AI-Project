@@ -227,6 +227,10 @@ namespace GameOfOthelloAssignment.Controls
 
             // Ensures there are no repeated legal moves
             legalMoves = legalMoves.Distinct(new Vector2DComparer()).ToList();
+            if (legalMoves.Count == 0)
+            {
+                IsGameOver();
+            }
 
             return legalMoves;
         }
@@ -241,8 +245,8 @@ namespace GameOfOthelloAssignment.Controls
         {
             // Move two spaces in the given direction
             var currentPosition = new Vector2D(
-                column: initialSpace.Column + directionVector.Column * 2,
-                row: initialSpace.Row + directionVector.Row * 2);
+                column: initialSpace.Column + directionVector.Column,
+                row: initialSpace.Row + directionVector.Row);
 
             while (PositionIsOnBoard(currentPosition))
             {
@@ -461,6 +465,11 @@ namespace GameOfOthelloAssignment.Controls
             FlipDiscs(CurrentLegalMoves.First(move => move.Equals(clickedSpace)));
             SwitchTurns();
             EnableLegalMoves();
+            if (CurrentLegalMoves.Count <= 0)
+            {
+                SwitchTurns();
+                EnableLegalMoves();
+            }
 
             // If the game is over, trigger the Game Over event
             if (IsGameOver())

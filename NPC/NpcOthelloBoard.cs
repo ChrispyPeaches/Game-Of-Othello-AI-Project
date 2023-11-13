@@ -281,8 +281,8 @@ namespace GameOfOthelloAssignment.NPC
         {
             // Move two spaces in the given direction
             var currentPosition = new Vector2D(
-                column: initialSpace.Column + directionVector.Column * 2,
-                row: initialSpace.Row + directionVector.Row * 2);
+                column: initialSpace.Column + directionVector.Column,
+                row: initialSpace.Row + directionVector.Row);
 
             while (PositionIsOnBoard(currentPosition))
             {
