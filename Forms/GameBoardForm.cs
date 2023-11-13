@@ -56,15 +56,18 @@ namespace GameOfOthelloAssignment
             
             // Perform Minimax
             var clonedGameState = CloneHelper.CloneFromFormBoardToNPCBoard(othelloBoard);
-            MiniMaxResult BestResult = NPC.NPC.MiniMaxHelper(
+            MiniMaxResult ParentBestResult = NPC.NPC.MiniMaxHelper(
                 clonedGameState,
                 searchDepth,
                 othelloBoard.CurrentTurnColor);
-
-            // If there are any legal moves, play the found best one
-            if (BestResult.Position != null)
+            if (DEBUG)
             {
-                othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(BestResult.Position));
+                NPC.NPC.PrintSequencesHelper(ParentBestResult);
+            }
+            // If there are any legal moves, play the found best one
+            if (ParentBestResult.ExtremeResult.Position != null)
+            {
+                othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(ParentBestResult.ExtremeResult.Position));
             }
 
             DisplayNpcThinking(false);

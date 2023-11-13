@@ -2,6 +2,7 @@
 
 namespace GameOfOthelloAssignment.Helpers
 {
+    [DebuggerDisplay("({Column}, {Row})")]
     public class Vector2D
     {
         public int Column, Row;

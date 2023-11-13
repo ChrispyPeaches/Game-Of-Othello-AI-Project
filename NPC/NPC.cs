@@ -2,9 +2,7 @@
 using GameOfOthelloAssignment.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace GameOfOthelloAssignment.NPC
 {
@@ -15,9 +13,9 @@ namespace GameOfOthelloAssignment.NPC
             int depth,
             DiscType maximizingPlayerColor)
         {
-            MiniMaxResult BestResult = new MiniMaxResult()
+            MiniMaxResult ParentResult = new MiniMaxResult()
             {
-                ScoreEval = int.MinValue,
+                ExtremeScoreEval = int.MinValue,
                 Position = null
             };
             foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
@@ -26,15 +24,17 @@ namespace GameOfOthelloAssignment.NPC
                 var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
                 childGameState.PerformTurn(legalMove);
                 MiniMaxResult result = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
-                if (result.ScoreEval > BestResult.ScoreEval)
+                result.DiscColor = legalMoveColor;
+                result.Position = legalMove;
+
+                ParentResult.ChildMoves.Add(result);
+                if (result.ExtremeScoreEval > ParentResult.ExtremeScoreEval)
                 {
-                    result.DiscColor = legalMoveColor;
-                    result.Position = legalMove;
-                    BestResult = result;
+                    ParentResult.ExtremeResult = result;
+                    ParentResult.ExtremeScoreEval = result.ExtremeScoreEval;
                 }
             }
-            BestResult.ChildMoves.Add(BestResult);
-            return BestResult;
+            return ParentResult;
         }
         
         public static MiniMaxResult MiniMax(
@@ -47,17 +47,19 @@ namespace GameOfOthelloAssignment.NPC
             {
                 return new MiniMaxResult()
                 {
-                    ScoreEval = gameState.GetScoreForGivenColor(maximizingPlayerColor),
+                    ExtremeScoreEval = gameState.GetScoreForGivenColor(maximizingPlayerColor),
                     Position = null
                 };
             }
 
             // Recurring case
+
             if (gameState.CurrentTurnColor == maximizingPlayerColor)
             {
-                MiniMaxResult BestResult = new MiniMaxResult()
+                // Get Best Result (Maximize)
+                MiniMaxResult ParentResult = new MiniMaxResult()
                 {
-                    ScoreEval = int.MinValue,
+                    ExtremeScoreEval = int.MinValue,
                     Position = null
                 };
                 foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
@@ -66,21 +68,24 @@ namespace GameOfOthelloAssignment.NPC
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
                     childGameState.PerformTurn(legalMove);
                     MiniMaxResult result = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
-                    if (result.ScoreEval > BestResult.ScoreEval)
+                    result.DiscColor = legalMoveColor;
+                    result.Position = legalMove;
+                    ParentResult.ChildMoves.Add(result);
+
+                    if (result.ExtremeScoreEval > ParentResult.ExtremeScoreEval)
                     {
-                        result.DiscColor = legalMoveColor;
-                        result.Position = legalMove;
-                        BestResult = result;
+                        ParentResult.ExtremeResult = result;
+                        ParentResult.ExtremeScoreEval = result.ExtremeScoreEval;
                     }
                 }
-                BestResult.ChildMoves.Add(BestResult);
-                return BestResult;
+                return ParentResult;
             }
             else
             {
-                MiniMaxResult WorstResult = new MiniMaxResult()
+                // Get Worst Result (Minimize)
+                MiniMaxResult ParentResult = new MiniMaxResult()
                 {
-                    ScoreEval = int.MaxValue,
+                    ExtremeScoreEval = int.MaxValue,
                     Position = null
                 };
                 foreach (LegalMove legalMove in gameState.CurrentLegalMoves)
@@ -89,25 +94,54 @@ namespace GameOfOthelloAssignment.NPC
                     var childGameState = CloneHelper.CloneFromNPCBoardToNPCBoard(gameState);
                     childGameState.PerformTurn(legalMove);
                     MiniMaxResult result = MiniMax(childGameState, depth - 1, maximizingPlayerColor);
-                    if (result.ScoreEval < WorstResult.ScoreEval)
+                    result.DiscColor = legalMoveColor;
+                    result.Position = legalMove;
+                    ParentResult.ChildMoves.Add(result);
+
+                    if (result.ExtremeScoreEval < ParentResult.ExtremeScoreEval)
                     {
-                        result.DiscColor = legalMoveColor;
-                        result.Position = legalMove;
-                        WorstResult = result;
+                        ParentResult.ExtremeResult = result;
+                        ParentResult.ExtremeScoreEval = result.ExtremeScoreEval;
                     }
                 }
-                WorstResult.ChildMoves.Add(WorstResult);
-                return WorstResult;
+                return ParentResult;
+            }
+        }
+
+        public static void PrintSequencesHelper(MiniMaxResult parentResult)
+        {
+            foreach (var childMove in parentResult.ChildMoves)
+            {
+                Console.WriteLine($"Heuristic Score: {childMove.ExtremeScoreEval}");
+                Console.WriteLine($"Initial Move: {childMove.Position}");
+                PrintSequences(childMove, "");
+            }
+        }
+
+        public static void PrintSequences(MiniMaxResult parentResult, string parentMoves)
+        {
+            parentMoves += $" {parentResult.Position}";
+
+            // Base Case
+            if (parentResult.ChildMoves.Count == 0)
+            {
+                Console.WriteLine(parentMoves);
+            }
+
+            // Recursive Case
+            foreach (var childMove in parentResult.ChildMoves)
+            {
+                PrintSequences(childMove, parentMoves + " ->");
             }
         }
     }
 
-    public class MiniMaxResult
+     public class MiniMaxResult
     {
         /// <summary>
-        /// The position moved into
+        /// The extreme (minimum or maximum) result
         /// </summary>
-        public int ScoreEval { get; set; }
+        public int ExtremeScoreEval { get; set; }
 
         /// <summary>
         /// The position moved into that caused the result's score eval
@@ -115,7 +149,15 @@ namespace GameOfOthelloAssignment.NPC
         public Vector2D Position { get; set; }
 
         public DiscType DiscColor { get; set; }
-
+        public MiniMaxResult ExtremeResult { get; set; }
         public IList<MiniMaxResult> ChildMoves { get; set; } = new List<MiniMaxResult>();
+
+        public override string ToString()
+        {
+            return  $"Score:{ExtremeScoreEval} " +
+                    $"|Position:{((Position != null) ? Position : "null")} " +
+                    $"|Disc:{DiscColor} " +
+                    $"|Children:{((ChildMoves != null) ? ChildMoves.Count : 0)}";
+        }
     }
 }
