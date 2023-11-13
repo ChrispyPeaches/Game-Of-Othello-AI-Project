@@ -25,7 +25,7 @@ namespace GameOfOthelloAssignment
 
         private void btn_AI_Click(object sender, EventArgs e)
         {
-            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.AI))
+            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.Npc))
             {
                 gameBoard.ShowDialog();
             }

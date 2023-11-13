@@ -2,6 +2,7 @@
 using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
 using GameOfOthelloAssignment.NPC;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
@@ -25,14 +26,13 @@ namespace GameOfOthelloAssignment
 
         private void OthelloBoardSetup()
         {
-            OnTurnFinished();
             SetupScoreMenu();
             othelloBoard.Player1DiscColor = player1Color;
             othelloBoard.gameMode = gameMode;
             othelloBoard.TurnFinished += OnTurnFinished;
             othelloBoard.GameOver += OnGameOver;
             othelloBoard.BoardSetup();
-            if (gameMode == GameMode.AI && othelloBoard.CurrentTurnColor != player1Color)
+            if (gameMode == GameMode.Npc && othelloBoard.CurrentTurnColor != player1Color)
             {
                 PerformNpcTurn();
             }
@@ -43,7 +43,9 @@ namespace GameOfOthelloAssignment
             UpdateCurrentTurnMenu();
             UpdateScoreMenu();
 
-            if (gameMode == GameMode.AI && othelloBoard.CurrentTurnColor != player1Color)
+            if (gameMode == GameMode.Npc &&
+                othelloBoard.CurrentTurnColor != player1Color &&
+                !othelloBoard.IsGameOver())
             {
                 PerformNpcTurn();
             }
@@ -51,6 +53,9 @@ namespace GameOfOthelloAssignment
 
         #region Npc
 
+        /// <summary>
+        /// Perform the Npc's turn using Minimax
+        /// </summary>
         public void PerformNpcTurn()
         {
             DisplayNpcThinking(true);
@@ -64,14 +69,22 @@ namespace GameOfOthelloAssignment
                 int.MaxValue,
                 othelloBoard.CurrentTurnColor,
                 shouldPrune);
+
+            // Print out simulated moves
             if (DEBUG)
             {
                 NPC.NPC.PrintSequencesHelper(ParentBestResult);
             }
-            // If there are any legal moves, play the found best one
-            if (ParentBestResult.ExtremeResult.Position != null)
+
+            // Play the best move found
+            if (ParentBestResult.ExtremeResult != null)
             {
                 othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(ParentBestResult.ExtremeResult.Position));
+            }
+            // Failsafe for if a best move was not found
+            else
+            {
+                othelloBoard.PerformTurn(othelloBoard.GetDiscSpace(ParentBestResult.ChildMoves.First().Position));
             }
 
             DisplayNpcThinking(false);
@@ -106,7 +119,7 @@ namespace GameOfOthelloAssignment
 
             switch (gameMode)
             {
-                case GameMode.AI:
+                case GameMode.Npc:
                     if (!player1Wins)
                     {
                         btn_GameOverMenu_Title.ForeColor = System.Drawing.Color.Red;

@@ -6,6 +6,6 @@
     public enum GameMode
     {
         TwoPlayer,
-        AI
+        Npc
     }
 }

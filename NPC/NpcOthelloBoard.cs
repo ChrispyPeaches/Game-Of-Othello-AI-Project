@@ -4,6 +4,7 @@ using GameOfOthelloAssignment.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 
 namespace GameOfOthelloAssignment.NPC
@@ -72,21 +73,6 @@ namespace GameOfOthelloAssignment.NPC
             return GetDiscSpace(currentPosition + directionVector);
         }
 
-        /// <summary>
-        /// Retrieve the current score for the given disc color
-        /// </summary>
-        public int GetScoreForGivenColor(DiscType color)
-        {
-            switch (color)
-            {
-                case DiscType.Black:
-                    return BlackScore;
-                case DiscType.White:
-                    return WhiteScore;
-                default:
-                    return 0;
-            }
-        }
 
         /// <summary>
         /// Determine whether the game is over depending on the current scores 
@@ -111,6 +97,90 @@ namespace GameOfOthelloAssignment.NPC
             }
             return isScoreMax || noLegalCurrentTurnMoves && noLegalNextMoves;
         }
+
+
+        #region Heuristic Scoring
+
+        /// <summary>
+        /// Retrieve the current heuristic score for the given disc color
+        /// </summary>
+        public int GetHeuristicScoreForGivenColor(DiscType color)
+        {
+            int score = 0;
+
+            score += GetCornerSpacesScoreByColor(color);
+            score += GetDiscCountScoreByColor(color);
+            score += GetDangerSpacesScoreByColor(color);
+
+            return score;
+        }
+
+        /// <summary>
+        /// Get the disc count score for the specified color
+        /// </summary>
+        public int GetDiscCountScoreByColor(DiscType color)
+        {
+            switch (color)
+            {
+                case DiscType.Black:
+                    return BlackScore;
+                case DiscType.White:
+                    return WhiteScore;
+                default:
+                    return 0;
+            }
+        }
+
+        /// <summary>
+        /// Get a score based on the amount of discs a color has on the corners of the board.
+        /// These spaces are more valuable as they can never be flipped back
+        /// Score delta: 2 / space
+        /// </summary>
+        public int GetCornerSpacesScoreByColor(DiscType color)
+        {
+            IList<IDiscSpace> cornerSpaces = new List<IDiscSpace>()
+            {
+                GetDiscSpace(0,0),
+                GetDiscSpace(7,0),
+                GetDiscSpace(0,7),
+                GetDiscSpace(7,7)
+            };
+
+            return cornerSpaces
+                .Where(space => space.DiscColor == color)
+                .Count() * 2;
+        }
+
+        /// <summary>
+        /// Get a score based on the amount of discs a color has on the danger spaces of the board.
+        /// These spaces surround the corners and allow the opponent to take a corner space
+        /// Score delta: -2 / space
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public int GetDangerSpacesScoreByColor(DiscType color)
+        {
+            IList<IDiscSpace> cornerSpaces = new List<IDiscSpace>()
+            {
+                // Spaces surrounding top left corner
+                GetDiscSpace(0,1), GetDiscSpace(1,0), GetDiscSpace(1,1),
+
+                // Spaces surrounding top right corner
+                GetDiscSpace(6,0), GetDiscSpace(6,1), GetDiscSpace(7,1),
+
+                // Spaces surrounding bottom left corner
+                GetDiscSpace(0,6), GetDiscSpace(1,6), GetDiscSpace(1,7),
+
+                // Spaces surrounding bottom right corner
+                GetDiscSpace(6,6), GetDiscSpace(6,7), GetDiscSpace(7,6),
+            };
+
+            return cornerSpaces
+                .Where(space => space.DiscColor == color)
+                .Count() * -2;
+        }
+
+        #endregion
 
         #endregion
 

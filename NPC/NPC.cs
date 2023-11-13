@@ -20,7 +20,7 @@ namespace GameOfOthelloAssignment.NPC
             {
                 return new MiniMaxResult()
                 {
-                    ExtremeScoreEval = gameState.GetScoreForGivenColor(maximizingPlayerColor),
+                    ExtremeScoreEval = gameState.GetHeuristicScoreForGivenColor(maximizingPlayerColor),
                     Position = null
                 };
             }
