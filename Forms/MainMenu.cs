@@ -1,4 +1,5 @@
-﻿using GameOfOthelloAssignment.Enums;
+﻿using Fall2020_CSC403_Project;
+using GameOfOthelloAssignment.Enums;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,9 +9,11 @@ namespace GameOfOthelloAssignment
     public partial class MainMenu : Form
     {
         DiscType Player1DiscColor;
+        IOpenAIApi _openAIApi;
 
-        public MainMenu()
+        public MainMenu(IOpenAIApi openAIApi)
         {
+            _openAIApi = openAIApi;
             InitializeComponent();
             Player1DiscColor = DiscType.Black;
         }
@@ -20,7 +23,7 @@ namespace GameOfOthelloAssignment
         /// </summary>
         private void btn_2Player_Click(object sender, EventArgs e)
         {
-            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.TwoPlayer))
+            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.TwoPlayer, _openAIApi))
             {
                 gameBoard.ShowDialog();
             }
@@ -31,7 +34,7 @@ namespace GameOfOthelloAssignment
         /// </summary>
         private void btn_AI_Click(object sender, EventArgs e)
         {
-            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.Npc))
+            using (var gameBoard = new GameBoardForm(Player1DiscColor, GameMode.Npc, _openAIApi))
             {
                 gameBoard.ShowDialog();
             }

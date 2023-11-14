@@ -1,22 +1,46 @@
-﻿using GameOfOthelloAssignment.Controls;
+﻿using Fall2020_CSC403_Project.OpenAIApi;
+using Fall2020_CSC403_Project;
+using GameOfOthelloAssignment.Controls;
 using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
 using GameOfOthelloAssignment.NPC;
+using System.Collections.Generic;
+using System;
 using System.Linq;
+using System.Numerics;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
 {
     public partial class GameBoardForm : Form
     {
+        private IOpenAIApi _openAIApi;
+        private IList<ChatMessage> chats;
+
         private GameMode gameMode;
         private DiscType player1Color;
         public bool DEBUG = false;
         public bool shouldPrune = true;
         public int searchDepth = 2;
 
-        public GameBoardForm(DiscType player1Color, GameMode gameMode)
+        public GameBoardForm(DiscType player1Color, GameMode gameMode, IOpenAIApi openAIApi)
         {
+            _openAIApi = openAIApi;
+            // Setup OpenAI
+            chats = new List<ChatMessage>()
+            {
+                new ChatMessage()
+                {
+                    Role = RoleType.System,
+                    Content = "We are playing a game of othello. " +
+                              "I'm a human and you are an AI I'm playing against. " +
+                              "I'll send you your current score and my score and you will trash talk me" +
+                              "depending on how the scores changed from the last time I sent the scores." +
+                              "Make the responses shorter."
+                }
+            };
+
+
             InitializeComponent();
             this.gameMode = gameMode;
             this.player1Color = player1Color;
@@ -58,7 +82,9 @@ namespace GameOfOthelloAssignment
                 !othelloBoard.IsGameOver())
             {
                 PerformNpcTurn();
+                ChatGptCall();
             }
+
         }
 
         #region Npc
@@ -240,5 +266,32 @@ namespace GameOfOthelloAssignment
         }
 
         #endregion
+
+        private async void ChatGptCall()
+        {
+            chats.Add(new ChatMessage()
+            {
+                Role = RoleType.User,
+                Content = $"Your score: {othelloBoard.GetScoreForGivenColor(ControlDiscSpace.GetOppositeDiscColor(player1Color))}." +
+                            $"My score: {othelloBoard.GetScoreForGivenColor(player1Color)}."
+            });
+
+            // Send to OpenAI
+            ChatCompletionResponse response = await _openAIApi.GetChatCompletion(new ChatCompletionQuery()
+            {
+                Messages = chats
+            });
+
+            // Display enemy's response in chat history
+            chats.Add(new ChatMessage()
+            {
+                Role = RoleType.Assistant,
+                Content = response.Choices.First().Message.Content
+            });
+
+            // Display chat message
+            richTextBox1.Lines = new string[] { chats.Last().Content };
+            Refresh();
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Fall2020_CSC403_Project;
+using Newtonsoft.Json;
+using Refit;
+using System;
 using System.Windows.Forms;
 
 namespace GameOfOthelloAssignment
@@ -13,15 +16,25 @@ namespace GameOfOthelloAssignment
     /// </summary>
     internal static class Program
     {
+        private static readonly RefitSettings GlobalRefitSettings = new RefitSettings()
+        {
+            ContentSerializer = new NewtonsoftJsonContentSerializer(new JsonSerializerSettings())
+        };
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [MTAThread]
         static void Main()
         {
+            IOpenAIApi openAiApi = RestService
+                .For<IOpenAIApi>(
+                    "https://api.openai.com/",
+                    GlobalRefitSettings);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainMenu());
+            Application.Run(new MainMenu(openAiApi));
         }
     }
 }
