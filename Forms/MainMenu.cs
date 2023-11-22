@@ -1,4 +1,5 @@
 ﻿using GameOfOthelloAssignment.Enums;
+using GameOfOthelloAssignment.Properties;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,6 +12,7 @@ namespace GameOfOthelloAssignment
 
         public MainMenu()
         {
+            this.Icon = Resources.favicon;
             InitializeComponent();
             Player1DiscColor = DiscType.Black;
         }

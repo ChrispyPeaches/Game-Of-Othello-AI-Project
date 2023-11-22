@@ -2,6 +2,7 @@
 using GameOfOthelloAssignment.Enums;
 using GameOfOthelloAssignment.Helpers;
 using GameOfOthelloAssignment.NPC;
+using GameOfOthelloAssignment.Properties;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -17,6 +18,7 @@ namespace GameOfOthelloAssignment
 
         public GameBoardForm(DiscType player1Color, GameMode gameMode)
         {
+            this.Icon = Resources.favicon;
             InitializeComponent();
             this.gameMode = gameMode;
             this.player1Color = player1Color;

@@ -448,7 +448,7 @@ namespace GameOfOthelloAssignment
             this.Controls.Add(this.othelloBoard);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GameBoardForm";
-            this.Text = "Othello";
+            this.Text = "Game of Othello";
             this.panel_CurrentTurnMenu_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_currentTurnMenu_piece)).EndInit();
             this.panel_ScoreMenu_Container.ResumeLayout(false);
