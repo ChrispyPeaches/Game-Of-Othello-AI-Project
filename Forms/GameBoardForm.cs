@@ -277,10 +277,16 @@ namespace GameOfOthelloAssignment
             });
 
             // Send to OpenAI
-            ChatCompletionResponse response = await _openAIApi.GetChatCompletion(new ChatCompletionQuery()
+            ChatCompletionResponse response = null;
+            try
             {
-                Messages = chats
-            });
+                response = await _openAIApi.GetChatCompletion(new ChatCompletionQuery()
+                {
+                    Messages = chats
+                });
+            }
+            catch { }
+            
 
             // Display enemy's response in chat history
             chats.Add(new ChatMessage()
